@@ -12,6 +12,8 @@ class SCMARINE_API ASCMEnemy : public ACharacter, public IHealthInterface
 {
 	GENERATED_BODY()
 
+private:
+
 public:
 	// Sets default values for this character's properties
 	ASCMEnemy();
@@ -24,10 +26,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
 	class UHealthComponent* HealthComponent;
 	
-	virtual void OnDeath_Implementation() override;
-	
 	float DefaultHealth = 100.0f;
 
+	virtual void OnDeath_Implementation() override;
+		
+	// Death Animation
+	UPROPERTY()
+	UAnimSequence* DeathAnimation;
+	
 	// Melee Attack Collision Boxes
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackCollision")
 	class UCapsuleComponent* AttackCollisionLeft = nullptr;
@@ -55,4 +61,8 @@ public:
 
 
 	void OnTakeDamage_Implementation();
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsDead;
+
 };

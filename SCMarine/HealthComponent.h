@@ -27,7 +27,7 @@ protected:
 
 	// Current health
 	UPROPERTY(BlueprintReadOnly)
-	float Health;
+	float Health = MaxHealth;
 
 		
 public:	

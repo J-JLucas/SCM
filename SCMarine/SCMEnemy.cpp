@@ -8,7 +8,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SceneComponent.h"
 
-
 // Sets default values
 ASCMEnemy::ASCMEnemy()
 {
@@ -30,6 +29,10 @@ ASCMEnemy::ASCMEnemy()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	HealthComponent->SetMaxHealth(DefaultHealth);
 
+	// Set Death Animation
+	static ConstructorHelpers::FObjectFinder<UAnimSequence> anim(TEXT("AnimSequence'/Script/Engine.AnimSequence'/Game/Models/Units/Zergling/Animations/Death/ZerglingDeath1.ZerglingDeath1''"));
+	DeathAnimation = anim.Object;
+
 	// Init Attack Collision Components
 	//AttackCollisionLeft = CreateDefaultSubobject<UCapsuleComponent>(TEXT("AttackCollisionLeft"));
 	//AttackCollisionLeft->AttachToComponent(EnemyMeshComponent, FAttachmentTransformRules::KeepRelativeTransform, FName("LeftSocket"));
@@ -38,7 +41,6 @@ ASCMEnemy::ASCMEnemy()
 	//AttackCollisionRight = CreateDefaultSubobject<UCapsuleComponent>(TEXT("AttackCollisionRight"));
 	
 	//AttackCollisionRight->AttachToComponent(EnemyMeshComponent, FAttachmentTransformRules::KeepRelativeTransform, FName("RightSocket"));
-
 
 }
 
@@ -52,8 +54,12 @@ void ASCMEnemy::BeginPlay()
 
 void ASCMEnemy::OnDeath_Implementation()
 {
-	Destroy();
+	//IsDead = true;
+	//GetMesh()->PlayAnimation(DeathAnimation, false);
+
+	//Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Actor Destroyed");
+
 }
 
 // Called every frame
