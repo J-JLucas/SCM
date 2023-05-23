@@ -3,6 +3,9 @@
 
 #include "HealthComponent.h"
 #include "Public/HealthInterface.h"
+#include "Kismet/GameplayStatics.h"
+
+
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -42,6 +45,16 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	if (Damage <= 0) { return; }
 
 	Health -= Damage;
+	if (Health > 0.0f)
+	{
+		if (InjuredSound)
+		{
+
+			UGameplayStatics::PlaySoundAtLocation(this, InjuredSound, GetOwner()->GetActorLocation(), 1.0f, 1.0f);
+			//supply pitch multiplier factor between random range of specified floats
+		}
+	}
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::SanitizeFloat(Health));
 
 	if (GetOwner()->Implements<UHealthInterface>())
@@ -51,6 +64,7 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 
 	if (Health <= 0) // Dead
 	{
+
 		// Dead
 		if (GetOwner()->Implements<UHealthInterface>())
 		{

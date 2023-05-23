@@ -29,12 +29,15 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	float Health = MaxHealth;
 
+	// Sounds
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* InjuredSound;
 		
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 
 	UFUNCTION(BlueprintCallable)
