@@ -31,6 +31,10 @@ protected:
 	int MagMax = 50;
 	int MagCurrent = 50;
 
+	// sfx
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* GunshotSound;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -41,14 +45,13 @@ public:
 
 	virtual void ReloadWeapon();
 
-
 	// Gunshot Sound
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		class USoundBase* Gunshot;
+	class USoundBase* Gunshot;
 
-	void SetGunshotSFX(FString Path);
+	//void SetGunshotSFX(FString Path);
 	void PlayGunshotSFX(AActor* PossessedActor);
-
+	void SetGunshotSFX(FString Path);
 
 	// Reload Sound
 	//UPROPERTY(EditAnywhere, Category = "Sound")

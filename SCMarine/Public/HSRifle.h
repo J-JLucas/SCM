@@ -20,6 +20,8 @@ public:
 
 	// Path to gunshot sfx, must call SetGunshotSFX(GunshotPath) in constructor
 	FString GunshotPath = R"('/Game/Models/Guns/Rifle/SFX/deagle.deagle')";
-
+	
+	//FString GunshotPath = R"('/Game/Models/Guns/Rifle/SFX/RifleExp.RifleExp')";
+	//FString GunshotPath = R"('/Game/Models/Guns/Rifle/SFX/SingleShotRifle.SingleShotRifle')";
 	//FString GunshotPath = R"('/Game/Models/Guns/Rifle/SFX/sc1MarineFire.sc1MarineFire')";
 };

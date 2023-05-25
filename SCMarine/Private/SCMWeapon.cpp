@@ -42,6 +42,7 @@ void ASCMWeapon::ReloadWeapon()
 	// Reload
 }
 
+
 void ASCMWeapon::SetGunshotSFX(FString Path)
 {
 	// Init Gunshot SoundFX
@@ -59,9 +60,18 @@ void ASCMWeapon::SetGunshotSFX(FString Path)
 	}
 }
 
+
 void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 {
-	UGameplayStatics::SpawnSoundAtLocation(PossessedActor->GetWorld(), Gunshot, PossessedActor->GetActorLocation());
+	if (Gunshot)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, 1.0f);
+		//UGameplayStatics::SpawnSoundAtLocation(PossessedActor->GetWorld(), Gunshot, PossessedActor->GetActorLocation());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to play Gunshot"));
+	}
 }
 
 

@@ -50,6 +50,12 @@ protected:
 	/** Called for look input */
 	void Look(const FInputActionValue& Value);	
 
+	// switch active weapon
+	//void SwitchWeapon(SCMWeapon* NewWeapon);
+
+	// Player Health
+	float MaxHealth = 100.0f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -65,15 +71,19 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USkeletalMeshComponent* FPSMesh;
 
-	// Function that handles firing projectiles
-	UFUNCTION()
-	void Fire();
-
 	// Health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
 	class UHealthComponent* HealthComponent;
 
+	// Function that handles firing gun
+	UFUNCTION()
+	void Fire();
+
 	virtual void OnDeath_Implementation() override;
+	virtual void OnTakeDamage_Implementation() override;
+
+	UPROPERTY(VisibleAnywhere)
+	class ASCMWeapon* ActiveWeapon;
 
 	UPROPERTY(VisibleAnywhere)
 	class AHSRifle* Rifle;
@@ -84,5 +94,4 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class AActor* PossessedActor;
 
-	void OnTakeDamage_Implementation() override;
 };

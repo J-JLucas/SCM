@@ -6,7 +6,6 @@
 AHSRifle::AHSRifle()
 	:Super()
 {
-
 	SetGunshotSFX(GunshotPath);
 
 }

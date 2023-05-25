@@ -10,6 +10,7 @@
 #include "HealthComponent.h"
 #include "SCMEnemy.h"
 #include "Kismet/GameplayStatics.h"
+#include "Public/SCMWeapon.h"
 #include "Public/HSRifle.h"
 #include "SCMarine/SCMarinePlayerController.h"
 
@@ -19,6 +20,7 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Instantiate FPSCamera
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	check(FPSCameraComponent != nullptr);
 
@@ -50,7 +52,7 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	GetMesh()->SetOwnerNoSee(true);
 
 	// Init Health Component
-	float MaxHealth = 100.0f;
+	
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	HealthComponent->SetMaxHealth(MaxHealth);
 
@@ -85,6 +87,9 @@ void ASCMPlayerCharacter::BeginPlay()
 	// Initialize Rifle
 	Rifle = NewObject<AHSRifle>(this);
 	// Perform any additional initialization or configuration for Rifle if needed
+	// Rifle as active weapon
+	//ActiveWeapon = *Rifle;
+	//SwitchWeapon(Rifle);
 
 	// Initialize PController
 	PController = GetWorld()->GetFirstPlayerController();
@@ -134,6 +139,21 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Move input received!"));
+	// input is a Vector2D
+	FVector2D MovementVector = Value.Get<FVector2D>();
+
+	if (Controller != nullptr)
+	{
+		// add movement 
+		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+		AddMovementInput(GetActorRightVector(), MovementVector.X);
+	}
+}
+
+
 void ASCMPlayerCharacter::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fire input received!"));
@@ -148,7 +168,7 @@ void ASCMPlayerCharacter::Fire()
 	else
 	{
 		// Output a log message if Rifle is null
-		UE_LOG(LogTemp, Warning, TEXT("Rifle is null!"));
+		UE_LOG(LogTemp, Warning, TEXT("ActiveWeapon is null!"));
 	}
 	
 	if (PController) { UE_LOG(LogTemp, Warning, TEXT("PController is good!")); }
@@ -161,23 +181,10 @@ void ASCMPlayerCharacter::Fire()
 
 void ASCMPlayerCharacter::OnDeath_Implementation()
 {
-	Destroy();
+	//Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "PlayerCharacter Destroyed");
 }
 
-void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Move input received!"));
-	// input is a Vector2D
-	FVector2D MovementVector = Value.Get<FVector2D>();
-
-	if (Controller != nullptr)
-	{
-		// add movement 
-		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
-		AddMovementInput(GetActorRightVector(), MovementVector.X);
-	}
-}
 
 void ASCMPlayerCharacter::OnTakeDamage_Implementation()
 {
