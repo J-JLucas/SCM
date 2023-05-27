@@ -18,6 +18,8 @@ public:
 
 	APFlameThrower();
 
+	virtual void BeginPlay() override;
+
 	FString GunshotPath = R"('/Game/Models/Guns/7_FlameThrower/SFX/FlameThrower_Fire.FlameThrower_Fire')";
 
 	virtual void PrimaryFire(APlayerController* PController, AActor* PossessedActor) override;

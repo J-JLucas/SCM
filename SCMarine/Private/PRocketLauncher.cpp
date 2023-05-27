@@ -6,6 +6,11 @@
 APRocketLauncher::APRocketLauncher()
 {
 	SetGunshotSFX(GunshotPath);
+}
+
+void APRocketLauncher::BeginPlay()
+{
+	Super::BeginPlay();
 	SetDamageAmount(100.0f);
 }
 

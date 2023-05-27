@@ -16,7 +16,9 @@ class SCMARINE_API APRocketLauncher : public ASCMProjectileWeapon
 
 public:
 	APRocketLauncher();
-	
+
+	virtual void BeginPlay() override;
+
 	FString GunshotPath = R"('/Game/Models/Guns/6_RocketLauncher/SFX/Marauder_AttackLaunch3.Marauder_AttackLaunch3')";
 
 	virtual void PrimaryFire(APlayerController* PController, AActor* PossessedActor) override;

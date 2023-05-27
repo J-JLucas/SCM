@@ -6,6 +6,11 @@
 APFlameThrower::APFlameThrower()
 {
 	SetGunshotSFX(GunshotPath);
+}
+
+void APFlameThrower::BeginPlay()
+{
+	Super::BeginPlay();
 	SetDamageAmount(50.0f);
 }
 

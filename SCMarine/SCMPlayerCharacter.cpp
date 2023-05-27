@@ -92,28 +92,35 @@ void ASCMPlayerCharacter::BeginPlay()
 		}
 	}
 
-	// Initialize Weapons
+	// Initialize Weapons ... need to manually begin play because
+	// NewObject doesn't instantiate them in the world...
 	wPistol = NewObject<AHSPistol>(this);
+	wPistol->BeginPlay();
 	Arsenal.Insert(wPistol, WeaponType::Pistol);
 	PistolMesh = LoadObject<USkeletalMesh>(nullptr, *PistolMeshPath);
 	
 	wShotgun = NewObject<AHSShotgun>(this);
+	wShotgun->BeginPlay();
 	Arsenal.Insert(wShotgun, WeaponType::Shotgun);
 	ShotgunMesh = LoadObject<USkeletalMesh>(nullptr, *ShotgunMeshPath);
 
 	wRifle = NewObject<AHSRifle>(this);
+	wRifle->BeginPlay();
 	Arsenal.Insert(wRifle, WeaponType::Rifle);
 	RifleMesh = LoadObject<USkeletalMesh>(nullptr, *RifleMeshPath);
 
 	wSniper = NewObject<AHSSniper>(this);
+	wSniper->BeginPlay();
 	Arsenal.Insert(wSniper, WeaponType::Sniper);
 	SniperMesh = LoadObject<USkeletalMesh>(nullptr, *SniperMeshPath);
 	
 	wRocketL = NewObject<APRocketLauncher>(this);
+	wRocketL->BeginPlay();
 	Arsenal.Insert(wRocketL, WeaponType::RocketL);
 	RocketLMesh = LoadObject<USkeletalMesh>(nullptr, *RocketLMeshPath);
 
 	wFThrower = NewObject<APFlameThrower>(this);
+	wFThrower->BeginPlay();	
 	Arsenal.Insert(wFThrower, WeaponType::FThrower);
 	FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 

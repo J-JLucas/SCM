@@ -6,5 +6,11 @@
 AHSShotgun::AHSShotgun()
 {
 	SetGunshotSFX(GunshotPath);
+	
+}
+
+void AHSShotgun::BeginPlay()
+{
+	Super::BeginPlay();
 	SetDamageAmount(50.0f);
 }

@@ -7,5 +7,11 @@ AHSSniper::AHSSniper()
 	:Super()
 {
 	SetGunshotSFX(GunshotPath);
+
+}
+
+void AHSSniper::BeginPlay()
+{
+	Super::BeginPlay();
 	SetDamageAmount(100.0f);
 }

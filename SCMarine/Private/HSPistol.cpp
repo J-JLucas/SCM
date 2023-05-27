@@ -7,5 +7,10 @@ AHSPistol::AHSPistol()
 	:Super()
 {
 	SetGunshotSFX(GunshotPath);
+}
+
+void AHSPistol::BeginPlay()
+{
+	Super::BeginPlay();
 	SetDamageAmount(10.0f);
 }

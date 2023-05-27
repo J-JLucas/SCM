@@ -17,6 +17,7 @@ class SCMARINE_API AHSRifle : public ASCMHitScanWeapon
 public:
 
 	AHSRifle();
+	virtual void BeginPlay() override;
 
 	// Path to gunshot sfx, must call SetGunshotSFX(GunshotPath) in constructor
 	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/RifleExp.RifleExp')";

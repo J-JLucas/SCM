@@ -20,6 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// GunProperties
+	UPROPERTY()
 	float DamageAmount = 25.0f;
 	float FireRate = 1.0f;
 	float Range = 10000.0f;

@@ -8,3 +8,9 @@ AHSRifle::AHSRifle()
 {
 	SetGunshotSFX(GunshotPath);
 }
+
+void AHSRifle::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
