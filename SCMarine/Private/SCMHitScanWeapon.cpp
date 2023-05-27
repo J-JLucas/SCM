@@ -34,12 +34,11 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 		ASCMEnemy* Enemy = Cast<ASCMEnemy>(Hit.GetActor());
 		if (Enemy)
 		{
-			float Damage = 25.0f;
+			float Damage = GetDamageAmount();
 			FVector HitFromDirection = (Start - End).GetSafeNormal();
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
 			
-
 		}
 	}
 }

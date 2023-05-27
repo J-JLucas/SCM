@@ -49,7 +49,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	class USoundBase* Gunshot;
 
-	//void SetGunshotSFX(FString Path);
 	void PlayGunshotSFX(AActor* PossessedActor);
 	void SetGunshotSFX(FString Path);
 
@@ -57,4 +56,6 @@ public:
 	//UPROPERTY(EditAnywhere, Category = "Sound")
 	//	class USoundBase* Reload;
 
+	void SetDamageAmount(float Value);
+	FORCEINLINE float GetDamageAmount() const { return DamageAmount; }
 };

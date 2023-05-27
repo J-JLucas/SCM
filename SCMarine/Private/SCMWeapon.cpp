@@ -60,13 +60,19 @@ void ASCMWeapon::SetGunshotSFX(FString Path)
 	}
 }
 
+void ASCMWeapon::SetDamageAmount(float Value)
+{
+	DamageAmount = Value;
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Set Damage Value."));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(Value));
+}
+
 
 void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 {
 	if (Gunshot)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, 1.0f);
-		//UGameplayStatics::SpawnSoundAtLocation(PossessedActor->GetWorld(), Gunshot, PossessedActor->GetActorLocation());
 	}
 	else
 	{

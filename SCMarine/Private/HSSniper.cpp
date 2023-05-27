@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "HSRifle.h"
+#include "HSSniper.h"
 
-AHSRifle::AHSRifle()
+AHSSniper::AHSSniper()
 	:Super()
 {
 	SetGunshotSFX(GunshotPath);
+	SetDamageAmount(100.0f);
 }

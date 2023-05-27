@@ -10,8 +10,14 @@
 #include "HealthComponent.h"
 #include "SCMEnemy.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/SkeletalMesh.h"
 #include "Public/SCMWeapon.h"
+#include "Public/HSPistol.h"
+#include "Public/HSShotgun.h"
 #include "Public/HSRifle.h"
+#include "Public/HSSniper.h"
+#include "Public/PRocketLauncher.h"
+#include "Public/PFlameThrower.h"
 #include "SCMarine/SCMarinePlayerController.h"
 
 // Sets default values
@@ -52,7 +58,6 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	GetMesh()->SetOwnerNoSee(true);
 
 	// Init Health Component
-	
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	HealthComponent->SetMaxHealth(MaxHealth);
 
@@ -60,14 +65,17 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	// gotta do it in BeginPlay()
 	PController = nullptr;
 	PossessedActor = nullptr;
-	Rifle = nullptr;
 
-	// Get Reference to PC's Pawn
-	//PossessedActor = this;
+	// Weapon objects
+	Arsenal.Init(nullptr, 8);
+	wMelee = nullptr;
+	wPistol = nullptr;
+	wShotgun = nullptr;
+	wRifle = nullptr;
+	wSniper = nullptr;
+	wRocketL = nullptr;
+	wFThrower = nullptr;
 
-	//Rifle = CreateDefaultSubobject<AHSRifle>(TEXT("Rifle"));
-	//if (Rifle == nullptr) {UE_LOG(LogTemp, Warning, TEXT("Rifle  constructor!"));}
-	//else { UE_LOG(LogTemp, Warning, TEXT("Rifle Init Successful!")) 
 }
 
 // Called when the game starts or when spawned
@@ -84,13 +92,34 @@ void ASCMPlayerCharacter::BeginPlay()
 		}
 	}
 
-	// Initialize Rifle
-	Rifle = NewObject<AHSRifle>(this);
-	// Perform any additional initialization or configuration for Rifle if needed
-	// Rifle as active weapon
-	//ActiveWeapon = *Rifle;
-	//SwitchWeapon(Rifle);
+	// Initialize Weapons
+	wPistol = NewObject<AHSPistol>(this);
+	Arsenal.Insert(wPistol, WeaponType::Pistol);
+	PistolMesh = LoadObject<USkeletalMesh>(nullptr, *PistolMeshPath);
+	
+	wShotgun = NewObject<AHSShotgun>(this);
+	Arsenal.Insert(wShotgun, WeaponType::Shotgun);
+	ShotgunMesh = LoadObject<USkeletalMesh>(nullptr, *ShotgunMeshPath);
 
+	wRifle = NewObject<AHSRifle>(this);
+	Arsenal.Insert(wRifle, WeaponType::Rifle);
+	RifleMesh = LoadObject<USkeletalMesh>(nullptr, *RifleMeshPath);
+
+	wSniper = NewObject<AHSSniper>(this);
+	Arsenal.Insert(wSniper, WeaponType::Sniper);
+	SniperMesh = LoadObject<USkeletalMesh>(nullptr, *SniperMeshPath);
+	
+	wRocketL = NewObject<APRocketLauncher>(this);
+	Arsenal.Insert(wRocketL, WeaponType::RocketL);
+	RocketLMesh = LoadObject<USkeletalMesh>(nullptr, *RocketLMeshPath);
+
+	wFThrower = NewObject<APFlameThrower>(this);
+	Arsenal.Insert(wFThrower, WeaponType::FThrower);
+	FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
+
+	// Default Weapon
+	ActiveWeapon = Rifle;
+	
 	// Initialize PController
 	PController = GetWorld()->GetFirstPlayerController();
 
@@ -122,6 +151,16 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		//Jump
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::Jump);
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ASCMPlayerCharacter::StopJumping);
+	
+		//Switch Weapons
+		EnhancedInputComponent->BindAction(IA_SwitchSpecial, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Special);
+		EnhancedInputComponent->BindAction(IA_SwitchPistol, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Pistol);
+		EnhancedInputComponent->BindAction(IA_SwitchShotgun, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Shotgun);
+		EnhancedInputComponent->BindAction(IA_SwitchRifle, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Rifle);
+		EnhancedInputComponent->BindAction(IA_SwitchSniper, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Sniper);
+		EnhancedInputComponent->BindAction(IA_SwitchRL, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::RocketL);
+		EnhancedInputComponent->BindAction(IA_SwitchFL, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::FThrower);
+	
 	}
 }
 
@@ -153,30 +192,122 @@ void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-
 void ASCMPlayerCharacter::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fire input received!"));
-	if (Rifle)
-	{
-		// Check if PController and PossessedActor are valid
-		check(PController != nullptr);
-		check(PossessedActor != nullptr);
-
-		Rifle->PrimaryFire(PController, PossessedActor);
-	}
-	else
-	{
-		// Output a log message if Rifle is null
-		UE_LOG(LogTemp, Warning, TEXT("ActiveWeapon is null!"));
-	}
 	
-	if (PController) { UE_LOG(LogTemp, Warning, TEXT("PController is good!")); }
-	else { UE_LOG(LogTemp, Warning, TEXT("PController is null!")); }
+	// Check if PController and PossessedActor are valid
+	check(PController != nullptr);
+	check(PossessedActor != nullptr);
 
-	if (PossessedActor) { UE_LOG(LogTemp, Warning, TEXT("PActor is good!")); }
-	else { UE_LOG(LogTemp, Warning, TEXT("PActor is null!")); }
+	switch (ActiveWeapon)
+	{
+		case(WeaponType::Special):
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Fired Special"));
+			break;
+		}
+		case(WeaponType::Pistol):
+		{
+			Arsenal[WeaponType::Pistol]->PrimaryFire(PController, PossessedActor);
+			UE_LOG(LogTemp, Warning, TEXT("Fired Pistol"));
+			break;
+		}
+		case(WeaponType::Shotgun):
+		{
+			Arsenal[WeaponType::Shotgun]->PrimaryFire(PController, PossessedActor);
+			UE_LOG(LogTemp, Warning, TEXT("Fired Shotgun"));
+			break;
+		}
+		case(WeaponType::Rifle):
+		{
+			Arsenal[WeaponType::Rifle]->PrimaryFire(PController, PossessedActor);
+			UE_LOG(LogTemp, Warning, TEXT("Fired GaussRifle"));
+			break;
+		}
+		case(WeaponType::Sniper):
+		{
+			Arsenal[WeaponType::Sniper]->PrimaryFire(PController, PossessedActor);
+			UE_LOG(LogTemp, Warning, TEXT("Fired SniperRifle"));
+			break;
+		}
+		case(WeaponType::RocketL):
+		{
+			Arsenal[WeaponType::RocketL]->PrimaryFire(PController, PossessedActor);
+			UE_LOG(LogTemp, Warning, TEXT("Fired RocketLauncher"));
+			break;
+		}
+		case(WeaponType::FThrower):
+		{	
+			Arsenal[WeaponType::FThrower]->PrimaryFire(PController, PossessedActor);
+			UE_LOG(LogTemp, Warning, TEXT("Fired FlameThrower"));
+			break;
+		}
+	}
+}
 
+void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
+{
+	ActiveWeapon = NewWeapon;
+	FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
+	FPSMesh->SetRelativeTransform(ResetTransform);
+
+	switch (NewWeapon) 
+	{
+		case(WeaponType::Special):
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Switched To Special"));
+			break;
+		}
+		case(WeaponType::Pistol):
+		{
+			FPSMesh->SetSkeletalMesh(PistolMesh);
+			FPSMesh->AddRelativeLocation(FVector(74.0f, 60.0f, -51.0f));
+			FPSMesh->AddRelativeRotation(FRotator(0.0f, -172.0f, 0.0f));
+			UE_LOG(LogTemp, Warning, TEXT("Switched To Pistol"));
+			break;
+		}
+		case(WeaponType::Shotgun):
+		{
+			FPSMesh->SetSkeletalMesh(ShotgunMesh);
+			FPSMesh->AddRelativeLocation(FVector(46.0f, -20.0f, -98.0f));
+			FPSMesh->AddRelativeRotation(FRotator(4.0f, -86.0f,-50.0f));
+			UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
+			break;
+		}
+		case(WeaponType::Rifle):
+		{
+			FPSMesh->SetSkeletalMesh(RifleMesh);
+			FPSMesh->AddRelativeLocation(FVector(62.0f, 48.0f, -58.0f));
+			FPSMesh->AddRelativeRotation(FRotator(0.0f, -88.0f, -1.0f));
+			UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
+			break;
+		}
+		case(WeaponType::Sniper):
+		{
+			FPSMesh->SetSkeletalMesh(SniperMesh);
+			FPSMesh->AddRelativeLocation(FVector(175.0f, 58.0f, -100.0f));
+			FPSMesh->AddRelativeRotation(FRotator(-2.25f, -85.0, 4.5f));
+			UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
+			break;
+		}
+		case(WeaponType::RocketL):
+		{
+			FPSMesh->SetSkeletalMesh(RocketLMesh);
+			FPSMesh->AddRelativeLocation(FVector(180.0f, 29.0f, -128.0f));
+			FPSMesh->AddRelativeRotation(FRotator(-85.0f, -73.0, 238.0f));
+			UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
+			break;
+		}
+		case(WeaponType::FThrower):
+		{
+			FPSMesh->SetSkeletalMesh(FThrowerMesh);
+			FPSMesh->AddRelativeLocation(FVector(21.0f, 22.0f, -37.0f));
+			FPSMesh->AddRelativeRotation(FRotator(-3.0f, -0.5, 0.0f));
+			UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
+			break;
+		}
+	}
 }
 
 void ASCMPlayerCharacter::OnDeath_Implementation()
@@ -184,7 +315,6 @@ void ASCMPlayerCharacter::OnDeath_Implementation()
 	//Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "PlayerCharacter Destroyed");
 }
-
 
 void ASCMPlayerCharacter::OnTakeDamage_Implementation()
 {
