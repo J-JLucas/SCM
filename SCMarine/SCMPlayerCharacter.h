@@ -132,8 +132,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class AHSPistol* wPistol;
 	USkeletalMesh* PistolMesh;
-	FString PistolMeshPath = R"('/Game/Models/Guns/2_Pistol/Deagle_Sk_Mesh.Deagle_Sk_Mesh')";
-
+	FString PistolMeshPath = R"('/Game/Models/Guns/2_Pistol/Deagle_Sk.Deagle_Sk')";
+	
 	UPROPERTY(VisibleAnywhere)
 	class AHSShotgun* wShotgun;
 	USkeletalMesh* ShotgunMesh;

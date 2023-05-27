@@ -66,16 +66,15 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	PController = nullptr;
 	PossessedActor = nullptr;
 
-	// Weapon objects
+	// Init Weapon objects
 	Arsenal.Init(nullptr, 8);
 	wMelee = nullptr;
-	wPistol = nullptr;
-	wShotgun = nullptr;
-	wRifle = nullptr;
-	wSniper = nullptr;
-	wRocketL = nullptr;
-	wFThrower = nullptr;
-
+	wPistol = CreateDefaultSubobject<AHSPistol>(TEXT("Pistol"));
+	wShotgun = CreateDefaultSubobject<AHSShotgun>(TEXT("Shotgun"));
+	wRifle = CreateDefaultSubobject<AHSRifle>(TEXT("Rifle"));
+	wSniper = CreateDefaultSubobject<AHSSniper>(TEXT("Sniper"));
+	wRocketL = CreateDefaultSubobject<APRocketLauncher>(TEXT("Rocket Launcher"));
+	wFThrower = CreateDefaultSubobject<APFlameThrower>(TEXT("Flame Thrower"));
 }
 
 // Called when the game starts or when spawned
@@ -91,41 +90,35 @@ void ASCMPlayerCharacter::BeginPlay()
 			Subsystem->AddMappingContext(IC_PlayerChar, 1);
 		}
 	}
-
-	// Initialize Weapons ... need to manually begin play because
-	// NewObject doesn't instantiate them in the world...
-	wPistol = NewObject<AHSPistol>(this);
+	// Initialize Weapons ... need to manually BeginPlay() because
+	// they aren't instantiated in the world?
+	// Load meshes and insert into Arsenal TArray
 	wPistol->BeginPlay();
 	Arsenal.Insert(wPistol, WeaponType::Pistol);
 	PistolMesh = LoadObject<USkeletalMesh>(nullptr, *PistolMeshPath);
 	
-	wShotgun = NewObject<AHSShotgun>(this);
 	wShotgun->BeginPlay();
 	Arsenal.Insert(wShotgun, WeaponType::Shotgun);
 	ShotgunMesh = LoadObject<USkeletalMesh>(nullptr, *ShotgunMeshPath);
 
-	wRifle = NewObject<AHSRifle>(this);
 	wRifle->BeginPlay();
 	Arsenal.Insert(wRifle, WeaponType::Rifle);
 	RifleMesh = LoadObject<USkeletalMesh>(nullptr, *RifleMeshPath);
 
-	wSniper = NewObject<AHSSniper>(this);
 	wSniper->BeginPlay();
 	Arsenal.Insert(wSniper, WeaponType::Sniper);
 	SniperMesh = LoadObject<USkeletalMesh>(nullptr, *SniperMeshPath);
 	
-	wRocketL = NewObject<APRocketLauncher>(this);
 	wRocketL->BeginPlay();
 	Arsenal.Insert(wRocketL, WeaponType::RocketL);
 	RocketLMesh = LoadObject<USkeletalMesh>(nullptr, *RocketLMeshPath);
 
-	wFThrower = NewObject<APFlameThrower>(this);
-	wFThrower->BeginPlay();	
+	wFThrower->BeginPlay();
 	Arsenal.Insert(wFThrower, WeaponType::FThrower);
 	FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 
 	// Default Weapon
-	ActiveWeapon = Rifle;
+	SwitchWeapon(WeaponType::Rifle);
 	
 	// Initialize PController
 	PController = GetWorld()->GetFirstPlayerController();
@@ -173,7 +166,6 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Look input received!"));
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
@@ -187,7 +179,6 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 
 void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Move input received!"));
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -285,7 +276,7 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 		case(WeaponType::Rifle):
 		{
 			FPSMesh->SetSkeletalMesh(RifleMesh);
-			FPSMesh->AddRelativeLocation(FVector(62.0f, 48.0f, -58.0f));
+			FPSMesh->AddRelativeLocation(FVector(2.0f, 48.0f, -58.0f));
 			FPSMesh->AddRelativeRotation(FRotator(0.0f, -88.0f, -1.0f));
 			UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
 			break;

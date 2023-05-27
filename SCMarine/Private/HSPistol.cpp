@@ -9,6 +9,14 @@ AHSPistol::AHSPistol()
 	SetGunshotSFX(GunshotPath);
 }
 
+void AHSPistol::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	// Call BeginPlay here
+	BeginPlay();
+}
+
 void AHSPistol::BeginPlay()
 {
 	Super::BeginPlay();

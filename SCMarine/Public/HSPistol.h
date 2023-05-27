@@ -19,6 +19,7 @@ protected:
 public:
 
 	AHSPistol();
+	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
 
 	// Path to gunshot sfx, must call SetGunshotSFX(GunshotPath) in constructor
