@@ -63,6 +63,6 @@ public:
 	void OnTakeDamage_Implementation();
 
 	UPROPERTY(BlueprintReadWrite)
-	bool IsDead;
+	bool bIsDead;
 
 };

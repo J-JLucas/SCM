@@ -54,7 +54,7 @@ void ASCMEnemy::BeginPlay()
 
 void ASCMEnemy::OnDeath_Implementation()
 {
-	//IsDead = true;
+	bIsDead = true;
 	//GetMesh()->PlayAnimation(DeathAnimation, false);
 
 	//Destroy();

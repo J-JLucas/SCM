@@ -78,6 +78,8 @@ public:
 	// Sets default values for this character's properties
 	ASCMPlayerCharacter();
 
+	void PostInitializeComponents();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -139,7 +141,7 @@ public:
 	USkeletalMesh* ShotgunMesh;
 	FString ShotgunMeshPath = R"('/Game/Models/Guns/3_Shotgun/Shotgun_SkMesh.Shotgun_SkMesh')";
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(Instanced, BlueprintReadOnly, Category = "Guns")
 	class AHSRifle* wRifle;
 	USkeletalMesh* RifleMesh;
 	FString RifleMeshPath = R"('/Game/Models/Guns/4_GaussRifle/ReynorRifle_SkMesh.ReynorRifle_SkMesh')";

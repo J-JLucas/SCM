@@ -68,13 +68,28 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 
 	// Init Weapon objects
 	Arsenal.Init(nullptr, 8);
+
 	wMelee = nullptr;
-	wPistol = CreateDefaultSubobject<AHSPistol>(TEXT("Pistol"));
-	wShotgun = CreateDefaultSubobject<AHSShotgun>(TEXT("Shotgun"));
-	wRifle = CreateDefaultSubobject<AHSRifle>(TEXT("Rifle"));
-	wSniper = CreateDefaultSubobject<AHSSniper>(TEXT("Sniper"));
-	wRocketL = CreateDefaultSubobject<APRocketLauncher>(TEXT("Rocket Launcher"));
-	wFThrower = CreateDefaultSubobject<APFlameThrower>(TEXT("Flame Thrower"));
+
+	wPistol = CreateDefaultSubobject<AHSPistol>(TEXT("PlayerPistol"));
+
+	wShotgun = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
+
+	wRifle = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
+
+	wSniper = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
+
+	wRocketL = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
+
+	wFThrower = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
+		
+}
+
+void ASCMPlayerCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	BeginPlay();
 }
 
 // Called when the game starts or when spawned
