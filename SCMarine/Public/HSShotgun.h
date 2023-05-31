@@ -23,4 +23,6 @@ public:
 	// Path to gunshot sfx, must call SetGunshotSFX(GunshotPath) in constructor
 	FString GunshotPath = R"('/Game/Models/Guns/3_Shotgun/SFX/Hellfire_Shotgun_02.Hellfire_Shotgun_02')";
 
+	virtual void PrimaryFire(APlayerController* PController, AActor* PossessedActor) override;
+
 };

@@ -64,7 +64,7 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 
 	if (Health <= 0) // Dead
 	{
-
+		bIsDead = true;
 		// Dead
 		if (GetOwner()->Implements<UHealthInterface>())
 		{

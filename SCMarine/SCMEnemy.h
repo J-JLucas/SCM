@@ -50,6 +50,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable, Category = Attack)
 	virtual void MeleeAttack();
 
 	// Skeletal Mesh Component
@@ -62,7 +63,5 @@ public:
 
 	void OnTakeDamage_Implementation();
 
-	UPROPERTY(BlueprintReadWrite)
-	bool bIsDead;
 
 };

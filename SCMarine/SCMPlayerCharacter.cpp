@@ -71,17 +71,17 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 
 	wMelee = nullptr;
 
-	wPistol = CreateDefaultSubobject<AHSPistol>(TEXT("PlayerPistol"));
+	wPistolPlayer = CreateDefaultSubobject<AHSPistol>(TEXT("PlayerPistol"));
 
-	wShotgun = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
+	wShotgunPlayer = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
 
-	wRifle = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
+	wRiflePlayer = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
 
-	wSniper = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
+	wSniperPlayer = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
 
-	wRocketL = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
+	wRocketLPlayer = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
 
-	wFThrower = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
+	wFThrowerPlayer = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
 		
 }
 
@@ -108,28 +108,28 @@ void ASCMPlayerCharacter::BeginPlay()
 	// Initialize Weapons ... need to manually BeginPlay() because
 	// they aren't instantiated in the world?
 	// Load meshes and insert into Arsenal TArray
-	wPistol->BeginPlay();
-	Arsenal.Insert(wPistol, WeaponType::Pistol);
+	wPistolPlayer->BeginPlay();
+	Arsenal.Insert(wPistolPlayer, WeaponType::Pistol);
 	PistolMesh = LoadObject<USkeletalMesh>(nullptr, *PistolMeshPath);
 	
-	wShotgun->BeginPlay();
-	Arsenal.Insert(wShotgun, WeaponType::Shotgun);
+	wShotgunPlayer->BeginPlay();
+	Arsenal.Insert(wShotgunPlayer, WeaponType::Shotgun);
 	ShotgunMesh = LoadObject<USkeletalMesh>(nullptr, *ShotgunMeshPath);
 
-	wRifle->BeginPlay();
-	Arsenal.Insert(wRifle, WeaponType::Rifle);
+	wRiflePlayer->BeginPlay();
+	Arsenal.Insert(wRiflePlayer, WeaponType::Rifle);
 	RifleMesh = LoadObject<USkeletalMesh>(nullptr, *RifleMeshPath);
 
-	wSniper->BeginPlay();
-	Arsenal.Insert(wSniper, WeaponType::Sniper);
+	wSniperPlayer->BeginPlay();
+	Arsenal.Insert(wSniperPlayer, WeaponType::Sniper);
 	SniperMesh = LoadObject<USkeletalMesh>(nullptr, *SniperMeshPath);
 	
-	wRocketL->BeginPlay();
-	Arsenal.Insert(wRocketL, WeaponType::RocketL);
+	wRocketLPlayer->BeginPlay();
+	Arsenal.Insert(wRocketLPlayer, WeaponType::RocketL);
 	RocketLMesh = LoadObject<USkeletalMesh>(nullptr, *RocketLMeshPath);
 
-	wFThrower->BeginPlay();
-	Arsenal.Insert(wFThrower, WeaponType::FThrower);
+	wFThrowerPlayer->BeginPlay();
+	Arsenal.Insert(wFThrowerPlayer, WeaponType::FThrower);
 	FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 
 	// Default Weapon
@@ -325,6 +325,10 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 
 void ASCMPlayerCharacter::OnDeath_Implementation()
 {
+	DisableInput(PController);
+	FPSMesh->SetOwnerNoSee(true);
+	SetCanBeDamaged(false);
+
 	//Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "PlayerCharacter Destroyed");
 }

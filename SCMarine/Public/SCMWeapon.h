@@ -57,6 +57,7 @@ public:
 	//UPROPERTY(EditAnywhere, Category = "Sound")
 	//	class USoundBase* Reload;
 
-	void SetDamageAmount(float Value);
+	void SetDamageAmount(float Damage);
+	void SetRangeAmount(float RangeValue);
 	FORCEINLINE float GetDamageAmount() const { return DamageAmount; }
 };

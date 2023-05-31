@@ -4,7 +4,6 @@
 #include "SCMHitScanWeapon.h"
 #include "SCMarine/SCMEnemy.h"
 #include "Kismet/GameplayStatics.h"
-#include "SCMarine/HealthComponent.h"
 
 void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* PossessedActor)
 {

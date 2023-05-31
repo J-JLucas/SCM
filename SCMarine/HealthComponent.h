@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	float Health = MaxHealth;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsDead = false;
+
 	// Sounds
 	UPROPERTY(EditAnywhere, Category = Sound)
 	class USoundBase* InjuredSound;
@@ -40,8 +43,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 
+
 	UFUNCTION(BlueprintCallable)
 	void SetMaxHealth(float Value);
+
+	FORCEINLINE bool GetIsDead() const { return bIsDead; }
 
 	FORCEINLINE float GetHealthPercent() const { return (Health / MaxHealth); }
 		

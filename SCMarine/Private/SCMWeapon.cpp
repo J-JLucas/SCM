@@ -9,7 +9,7 @@
 ASCMWeapon::ASCMWeapon()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 // Called when the game starts or when spawned
@@ -59,11 +59,16 @@ void ASCMWeapon::SetGunshotSFX(FString Path)
 	}
 }
 
-void ASCMWeapon::SetDamageAmount(float Value)
+void ASCMWeapon::SetDamageAmount(float Damage)
 {
-	DamageAmount = Value;
+	DamageAmount = Damage;
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Set Damage Value."));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(Value));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(Damage));
+}
+
+void ASCMWeapon::SetRangeAmount(float RangeValue)
+{
+	Range = RangeValue;
 }
 
 

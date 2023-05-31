@@ -54,9 +54,8 @@ void ASCMEnemy::BeginPlay()
 
 void ASCMEnemy::OnDeath_Implementation()
 {
-	bIsDead = true;
 	//GetMesh()->PlayAnimation(DeathAnimation, false);
-
+	SetCanBeDamaged(false);
 	//Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Actor Destroyed");
 

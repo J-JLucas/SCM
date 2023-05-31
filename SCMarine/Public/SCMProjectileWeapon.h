@@ -13,5 +13,23 @@ UCLASS()
 class SCMARINE_API ASCMProjectileWeapon : public ASCMWeapon
 {
 	GENERATED_BODY()
-	
+		
+protected:
+
+	// Spawns Projectile
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TestProjectile)
+	TSubclassOf<class ASCMProjectile> SCMProjectileClass;
+
+	// Projectile Blueprint
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TestProjectile)
+	UBlueprint* ProjClass;
+
+	// Gun muzzle offset from camera location
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector MuzzleOffset;
+
+public:
+		
+	void PrimaryFire(APlayerController* PController, AActor* PossessedActor) override;
+
 };
