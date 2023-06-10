@@ -16,10 +16,10 @@ public:
 	ASCMProjectile();
 
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Dodgeball, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Projectile, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* BoxComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Dodgeball, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Projectile, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -30,7 +30,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = Damage)
-	float Damage = 34.0f;
+	float Damage = 10.0f;
 
 	UPROPERTY(EditAnywhere, Category = Sound)
 	class USoundBase* FlyingSound;
@@ -47,18 +47,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Particles)
 	class UParticleSystem* HitParticles;
 
+	UPROPERTY(EditAnywhere, Category = Particles)
+	class UParticleSystem* FlyingParticles;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	// Function that initializes the projectile's velocity in the shoot direction
 	void FireInDirection(const FVector& ShootDirection);
 
 	FORCEINLINE class UProjectileMovementComponent* GetProjectileMovementComponent() const { return ProjectileMovement; }
-
 
 };

@@ -47,5 +47,8 @@ public:
 	TSubclassOf<class UHUDWidget> BP_PlayerHUD;
 
 	void UpdateHealthPercent(float HealthPercent);
+	void UpdateActiveWeaponName(FText name);
+	void UpdateMagCount(float Count);
+	void UpdateAmmoCount(float Count);
 
 };

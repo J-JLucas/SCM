@@ -14,6 +14,13 @@ APRocketLauncher::APRocketLauncher()
 	}
 	
 	SetGunshotSFX(GunshotPath);
+	FireRate = 0.9;
+	ReloadRate = 3.5f;
+	MaxAmmo = 50.0f;
+	CurrentAmmo = 5.0f;
+	MaxMag = 5;
+	CurrentMag = 5;
+	Name = FText::FromString("K-12 'PUNISHER' RPG");
 }
 
 void APRocketLauncher::BeginPlay()

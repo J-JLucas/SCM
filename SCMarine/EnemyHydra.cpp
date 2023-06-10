@@ -27,16 +27,14 @@ AEnemyHydra::AEnemyHydra()
 void AEnemyHydra::HydraRangedAttack()
 {
 
-
 	FVector ForwardVector = GetActorForwardVector();
 	float SpawnDistance = 300.f;
 	FVector SpawnLocation = GetActorLocation() + (ForwardVector * SpawnDistance);
-	SpawnLocation.Z += 250.0f;
-	
+	SpawnLocation.Z += 80.0f;
+
 	// Calculate the tilt angle in degrees
 	float TiltAngle = -5.0f; // Adjust this value to control the amount of tilt
 	FRotator SpawnRotation = GetActorRotation() + FRotator(TiltAngle, 0.0f, 0.0f);
-	//FTransform SpawnTransform(GetActorRotation(), SpawnLocation);
 	FTransform SpawnTransform(SpawnRotation, SpawnLocation);
 
 	// Spawn new SlimeProjectile

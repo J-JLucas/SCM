@@ -3,7 +3,10 @@
 
 #include "SCMWeapon.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "Engine/World.h"
+#include "TimerManager.h"
+#include "SCMarine/SCMarinePlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASCMWeapon::ASCMWeapon()
@@ -28,7 +31,8 @@ void ASCMWeapon::Tick(float DeltaTime)
 
 void ASCMWeapon::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
 {
-	//Fire
+	CurrentMag--;
+	UpdateMagString();
 }
 
 void ASCMWeapon::AltFire()
@@ -38,7 +42,10 @@ void ASCMWeapon::AltFire()
 
 void ASCMWeapon::ReloadWeapon()
 {
-	// Reload
+
+	if ((CurrentAmmo == 0) ||(CurrentMag == MaxMag)) { return; }
+	StartReloading();
+	return;
 }
 
 
@@ -59,11 +66,57 @@ void ASCMWeapon::SetGunshotSFX(FString Path)
 	}
 }
 
+void ASCMWeapon::StartFiring()
+{
+	bIsFiring = true;
+	GetWorldTimerManager().SetTimer(FireHandle, this, &ASCMWeapon::StopFiring, FireRate, false);
+	return;
+}
+
+void ASCMWeapon::StopFiring()
+{
+	GetWorldTimerManager().ClearTimer(FireHandle);
+	bIsFiring = false;
+	return;
+}
+
+void ASCMWeapon::StartReloading()
+{
+	bIsReloading = true;
+	GetWorldTimerManager().SetTimer(ReloadHandle, this, &ASCMWeapon::StopReloading, ReloadRate, false);
+	
+}
+
+void ASCMWeapon::StopReloading()
+{
+	GetWorldTimerManager().ClearTimer(ReloadHandle);
+	bIsReloading = false;
+
+	float BulletsNeeded = MaxMag - CurrentMag;
+
+	if (BulletsNeeded > CurrentAmmo)
+	{
+		CurrentMag += CurrentAmmo;
+		CurrentAmmo = 0.0f;
+
+	}
+	else
+	{
+		CurrentAmmo -= BulletsNeeded;
+		CurrentMag = MaxMag;
+
+	}
+
+	UpdateMagString();
+	UpdateAmmoString();
+	return;
+}
+
 void ASCMWeapon::SetDamageAmount(float Damage)
 {
 	DamageAmount = Damage;
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Set Damage Value."));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(Damage));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Set Damage Value."));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(Damage));
 }
 
 void ASCMWeapon::SetRangeAmount(float RangeValue)
@@ -71,17 +124,42 @@ void ASCMWeapon::SetRangeAmount(float RangeValue)
 	Range = RangeValue;
 }
 
+void ASCMWeapon::UpdateMagString()
+{
+	ASCMarinePlayerController* PlayerController =
+		Cast<ASCMarinePlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+
+	if (PlayerController)
+	{
+		PlayerController->UpdateMagCount(CurrentMag);
+	}
+	return;
+}
+void ASCMWeapon::UpdateAmmoString()
+{
+	ASCMarinePlayerController* PlayerController =
+		Cast<ASCMarinePlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+
+	if (PlayerController)
+	{
+		PlayerController->UpdateAmmoCount(CurrentAmmo);
+	}
+	return;
+}
+
 
 void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 {
 	if (Gunshot)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, 1.0f);
+		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, FMath::RandRange(0.9f, 1.0f));
+		//UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, 1.0f);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Failed to play Gunshot"));
 	}
+	return;
 }
 
 

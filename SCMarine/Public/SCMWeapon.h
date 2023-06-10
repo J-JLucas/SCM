@@ -22,19 +22,33 @@ protected:
 	// GunProperties
 	UPROPERTY()
 	float DamageAmount = 25.0f;
+	UPROPERTY()
+	FText Name;
 	float FireRate = 1.0f;
+	float ReloadRate = 1.0f;
 	float Range = 10000.0f;
-	bool Piercing = false;
+	bool bPiercing = false;
+	bool bIsFiring = false;
+	bool bIsReloading = false;
 
 	// AmmoProperties
 	int MaxAmmo = 600.0f;
 	int CurrentAmmo = 150.0f;
-	int MagMax = 50;
-	int MagCurrent = 50;
+	int MaxMag = 50;
+	int CurrentMag = 50;
 
 	// sfx
 	UPROPERTY(EditAnywhere, Category = Sound)
 	class USoundBase* GunshotSound;
+
+	FTimerHandle FireHandle;
+	virtual void StartFiring();
+	virtual void StopFiring();
+
+	FTimerHandle ReloadHandle;
+	virtual void StartReloading();
+	virtual void StopReloading();
+
 
 public:	
 	// Called every frame
@@ -50,6 +64,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	class USoundBase* Gunshot;
 
+
 	void PlayGunshotSFX(AActor* PossessedActor);
 	void SetGunshotSFX(FString Path);
 
@@ -60,4 +75,12 @@ public:
 	void SetDamageAmount(float Damage);
 	void SetRangeAmount(float RangeValue);
 	FORCEINLINE float GetDamageAmount() const { return DamageAmount; }
+	FORCEINLINE float GetMaxAmmo() const { return MaxAmmo; }
+	FORCEINLINE float GetCurrentAmmo() const { return CurrentAmmo; }
+	FORCEINLINE float GetMaxMag() const { return MaxMag; }
+	FORCEINLINE float GetCurrentMag() const { return CurrentMag; }
+	FORCEINLINE FText GetWeaponName() const { return Name; }
+
+	void UpdateMagString();
+	void UpdateAmmoString();
 };

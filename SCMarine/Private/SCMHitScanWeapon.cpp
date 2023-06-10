@@ -44,7 +44,12 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 
 void ASCMHitScanWeapon::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
 {
-	PlayGunshotSFX(PossessedActor);
-	TraceForward(PController, PossessedActor);
+	if ((!bIsFiring) && (CurrentMag > 0) && (!bIsReloading))
+	{
+		Super::PrimaryFire(PController, PossessedActor);
+		StartFiring();
+		PlayGunshotSFX(PossessedActor);
+		TraceForward(PController, PossessedActor);
+	}
 }
 

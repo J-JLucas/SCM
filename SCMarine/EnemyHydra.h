@@ -24,10 +24,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TestProjectile)
 	UBlueprint* ProjClass;
 
-	// Gun muzzle offset from camera location
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	FVector MuzzleOffset;
-
 public:
 
 	AEnemyHydra();

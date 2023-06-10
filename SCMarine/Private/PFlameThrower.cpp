@@ -14,6 +14,13 @@ APFlameThrower::APFlameThrower()
 		SCMProjectileClass = ProjectileBlueprint.Object;
 	}
 	SetGunshotSFX(GunshotPath);
+	FireRate = 0.2f;
+	ReloadRate = 3.0f;
+	MaxAmmo = 300.0f;
+	CurrentAmmo = 75.0f;
+	MaxMag = 75;
+	CurrentMag = 75;
+	Name = FText::FromString("C-140 'INCINERATOR'");
 }
 
 void APFlameThrower::BeginPlay()

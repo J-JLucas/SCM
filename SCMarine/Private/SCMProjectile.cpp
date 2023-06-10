@@ -11,7 +11,7 @@
 ASCMProjectile::ASCMProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	BoxComponent->SetBoxExtent(FVector(10.0f, 10.0f, 10.0f));
@@ -34,11 +34,10 @@ ASCMProjectile::ASCMProjectile()
 	ProjectileMovement->MaxSpeed = 3000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
-	//ProjectileMovement->Bounciness = 0.3f;
 	ProjectileMovement->ProjectileGravityScale = 0.0f;
 	
 	// Delete the projectile after 4 seconds
-	InitialLifeSpan = 4.0f;
+	InitialLifeSpan = 3.0f;
 	
 }
 
@@ -78,12 +77,16 @@ void ASCMProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 	if (HitParticles)
 	{
-		FVector Location = FVector::ZeroVector;;
+		//FVector Location = FVector::ZeroVector;;
 		FRotator Rotation = FRotator::ZeroRotator;;
-		FVector Scale = FVector(3.0f);
-
-		UGameplayStatics::SpawnEmitterAttached(HitParticles, OtherComp, NAME_None, Location, Rotation, Scale, EAttachLocation::SnapToTarget, true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorLocation(), Rotation, true);
 	}
+	else
+	{
+		// Particle effect never despawns...
+		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorTransform());
+	}
+
 	Destroy();
 }
 

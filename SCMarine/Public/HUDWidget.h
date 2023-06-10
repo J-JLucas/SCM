@@ -20,6 +20,21 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar* HealthBar;
 
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* HealthText;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* MagTotalText;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* AmmoTotalText;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* WeaponText;
+
 	void UpdateHealthPercent(float HealthPercent);
+	void UpdateMagazine(float numBullets);
+	void UpdateAmmoTotal(float numBullets);
+	void UpdateWeaponText(FText Name);
 
 };

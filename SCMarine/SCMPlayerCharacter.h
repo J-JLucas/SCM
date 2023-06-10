@@ -48,6 +48,10 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_Fire;
 
+	//** Reload Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* IA_Reload;
+
 	//** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_Jump;
@@ -93,8 +97,13 @@ protected:
 	// Fire gun
 	void Fire();
 
+	// Reload current gun
+	void ReloadActiveWeapon();
+
 	// Switch active weapon
 	void SwitchWeapon(WeaponType NewWeapon);
+
+	void UpdateWeaponString(FText Name);
 
 	// Player Health
 	float MaxHealth = 100.0f;
@@ -165,6 +174,10 @@ public:
 	// PlayerController & Pawn References
 	UPROPERTY(VisibleAnywhere)
 	class APlayerController* PController;
+	
+	// This is so embarassing... These two need to be combined...
+	//UPROPERTY(VisibleAnywhere)
+	//class ASCMarinePlayerController* SCMPController;
 
 	UPROPERTY(VisibleAnywhere)
 	class AActor* PossessedActor;

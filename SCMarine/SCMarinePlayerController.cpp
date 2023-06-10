@@ -92,3 +92,27 @@ void ASCMarinePlayerController::UpdateHealthPercent(float HealthPercent)
         HUDWidget->UpdateHealthPercent(HealthPercent);
     }
 }
+
+void ASCMarinePlayerController::UpdateActiveWeaponName(FText Name)
+{
+    if (HUDWidget)
+    {
+        HUDWidget->UpdateWeaponText(Name);
+    }
+}
+
+void ASCMarinePlayerController::UpdateMagCount(float Count)
+{
+    if (HUDWidget)
+    {
+        HUDWidget->UpdateMagazine(Count);
+    }
+}
+
+void ASCMarinePlayerController::UpdateAmmoCount(float Count)
+{
+    if (HUDWidget)
+    {
+        HUDWidget->UpdateAmmoTotal(Count);
+    }
+}

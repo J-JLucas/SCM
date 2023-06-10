@@ -20,6 +20,11 @@ public:
 	virtual void BeginPlay() override;
 
 	// Path to gunshot sfx, must call SetGunshotSFX(GunshotPath) in constructor
+	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/SingleShotRifle.SingleShotRifle')";
+	
+	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/SingleShort2.SingleShort2')";
+	FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/SingleFull2.SingleFull2')";
+	
+	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/RifleFull3.RifleFull3')";
 	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/RifleExp.RifleExp')";
-	FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/sc1MarineFire.sc1MarineFire')";
 };

@@ -14,4 +14,11 @@ class SCMARINE_API AEnemyInfestedMarine : public ASCMEnemy
 {
 	GENERATED_BODY()
 	
+
+public:
+	
+	AEnemyInfestedMarine();
+
+	UFUNCTION(BlueprintCallable, Category = Attack)
+	void IMRangedAttack();
 };
