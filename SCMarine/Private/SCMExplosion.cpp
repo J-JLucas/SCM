@@ -6,8 +6,8 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
-#include "SCMarine/SCMPlayerCharacter.h"
-#include "SCMarine/SCMEnemy.h"
+#include "DrawDebugHelpers.h"
+#include "SCMarine/EnemyUltra.h"
 
 
 // Sets default values
@@ -17,10 +17,10 @@ ASCMExplosion::ASCMExplosion()
 	PrimaryActorTick.bCanEverTick = false;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
-	SphereComponent->SetSphereRadius(700.0f);
+	SphereComponent->SetSphereRadius(500.0f);
 	RootComponent = SphereComponent;
-	InitialLifeSpan = 2.0f;
-
+	InitialLifeSpan = 1.0f;
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ASCMExplosion::OnOverlapBegin);
 	//ExplosionParticles = CreateDefaultSubobject<UParticleSystem>(TEXT("ExplosionEffect"));
 	//ExplosionParticles->SetupAttachment(RootComponent);
 
@@ -30,32 +30,45 @@ ASCMExplosion::ASCMExplosion()
 void ASCMExplosion::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	if (ExplosionSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, GetActorLocation(), 1.0f, FMath::RandRange(0.9f, 1.1f), 0.0f);
 	}
-	SphereComponent->OnComponentHit.AddDynamic(this, &ASCMExplosion::OnHit);
+	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereComponent->GetScaledSphereRadius(), 50, FColor::Cyan, false, 1.0f);
+
 }
 
-void ASCMExplosion::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void ASCMExplosion::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
-	if (OtherActor != this)
+	// There seems to be a race condition near the origin of explosion,
+	// despite ignoring members of AffectedActors, sometimes k components of same actor are "damaged"
+
+	if (OtherActor != this && !AffectedActors.Contains(OtherActor))
 	{
+		AffectedActors.Add(OtherActor);		// Don't Interact with this Actor again
+
 		FVector ExplosionLocation = GetActorLocation();
-		float ExplosionForce = 5000.0f; // Adjust the force as needed
-		float ExplosionRadius = 1000.0f;
+		FVector OtherActorLocation = OtherActor->GetActorLocation();
+		FVector ExplosionDirection = (OtherActorLocation - ExplosionLocation).GetSafeNormal();
 
-		//OtherComp->AddRadialForce(ExplosionLocation, ExplosionForce, ExplosionRadius, ERadialImpulseFalloff::RIF_Linear, true);
-		ASCMEnemy* Enemy = Cast<ASCMEnemy>(OtherActor);
-		if (Enemy)
+		// falloff is significant, added +100.0f beyond the collisionsphere to "reduce" damage falloff
+		float DamageRadius = (SphereComponent->GetScaledSphereRadius() + 100.0f);
+
+		AEnemyUltra* Ultra = Cast<AEnemyUltra>(OtherActor);
+		if (Ultra)	// don't push the ultra around
 		{
-			Enemy->LaunchCharacter(FVector(0.0f, 0.0f, 3000.0f), false, false);
+			UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageValue, ExplosionLocation, DamageRadius, nullptr, TArray<AActor*>(), this, false, false);
+			return;
 		}
-		
-		//ASCMPlayerCharacter* Player = Cast<ASCMPlayerCharacter>(OtherActor);
 
-
+		ACharacter* Target = Cast<ACharacter>(OtherActor);
+		if (Target)
+		{
+			Target->LaunchCharacter(ExplosionDirection * 1800.0f + FVector(0.0f, 0.0f, 500.0f), true, true);
+			UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageValue, ExplosionLocation, DamageRadius, nullptr, TArray<AActor*>(),this, false, false);
+		}
 	}
 }
 
@@ -63,19 +76,5 @@ void ASCMExplosion::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPri
 void ASCMExplosion::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//float r = SphereComponent->GetScaledSphereRadius();
-	//FVector CurrentScale = SphereComponent->GetComponentScale();
-	//CurrentScale.X *= DeltaTime;
-	//CurrentScale.Y *= DeltaTime;
-	//CurrentScale.Z *= DeltaTime;
-	//(CurrentScale.X)++;
-	//(CurrentScale.Y)++;
-	//(CurrentScale.Z)++;
-	//SphereComponent->SetSphereRadius(r);
-	//r = FMath::Clamp(CurrentScale, 1.0f, 2.0f);
-	//SphereComponent->SetWorldScale3D(CurrentScale);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Explosion Tick");
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(CurrentScale.X));
-
 }
 

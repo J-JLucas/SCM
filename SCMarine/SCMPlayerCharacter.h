@@ -108,6 +108,14 @@ protected:
 	// Player Health
 	float MaxHealth = 100.0f;
 
+	/*
+	FTimerHandle SwitchWeaponHandle;
+	virtual void StartSwitching(WeaponType NewWeapon);
+	virtual void StopSwitching(WeaponType NewWeapon);
+	bool bIsSwitching = false;
+	float SwitchDelay = 0.5f;
+	*/
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

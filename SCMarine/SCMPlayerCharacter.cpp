@@ -72,15 +72,10 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	wMelee = nullptr;
 
 	wPistolPlayer = CreateDefaultSubobject<AHSPistol>(TEXT("PlayerPistol"));
-
 	wShotgunPlayer = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
-
 	wRiflePlayer = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
-
 	wSniperPlayer = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
-
 	wRocketLPlayer = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
-
 	wFThrowerPlayer = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
 		
 }
@@ -140,6 +135,7 @@ void ASCMPlayerCharacter::BeginPlay()
 	PossessedActor = this;
 
 }
+
 // Called every frame
 void ASCMPlayerCharacter::Tick(float DeltaTime)
 {
@@ -210,7 +206,7 @@ void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 void ASCMPlayerCharacter::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fire input received!"));
-	
+
 	// Check if PController and PossessedActor are valid
 	check(PController != nullptr);
 	check(PossessedActor != nullptr);

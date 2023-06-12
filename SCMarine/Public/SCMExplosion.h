@@ -23,23 +23,25 @@ private:
 	//UPROPERTY(EditAnywhere, Category = Particles)
 	//class UParticleSystem* ExplosionParticles;
 
-	UPROPERTY(EditAnywhere, Category = Particles)
-	FVector Scale = FVector(1.0f);
-
-	UPROPERTY(EditAnywhere, Category = Damage)
-	float Damage = 100.0f;
-
-	UPROPERTY(EditAnywhere, Category = Sound)
-	class USoundBase* ExplosionSound;
+	TSet<AActor*> AffectedActors;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor,
-			UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* ExplosionSound;
 
+	UPROPERTY(EditAnywhere, Category = Particles)
+	FVector Scale = FVector(1.0f);
+
+	UPROPERTY(EditAnywhere, Category = Damage)
+		float DamageValue = 100.0f;
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

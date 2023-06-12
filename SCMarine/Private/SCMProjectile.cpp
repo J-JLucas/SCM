@@ -16,9 +16,7 @@ ASCMProjectile::ASCMProjectile()
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	BoxComponent->SetBoxExtent(FVector(10.0f, 10.0f, 10.0f));
 	BoxComponent->SetCollisionProfileName(FName("Projectile"));
-	//CapsuleComponent->SetSimulatePhysics(true);
-	//BoxComponent->SetNotifyRigidBodyCollision(true);	// Generates Hit events
-
+	
 	// Listen to the OnComponentHit event by binding it to the function
 	BoxComponent->OnComponentHit.AddDynamic(this, &ASCMProjectile::OnHit);
 	RootComponent = BoxComponent;
