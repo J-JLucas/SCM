@@ -128,7 +128,7 @@ public:
 	UCameraComponent* FPSCameraComponent;
 
 	// FPS mesh (arms); visible only to owning player
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(BlueprintReadWrite, Category = Mesh)
 	USkeletalMeshComponent* FPSMesh;
 
 	// Health
@@ -161,12 +161,12 @@ public:
 	UPROPERTY(Instanced, BlueprintReadOnly, Category = "Guns")
 	class AHSRifle* wRiflePlayer;
 	USkeletalMesh* RifleMesh;
-	FString RifleMeshPath = R"('/Game/Models/Guns/4_GaussRifle/ReynorRifle_SkMesh.ReynorRifle_SkMesh')";
-
+	FString RifleMeshPath = R"('/Game/Models/Guns/4_GaussRifle/GaussRifleFinal.GaussRifleFinal')";
+	
 	UPROPERTY(VisibleAnywhere)
 	class AHSSniper* wSniperPlayer;
 	USkeletalMesh* SniperMesh;
-	FString SniperMeshPath = R"('/Game/Models/Guns/5_SniperRifle/Sniper_SkeletalMesh.Sniper_SkeletalMesh')";
+	FString SniperMeshPath = R"('/Game/Models/Guns/5_SniperRifle/SniperRifle.SniperRifle')";
 
 	UPROPERTY(VisibleAnywhere)
 	class APRocketLauncher* wRocketLPlayer;
