@@ -30,6 +30,7 @@ protected:
 	bool bPiercing = false;
 	bool bIsFiring = false;
 	bool bIsReloading = false;
+	//bool bCanDoSwitchy;
 
 	// AmmoProperties
 	int MaxAmmo = 600.0f;
@@ -58,15 +59,20 @@ public:
 
 	virtual void AltFire();
 
-	virtual void ReloadWeapon();
+	virtual void ReloadWeapon(AActor* PossessedActor);
 
 	// Gunshot Sound
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	class USoundBase* Gunshot;
 
+	UPROPERTY()
+	bool bCanSwitchWeapons;
+	bool GetAbleToSwitch();
+	void SetAbleToSwitch(bool Status);
 
 	void PlayGunshotSFX(AActor* PossessedActor);
 	void SetGunshotSFX(FString Path);
+	void PlayFireAnimation(AActor* PossessedActor);
 
 	// Reload Sound
 	//UPROPERTY(EditAnywhere, Category = "Sound")
@@ -80,7 +86,8 @@ public:
 	FORCEINLINE float GetMaxMag() const { return MaxMag; }
 	FORCEINLINE float GetCurrentMag() const { return CurrentMag; }
 	FORCEINLINE FText GetWeaponName() const { return Name; }
-
+	
+	//bool GetCanSwitchWeapon();
 	void UpdateMagString();
 	void UpdateAmmoString();
 };

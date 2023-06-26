@@ -138,6 +138,18 @@ public:
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;
 
+	UFUNCTION(BlueprintNativeEvent, Category = Animation)
+	void OnFireEvent();
+	void OnFireEvent_Implementation();
+
+	UFUNCTION(BlueprintNativeEvent, Category = Animation)
+	void OnReloadEvent();
+	void OnReloadEvent_Implementation();
+
+	UFUNCTION(BlueprintNativeEvent, Category = Animation)
+	void OnSwitchGunEvent();
+	void OnSwitchGunEvent_Implementation();
+
 	// Weapons
 	UPROPERTY(EditAnywhere, Category = "Weapons")
 	TArray<ASCMWeapon*> Arsenal;
@@ -177,7 +189,6 @@ public:
 	class APFlameThrower* wFThrowerPlayer;
 	USkeletalMesh* FThrowerMesh;
 	FString FThrowerMeshPath = R"('/Game/Models/Guns/7_FlameThrower/Flamethrower_Export_LP.Flamethrower_Export_LP')";
-
 
 	// PlayerController & Pawn References
 	UPROPERTY(VisibleAnywhere)

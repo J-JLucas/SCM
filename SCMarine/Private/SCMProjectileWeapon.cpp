@@ -14,6 +14,7 @@ void ASCMProjectileWeapon::PrimaryFire(APlayerController* PController, AActor* P
 		Super::PrimaryFire(PController, PossessedActor);
 		StartFiring();
 		PlayGunshotSFX(PossessedActor);
+		PlayFireAnimation(PossessedActor);
 		if (!SCMProjectileClass)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "No Projectile Class");

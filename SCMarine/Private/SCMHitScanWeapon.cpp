@@ -3,6 +3,7 @@
 
 #include "SCMHitScanWeapon.h"
 #include "SCMarine/SCMEnemy.h"
+#include "SCMarine/SCMPlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* PossessedActor)
@@ -48,6 +49,7 @@ void ASCMHitScanWeapon::PrimaryFire(APlayerController* PController, AActor* Poss
 	{
 		Super::PrimaryFire(PController, PossessedActor);
 		StartFiring();
+		PlayFireAnimation(PossessedActor);
 		PlayGunshotSFX(PossessedActor);
 		TraceForward(PController, PossessedActor);
 	}

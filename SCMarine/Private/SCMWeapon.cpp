@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "TimerManager.h"
 #include "SCMarine/SCMarinePlayerController.h"
+#include "SCMarine/SCMPlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -13,13 +14,13 @@ ASCMWeapon::ASCMWeapon()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	bCanSwitchWeapons = true;
 }
 
 // Called when the game starts or when spawned
 void ASCMWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -40,11 +41,18 @@ void ASCMWeapon::AltFire()
 	// Reserved for future use
 }
 
-void ASCMWeapon::ReloadWeapon()
+void ASCMWeapon::ReloadWeapon(AActor* PossessedActor)
 {
 
-	if ((CurrentAmmo == 0) ||(CurrentMag == MaxMag)) { return; }
+	if ((CurrentAmmo == 0) || (CurrentMag == MaxMag)) { return; }
 	StartReloading();
+	// 3d models are part of player, triggers event in playercharacter and PC w/ play the animation
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
+	if (PlayerChar)
+	{
+		PlayerChar->OnReloadEvent();
+	}
+	else (GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Cast Failed"));
 	return;
 }
 
@@ -66,9 +74,20 @@ void ASCMWeapon::SetGunshotSFX(FString Path)
 	}
 }
 
+void ASCMWeapon::PlayFireAnimation(AActor* PossessedActor)
+{
+	// 3d models are part of player, triggers event in playercharacter and PC w/ play the animation
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
+	if (PlayerChar)
+	{
+		PlayerChar->OnFireEvent();
+	}
+}
+
 void ASCMWeapon::StartFiring()
 {
 	bIsFiring = true;
+	bCanSwitchWeapons = false;
 	GetWorldTimerManager().SetTimer(FireHandle, this, &ASCMWeapon::StopFiring, FireRate, false);
 	return;
 }
@@ -77,12 +96,14 @@ void ASCMWeapon::StopFiring()
 {
 	GetWorldTimerManager().ClearTimer(FireHandle);
 	bIsFiring = false;
+	bCanSwitchWeapons = true;
 	return;
 }
 
 void ASCMWeapon::StartReloading()
 {
 	bIsReloading = true;
+	bCanSwitchWeapons = false;
 	GetWorldTimerManager().SetTimer(ReloadHandle, this, &ASCMWeapon::StopReloading, ReloadRate, false);
 	
 }
@@ -91,6 +112,7 @@ void ASCMWeapon::StopReloading()
 {
 	GetWorldTimerManager().ClearTimer(ReloadHandle);
 	bIsReloading = false;
+	bCanSwitchWeapons = true;
 
 	float BulletsNeeded = MaxMag - CurrentMag;
 
@@ -162,4 +184,13 @@ void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 	return;
 }
 
+bool ASCMWeapon::GetAbleToSwitch()
+{
+	return bCanSwitchWeapons;
+}
 
+
+void ASCMWeapon::SetAbleToSwitch(bool Status)
+{
+	bCanSwitchWeapons = Status;
+}

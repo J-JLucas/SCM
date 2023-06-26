@@ -128,6 +128,7 @@ void ASCMPlayerCharacter::BeginPlay()
 	//FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 
 	// Default Weapon
+	ActiveWeapon = WeaponType::Rifle;
 	SwitchWeapon(WeaponType::Rifle);
 	//SwitchWeapon(WeaponType::Sniper);
 	
@@ -261,14 +262,33 @@ void ASCMPlayerCharacter::Fire()
 void ASCMPlayerCharacter::ReloadActiveWeapon()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Reload Input Recieved"));
-	Arsenal[ActiveWeapon]->ReloadWeapon();
+	Arsenal[ActiveWeapon]->ReloadWeapon(PossessedActor);
 }
 
 void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 {
+	// If un is firing or reloading, can't switch!
+
+	//ASCMWeapon* CurGun = Arsenal[ActiveWeapon];
+
+	
+	bool result = Arsenal[ActiveWeapon]->GetAbleToSwitch();
+	if (result)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We Good"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Can't switch guns rn"));
+		return;
+	}
+	OnSwitchGunEvent();
+	
+
 	ActiveWeapon = NewWeapon;
-	FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
+	//FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
 	//FPSMesh->SetRelativeTransform(ResetTransform);
+
 
 		switch (NewWeapon)
 		{
@@ -378,3 +398,16 @@ void ASCMPlayerCharacter::OnTakeDamage_Implementation()
 	}
 
 }
+
+void ASCMPlayerCharacter::OnFireEvent_Implementation()
+{
+}
+
+void ASCMPlayerCharacter::OnReloadEvent_Implementation()
+{
+}
+
+void ASCMPlayerCharacter::OnSwitchGunEvent_Implementation()
+{
+}
+
