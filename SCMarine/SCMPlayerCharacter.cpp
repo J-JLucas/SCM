@@ -40,19 +40,19 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	FPSCameraComponent->bUsePawnControlRotation = true;
 
 	// Create a first person mesh component for the owning player
-	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
-	check(FPSMesh != nullptr);
+	FPSMeshRefresh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+	check(FPSMeshRefresh != nullptr);
 
 	// Only owning player can see mesh
-	FPSMesh->SetOnlyOwnerSee(true);
+	FPSMeshRefresh->SetOnlyOwnerSee(true);
 
 	//Attach the FPS mesh to the FPS camera
-	FPSMesh->SetupAttachment(FPSCameraComponent);
+	FPSMeshRefresh->SetupAttachment(FPSCameraComponent);
 
 	// Disable environmental shadows to preserve the illusion of having a single mesh
 	// (disables the arms' shadow, not the full body shadow that other players can see
-	FPSMesh->bCastDynamicShadow = false;
-	FPSMesh->CastShadow = false;
+	FPSMeshRefresh->bCastDynamicShadow = false;
+	FPSMeshRefresh->CastShadow = false;
 
 	// Hide 3rd person mesh from FPS Cam
 	GetMesh()->SetOwnerNoSee(true);
@@ -174,7 +174,7 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		EnhancedInputComponent->BindAction(IA_SwitchRifle, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Rifle);
 		EnhancedInputComponent->BindAction(IA_SwitchSniper, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Sniper);
 		EnhancedInputComponent->BindAction(IA_SwitchRL, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::RocketL);
-		EnhancedInputComponent->BindAction(IA_SwitchFL, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::FThrower);
+		EnhancedInputComponent->BindAction(IA_SwitchFT, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::FThrower);
 	
 	}
 }
@@ -194,6 +194,7 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 
 void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Movement Input Recieved"));
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -282,10 +283,10 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Can't switch guns rn"));
 		return;
 	}
-	OnSwitchGunEvent();
-	
 
+	OnSwitchGunEvent();		// event trigger for blueprint animations
 	ActiveWeapon = NewWeapon;
+	
 	//FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
 	//FPSMesh->SetRelativeTransform(ResetTransform);
 
@@ -380,7 +381,7 @@ void ASCMPlayerCharacter::UpdateWeaponString(FText Name)
 void ASCMPlayerCharacter::OnDeath_Implementation()
 {
 	DisableInput(PController);
-	FPSMesh->SetOwnerNoSee(true);
+	FPSMeshRefresh->SetOwnerNoSee(true);
 	SetCanBeDamaged(false);
 
 	//Destroy();

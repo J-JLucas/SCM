@@ -76,7 +76,7 @@ private:
 		class UInputAction* IA_SwitchRL;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* IA_SwitchFL;
+		class UInputAction* IA_SwitchFT;
 
 public:
 	// Sets default values for this character's properties
@@ -128,8 +128,8 @@ public:
 	UCameraComponent* FPSCameraComponent;
 
 	// FPS mesh (arms); visible only to owning player
-	UPROPERTY(BlueprintReadWrite, Category = Mesh)
-	USkeletalMeshComponent* FPSMesh;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly, Category = Mesh)
+	USkeletalMeshComponent* FPSMeshRefresh;
 
 	// Health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
@@ -154,7 +154,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Weapons")
 	TArray<ASCMWeapon*> Arsenal;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TEnumAsByte<WeaponType> ActiveWeapon;
 
 	UPROPERTY(VisibleAnywhere)
