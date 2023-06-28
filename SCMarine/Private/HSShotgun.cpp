@@ -43,6 +43,7 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 		StartFiring();
 		CurrentMag--;
 		UpdateMagString();
+		PlayFireAnimation(PossessedActor);
 		PlayGunshotSFX(PossessedActor);
 
 		// fire ShotCount Pellets (algie from ChatGPT based off of quake sourcecode)
