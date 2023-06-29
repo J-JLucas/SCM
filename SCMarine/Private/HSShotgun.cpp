@@ -4,11 +4,14 @@
 #include "HSShotgun.h"
 #include "Kismet/GameplayStatics.h"
 #include "SCMarine/SCMEnemy.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Components/DecalComponent.h"
 
 
 AHSShotgun::AHSShotgun()
 {
 	SetGunshotSFX(GunshotPath);
+	SetImpactDecal(ImpactDecalPath);
 	FireRate = 0.35f;
 	ReloadRate = 2.8f;
 	MaxAmmo = 100.0f;
@@ -84,6 +87,20 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
 
+				}
+				else
+				{
+					// spawn generic bullethole decal
+					FVector DecalRotationVec = (Hit.ImpactNormal);
+					DecalRotationVec.Normalize();
+					FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(DecalRotationVec) * -1.0f;
+					USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
+
+
+					float LifeSpan = 30.0f;
+					//UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), ImpactDecal, FVector(6.0f, 6.0f, 6.0f), Hit.Location, DecalRotation, LifeSpan);
+					UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(ImpactDecal, FVector(5.0f, 5.0f, 5.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan);
+					BulletDecal->SetFadeScreenSize(0.0f);
 				}
 			}
 		}

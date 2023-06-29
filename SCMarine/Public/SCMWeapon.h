@@ -67,7 +67,7 @@ public:
 
 	UPROPERTY()
 	bool bCanSwitchWeapons;
-	bool GetAbleToSwitch();
+	FORCEINLINE bool GetAbleToSwitch() { return bCanSwitchWeapons; }
 	void SetAbleToSwitch(bool Status);
 
 	void PlayGunshotSFX(AActor* PossessedActor);

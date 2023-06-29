@@ -184,11 +184,12 @@ void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 	return;
 }
 
+/*
 bool ASCMWeapon::GetAbleToSwitch()
 {
 	return bCanSwitchWeapons;
 }
-
+*/
 
 void ASCMWeapon::SetAbleToSwitch(bool Status)
 {

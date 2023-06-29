@@ -24,7 +24,7 @@ public:
 	
 	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/SingleShort2.SingleShort2')";
 	FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/SingleFull2.SingleFull2')";
-	
+	FString ImpactDecalPath = R"('/Game/Decals/bullet_hole_1_Mat.bullet_hole_1_Mat')";
 	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/RifleFull3.RifleFull3')";
 	//FString GunshotPath = R"('/Game/Models/Guns/4_GaussRifle/SFX/RifleExp.RifleExp')";
 };

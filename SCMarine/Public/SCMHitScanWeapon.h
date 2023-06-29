@@ -17,6 +17,16 @@ class SCMARINE_API ASCMHitScanWeapon : public ASCMWeapon
 public:
 
 	//ASCMHitScanWeapon();
+
+	UPROPERTY(EditAnywhere, Category = ImpactDecal)
+	class UMaterialInterface* ImpactDecal;
+
+	UPROPERTY(EditAnywhere, Category = BloodDecal)
+	class UMaterialInterface* BloodDecal;
+
+	void SetImpactDecal(FString Path);
+
+	void SetBloodDecal(FString Path);
 	
 	virtual void TraceForward(APlayerController* PController, AActor* PossessedActor);
 

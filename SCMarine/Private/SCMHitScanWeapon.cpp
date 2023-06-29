@@ -5,6 +5,35 @@
 #include "SCMarine/SCMEnemy.h"
 #include "SCMarine/SCMPlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Components/DecalComponent.h"
+
+void ASCMHitScanWeapon::SetImpactDecal(FString Path)
+{
+	ImpactDecal = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
+	if (ImpactDecal == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to load ImpactDecal"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("loaded ImpactDecal successfully"));
+	}
+
+}
+
+void ASCMHitScanWeapon::SetBloodDecal(FString Path)
+{ 
+	BloodDecal = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
+	if (ImpactDecal == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to load BloodDecal"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("loaded BloodDecal successfully"));
+	}
+}
 
 void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* PossessedActor)
 {
@@ -38,7 +67,28 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			FVector HitFromDirection = (Start - End).GetSafeNormal();
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
-			
+		
+			// spawn blood decal decal
+			//FVector DecalRotationVec = (Hit.ImpactNormal);
+			//DecalRotationVec.Normalize();
+			//FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(DecalRotationVec) * -1.0f;
+			//USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
+
+//			float LifeSpan = 30.0f;
+	//		UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(BloodDecal, FVector(9.0f, 9.0f, 9.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan);
+	//		BulletDecal->SetFadeScreenSize(0.0f);
+		}
+		else
+		{
+			// spawn generic bullethole decal
+			FVector DecalRotationVec = (Hit.ImpactNormal);
+			DecalRotationVec.Normalize();
+			FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(DecalRotationVec)*-1.0f;
+			USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
+
+			float LifeSpan = 30.0f;
+			UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(ImpactDecal, FVector(8.0f,8.0f,8.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan );
+			BulletDecal->SetFadeScreenSize(0.0f);
 		}
 	}
 }
