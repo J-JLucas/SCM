@@ -8,6 +8,7 @@ AHSRifle::AHSRifle()
 {
 	SetGunshotSFX(GunshotPath);
 	SetImpactDecal(ImpactDecalPath);
+	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.08f;
 	ReloadRate = 2.4f;
 	MaxAmmo = 600.0f;

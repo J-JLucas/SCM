@@ -24,9 +24,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = BloodDecal)
 	class UMaterialInterface* BloodDecal;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	class UNiagaraSystem* BloodEffect;
+
 	void SetImpactDecal(FString Path);
 
 	void SetBloodDecal(FString Path);
+
+	void SetBloodEffect(FString Path);
 	
 	virtual void TraceForward(APlayerController* PController, AActor* PossessedActor);
 

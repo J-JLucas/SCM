@@ -6,12 +6,16 @@
 #include "SCMarine/SCMEnemy.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/DecalComponent.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 
 
 AHSShotgun::AHSShotgun()
 {
 	SetGunshotSFX(GunshotPath);
 	SetImpactDecal(ImpactDecalPath);
+	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.35f;
 	ReloadRate = 2.8f;
 	MaxAmmo = 100.0f;
@@ -86,6 +90,7 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 					FVector HitFromDirection = (Start - End).GetSafeNormal();
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
+					UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
 				}
 				else

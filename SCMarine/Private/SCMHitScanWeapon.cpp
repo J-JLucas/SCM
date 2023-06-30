@@ -7,6 +7,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/DecalComponent.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 void ASCMHitScanWeapon::SetImpactDecal(FString Path)
 {
@@ -25,13 +27,26 @@ void ASCMHitScanWeapon::SetImpactDecal(FString Path)
 void ASCMHitScanWeapon::SetBloodDecal(FString Path)
 { 
 	BloodDecal = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
-	if (ImpactDecal == nullptr)
+	if (BloodDecal == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Failed to load BloodDecal"));
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("loaded BloodDecal successfully"));
+	}
+}
+
+void ASCMHitScanWeapon::SetBloodEffect(FString Path)
+{
+	BloodEffect = Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), nullptr, *Path));
+	if (BloodEffect == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to load BloodEffect"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("loaded BloodEffect successfully"));
 	}
 }
 
@@ -67,7 +82,9 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			FVector HitFromDirection = (Start - End).GetSafeNormal();
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
-		
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+
+
 			// spawn blood decal decal
 			//FVector DecalRotationVec = (Hit.ImpactNormal);
 			//DecalRotationVec.Normalize();
