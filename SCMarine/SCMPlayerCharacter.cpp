@@ -71,7 +71,6 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 
 	wMelee = nullptr;
 
-	wPistolPlayer = CreateDefaultSubobject<AHSPistol>(TEXT("PlayerPistol"));
 	wShotgunPlayer = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
 	wRiflePlayer = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
 	wSniperPlayer = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
@@ -103,9 +102,6 @@ void ASCMPlayerCharacter::BeginPlay()
 	// Initialize Weapons ... need to manually BeginPlay() because
 	// they aren't instantiated in the world?
 	// Load meshes and insert into Arsenal TArray
-	wPistolPlayer->BeginPlay();
-	Arsenal.Insert(wPistolPlayer, WeaponType::Pistol);
-	//PistolMesh = LoadObject<USkeletalMesh>(nullptr, *PistolMeshPath);
 	
 	wShotgunPlayer->BeginPlay();
 	Arsenal.Insert(wShotgunPlayer, WeaponType::Shotgun);
@@ -130,7 +126,6 @@ void ASCMPlayerCharacter::BeginPlay()
 	// Default Weapon
 	ActiveWeapon = WeaponType::Rifle;
 	SwitchWeapon(WeaponType::Rifle);
-	//SwitchWeapon(WeaponType::Sniper);
 	
 	// Initialize PController
 	PController = GetWorld()->GetFirstPlayerController();
@@ -168,8 +163,7 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ASCMPlayerCharacter::StopJumping);
 	
 		//Switch Weapons
-		EnhancedInputComponent->BindAction(IA_SwitchSpecial, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Special);
-		//EnhancedInputComponent->BindAction(IA_SwitchPistol, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Pistol);
+		//EnhancedInputComponent->BindAction(IA_SwitchSpecial, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Special);
 		EnhancedInputComponent->BindAction(IA_SwitchShotgun, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Shotgun);
 		EnhancedInputComponent->BindAction(IA_SwitchRifle, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Rifle);
 		EnhancedInputComponent->BindAction(IA_SwitchSniper, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Sniper);
@@ -219,12 +213,6 @@ void ASCMPlayerCharacter::Fire()
 		case(WeaponType::Special):
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Fired Special"));
-			break;
-		}
-		case(WeaponType::Pistol):
-		{
-			Arsenal[WeaponType::Pistol]->PrimaryFire(PController, PossessedActor);
-			UE_LOG(LogTemp, Warning, TEXT("Fired Pistol"));
 			break;
 		}
 		case(WeaponType::Shotgun):
@@ -290,7 +278,6 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 	//FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
 	//FPSMesh->SetRelativeTransform(ResetTransform);
 
-
 		switch (NewWeapon)
 		{
 			case(WeaponType::Special):
@@ -298,17 +285,7 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 				UE_LOG(LogTemp, Warning, TEXT("Switched To Special"));
 				break;
 			}
-			case(WeaponType::Pistol):
-			{
-				//FPSMesh->SetSkeletalMesh(PistolMesh);
-				//FPSMesh->AddRelativeLocation(FVector(74.0f, 60.0f, -51.0f));
-				//FPSMesh->AddRelativeRotation(FRotator(0.0f, -172.0f, 0.0f));
-				UpdateWeaponString(Arsenal[WeaponType::Pistol]->GetWeaponName());
-				Arsenal[WeaponType::Pistol]->UpdateMagString();
-				Arsenal[WeaponType::Pistol]->UpdateAmmoString();
-				UE_LOG(LogTemp, Warning, TEXT("Switched To Pistol"));
-				break;
-			}
+
 			case(WeaponType::Shotgun):
 			{
 				//FPSMesh->SetSkeletalMesh(ShotgunMesh);
@@ -442,5 +419,11 @@ bool ASCMPlayerCharacter::PickupAmmo(int32 AmmoType, float Amount)
 	{
 		return false;	// ammo already at max
 	}
+}
+
+void ASCMPlayerCharacter::PickupWeapon(int32 WeaponType)
+{
+
+
 }
 

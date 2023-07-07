@@ -14,7 +14,6 @@ enum WeaponType
 {
 	Melee UMETA(DisplayName = "Melee"),		// not implemented unreal enum requires a 0 element
 	Special UMETA(DisplayName = "Special"),
-	Pistol UMETA(DisplayName = "Pistol"),
 	Shotgun UMETA(DisplayName = "Shotgun"),
 	Rifle UMETA(DisplayName = "Rifle"),
 	Sniper UMETA(DisplayName = "Sniper"),
@@ -59,9 +58,6 @@ private:
 	//** Switch Weapon Input Actions */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_SwitchSpecial;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* IA_SwitchPistol;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_SwitchShotgun;
@@ -159,11 +155,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	class AHSRifle* wMelee;
-
-	UPROPERTY(VisibleAnywhere)
-	class AHSPistol* wPistolPlayer;
-	USkeletalMesh* PistolMesh;
-	FString PistolMeshPath = R"('/Game/Models/Guns/2_Pistol/Deagle_Sk.Deagle_Sk')";
 	
 	UPROPERTY(VisibleAnywhere)
 	class AHSShotgun* wShotgunPlayer;
@@ -199,5 +190,5 @@ public:
 
 	bool HealPlayer(float Value);
 	bool PickupAmmo(int32 AmmoType, float Amount);
-
+	void PickupWeapon(int32 WeaponType);
 };
