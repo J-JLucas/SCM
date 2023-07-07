@@ -43,6 +43,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 
+	bool AddHealth(float Value);
 
 	UFUNCTION(BlueprintCallable)
 	void SetMaxHealth(float Value);

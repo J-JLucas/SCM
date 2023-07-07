@@ -43,8 +43,8 @@ void UHealthComponent::SetMaxHealth(float Value)
 void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
 	if (Damage <= 0) { return; }
-
-	Health -= Damage;
+	
+	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
 	if (Health > 0.0f)
 	{
 		if (InjuredSound)
@@ -73,6 +73,20 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 		}
 	}
 
+}
+
+bool UHealthComponent::AddHealth(float Value)
+{
+	if (!bIsDead && Health != MaxHealth)
+	{
+		Health = FMath::Clamp(Health + Value, 0.0f, MaxHealth);
+		UE_LOG(LogTemp, Warning, TEXT("Updated Health: %f"), Health);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 // Called every frame

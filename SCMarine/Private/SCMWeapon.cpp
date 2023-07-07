@@ -7,7 +7,6 @@
 #include "TimerManager.h"
 #include "SCMarine/SCMarinePlayerController.h"
 #include "SCMarine/SCMPlayerCharacter.h"
-#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASCMWeapon::ASCMWeapon()

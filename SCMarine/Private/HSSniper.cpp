@@ -21,5 +21,5 @@ AHSSniper::AHSSniper()
 void AHSSniper::BeginPlay()
 {
 	Super::BeginPlay();
-	SetDamageAmount(200.0f);
+	SetDamageAmount(100.0f);
 }

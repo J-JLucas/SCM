@@ -169,7 +169,7 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 		//Switch Weapons
 		EnhancedInputComponent->BindAction(IA_SwitchSpecial, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Special);
-		EnhancedInputComponent->BindAction(IA_SwitchPistol, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Pistol);
+		//EnhancedInputComponent->BindAction(IA_SwitchPistol, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Pistol);
 		EnhancedInputComponent->BindAction(IA_SwitchShotgun, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Shotgun);
 		EnhancedInputComponent->BindAction(IA_SwitchRifle, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Rifle);
 		EnhancedInputComponent->BindAction(IA_SwitchSniper, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Sniper);
@@ -194,7 +194,7 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 
 void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Movement Input Recieved"));
+	//UE_LOG(LogTemp, Warning, TEXT("Movement Input Recieved"));
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -268,7 +268,7 @@ void ASCMPlayerCharacter::ReloadActiveWeapon()
 
 void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 {
-	// If un is firing or reloading, can't switch!
+	// If gun is firing or reloading, can't switch!
 
 	//ASCMWeapon* CurGun = Arsenal[ActiveWeapon];
 
@@ -410,5 +410,37 @@ void ASCMPlayerCharacter::OnReloadEvent_Implementation()
 
 void ASCMPlayerCharacter::OnSwitchGunEvent_Implementation()
 {
+}
+
+bool ASCMPlayerCharacter::HealPlayer(float Value)
+{
+	bool Success = HealthComponent->AddHealth(Value);
+
+	if (Success) {
+		ASCMarinePlayerController* PlayerController =
+			Cast<ASCMarinePlayerController>(GetController());
+
+		if (PlayerController)
+		{
+			PlayerController->UpdateHealthPercent(HealthComponent->GetHealthPercent());
+		}
+		return true;
+	}
+	else
+	{
+		return false;	// health already at max
+	}
+}
+
+bool ASCMPlayerCharacter::PickupAmmo(int32 AmmoType, float Amount)
+{
+
+
+	if (true) { return true; }
+
+	else
+	{
+		return false;	// ammo already at max
+	}
 }
 

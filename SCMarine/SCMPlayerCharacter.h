@@ -194,11 +194,10 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class APlayerController* PController;
 	
-	// This is so embarassing... These two need to be combined...
-	//UPROPERTY(VisibleAnywhere)
-	//class ASCMarinePlayerController* SCMPController;
-
 	UPROPERTY(VisibleAnywhere)
 	class AActor* PossessedActor;
+
+	bool HealPlayer(float Value);
+	bool PickupAmmo(int32 AmmoType, float Amount);
 
 };
