@@ -409,12 +409,45 @@ bool ASCMPlayerCharacter::HealPlayer(float Value)
 	}
 }
 
-bool ASCMPlayerCharacter::PickupAmmo(int32 AmmoType, float Amount)
+bool ASCMPlayerCharacter::PickupAmmo(int32 AmmoType, int Amount)
 {
+	switch (AmmoType)
+	{
 
+		case(WeaponType::Shotgun):
+		{
 
-	if (true) { return true; }
+			break;
+		}
+		case(WeaponType::Rifle):
+		{
+		
+			break;
+		}
+		case(WeaponType::Sniper):
+		{
+		
+			break;
+		}
+		case(WeaponType::RocketL):
+		{
+		
+			break;
+		}
+		case(WeaponType::FThrower):
+		{
+		
+			break;
+		}
+	}
 
+	if (true) 
+	{
+		return true; 
+	}
+	
+	
+	
 	else
 	{
 		return false;	// ammo already at max
@@ -423,7 +456,44 @@ bool ASCMPlayerCharacter::PickupAmmo(int32 AmmoType, float Amount)
 
 void ASCMPlayerCharacter::PickupWeapon(int32 WeaponType)
 {
+	switch (WeaponType)
+	{
 
-
+		case(WeaponType::Shotgun):
+		{
+			Arsenal[WeaponType::Shotgun]->UpdateMagString();
+			Arsenal[WeaponType::Shotgun]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
+			break;
+		}
+		case(WeaponType::Rifle):
+		{
+			Arsenal[WeaponType::Rifle]->UpdateMagString();
+			Arsenal[WeaponType::Rifle]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
+			break;
+		}
+		case(WeaponType::Sniper):
+		{
+			Arsenal[WeaponType::Sniper]->UpdateMagString();
+			Arsenal[WeaponType::Sniper]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
+			break;
+		}
+		case(WeaponType::RocketL):
+		{
+			Arsenal[WeaponType::RocketL]->UpdateMagString();
+			Arsenal[WeaponType::RocketL]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
+			break;
+		}
+		case(WeaponType::FThrower):
+		{
+			Arsenal[WeaponType::FThrower]->UpdateMagString();
+			Arsenal[WeaponType::FThrower]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
+			break;
+		}
+	}
 }
 

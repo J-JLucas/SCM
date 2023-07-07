@@ -55,6 +55,20 @@ void ASCMWeapon::ReloadWeapon(AActor* PossessedActor)
 	return;
 }
 
+bool ASCMWeapon::AddAmmo(int Amount)
+{
+	if (CurrentAmmo != MaxAmmo)
+	{
+		CurrentAmmo = FMath::Clamp(CurrentAmmo + Amount, 0, MaxAmmo);
+		UE_LOG(LogTemp, Warning, TEXT("Updated AmmoReserve: %d"), CurrentAmmo);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 void ASCMWeapon::SetGunshotSFX(FString Path)
 {
@@ -118,7 +132,7 @@ void ASCMWeapon::StopReloading()
 	if (BulletsNeeded > CurrentAmmo)
 	{
 		CurrentMag += CurrentAmmo;
-		CurrentAmmo = 0.0f;
+		CurrentAmmo = 0;
 
 	}
 	else
@@ -136,8 +150,6 @@ void ASCMWeapon::StopReloading()
 void ASCMWeapon::SetDamageAmount(float Damage)
 {
 	DamageAmount = Damage;
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Set Damage Value."));
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(Damage));
 }
 
 void ASCMWeapon::SetRangeAmount(float RangeValue)
@@ -174,7 +186,6 @@ void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 	if (Gunshot)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, FMath::RandRange(0.9f, 1.0f));
-		//UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, 1.0f);
 	}
 	else
 	{

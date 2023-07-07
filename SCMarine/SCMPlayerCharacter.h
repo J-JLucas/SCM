@@ -7,10 +7,13 @@
 #include "InputActionValue.h"
 #include "Camera/CameraComponent.h"
 #include "Public/HealthInterface.h"
+#include "Public/SCMWeapon.h"
 #include "SCMPlayerCharacter.generated.h"
 
+/*
 UENUM(BlueprintType)
 enum WeaponType
+
 {
 	Melee UMETA(DisplayName = "Melee"),		// not implemented unreal enum requires a 0 element
 	Special UMETA(DisplayName = "Special"),
@@ -21,6 +24,7 @@ enum WeaponType
 	FThrower UMETA(DisplayName = "Flamethrower"),
 
 };
+*/
 
 class ASCMWeapon;
 
@@ -189,6 +193,6 @@ public:
 	class AActor* PossessedActor;
 
 	bool HealPlayer(float Value);
-	bool PickupAmmo(int32 AmmoType, float Amount);
+	bool PickupAmmo(int32 AmmoType, int Amount);
 	void PickupWeapon(int32 WeaponType);
 };

@@ -6,6 +6,20 @@
 #include "GameFramework/Actor.h"
 #include "SCMWeapon.generated.h"
 
+UENUM(BlueprintType)
+enum WeaponType
+{
+	Melee UMETA(DisplayName = "Melee"),		// not implemented unreal enum requires a 0 element
+	Special UMETA(DisplayName = "Special"),
+	Shotgun UMETA(DisplayName = "Shotgun"),
+	Rifle UMETA(DisplayName = "Rifle"),
+	Sniper UMETA(DisplayName = "Sniper"),
+	RocketL UMETA(DisplayName = "RocketLauncher"),
+	FThrower UMETA(DisplayName = "Flamethrower"),
+
+};
+
+
 UCLASS()
 class SCMARINE_API ASCMWeapon : public AActor
 {
@@ -33,8 +47,8 @@ protected:
 	//bool bCanDoSwitchy;
 
 	// AmmoProperties
-	int MaxAmmo = 600.0f;
-	int CurrentAmmo = 150.0f;
+	int MaxAmmo = 600;
+	int CurrentAmmo = 150;
 	int MaxMag = 50;
 	int CurrentMag = 50;
 
@@ -60,6 +74,8 @@ public:
 	virtual void AltFire();
 
 	virtual void ReloadWeapon(AActor* PossessedActor);
+
+	bool AddAmmo(int Amount);
 
 	// Gunshot Sound
 	UPROPERTY(EditAnywhere, Category = "Sound")
