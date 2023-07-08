@@ -19,7 +19,7 @@ ASCMExplosion::ASCMExplosion()
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 	SphereComponent->SetSphereRadius(500.0f);
 	RootComponent = SphereComponent;
-	InitialLifeSpan = 1.0f;
+	InitialLifeSpan = 0.3f;
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ASCMExplosion::OnOverlapBegin);
 	//ExplosionParticles = CreateDefaultSubobject<UParticleSystem>(TEXT("ExplosionEffect"));
 	//ExplosionParticles->SetupAttachment(RootComponent);

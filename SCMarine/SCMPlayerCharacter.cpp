@@ -19,6 +19,8 @@
 #include "Public/PRocketLauncher.h"
 #include "Public/PFlameThrower.h"
 #include "SCMarine/SCMarinePlayerController.h"
+#include "TimerManager.h"
+
 
 // Sets default values
 ASCMPlayerCharacter::ASCMPlayerCharacter()
@@ -210,6 +212,7 @@ void ASCMPlayerCharacter::Fire()
 	// Check if PController and PossessedActor are valid
 	check(PController != nullptr);
 	check(PossessedActor != nullptr);
+	if (bIsSwitching) { return; }
 
 	switch (ActiveWeapon)
 	{
@@ -255,6 +258,7 @@ void ASCMPlayerCharacter::ReloadActiveWeapon()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Reload Input Recieved"));
 	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
+	if (bIsSwitching) { return; }
 	Arsenal[ActiveWeapon]->ReloadWeapon(PossessedActor);
 }
 
@@ -276,13 +280,12 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Can't switch guns rn"));
 		return;
 	}
-
-	OnSwitchGunEvent();		// event trigger for blueprint animations
 	ActiveWeapon = NewWeapon;
-	
+	StartSwitching();
+
 	//FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
 	//FPSMesh->SetRelativeTransform(ResetTransform);
-
+	/*
 		switch (NewWeapon)
 		{
 			case(WeaponType::Special):
@@ -347,6 +350,7 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 				break;
 			}
 		}
+		*/
 }
 
 void ASCMPlayerCharacter::UpdateWeaponString(FText Name)
@@ -358,6 +362,87 @@ void ASCMPlayerCharacter::UpdateWeaponString(FText Name)
 	{
 		PlayerController->UpdateActiveWeaponName(Name);
 	}
+}
+
+void ASCMPlayerCharacter::StartSwitching()
+{
+	bIsSwitching = true;
+	GetWorldTimerManager().SetTimer(SwitchWeaponHandle, this, &ASCMPlayerCharacter::StopSwitching, SwitchDelay, false);
+	OnSwitchGunEvent();		// event trigger for blueprint animations
+	return;
+}
+
+void ASCMPlayerCharacter::StopSwitching()
+{
+	GetWorldTimerManager().ClearTimer(SwitchWeaponHandle);
+	bIsSwitching = false;
+
+	switch (ActiveWeapon)
+	{
+	case(WeaponType::Special):
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Switched To Special"));
+		break;
+	}
+
+	case(WeaponType::Shotgun):
+	{
+		//FPSMesh->SetSkeletalMesh(ShotgunMesh);
+		//FPSMesh->AddRelativeLocation(FVector(46.0f, -20.0f, -98.0f));
+		//FPSMesh->AddRelativeRotation(FRotator(4.0f, -86.0f, -50.0f));
+		UpdateWeaponString(Arsenal[WeaponType::Shotgun]->GetWeaponName());
+		Arsenal[WeaponType::Shotgun]->UpdateMagString();
+		Arsenal[WeaponType::Shotgun]->UpdateAmmoString();
+		UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
+		break;
+	}
+	case(WeaponType::Rifle):
+	{
+		//FPSMesh->SetSkeletalMesh(RifleMesh);
+		//FPSMesh->AddRelativeLocation(FVector(2.0f, 48.0f, -58.0f));
+		//FPSMesh->AddRelativeRotation(FRotator(0.0f, -88.0f, -1.0f));
+		UpdateWeaponString(Arsenal[WeaponType::Rifle]->GetWeaponName());
+		Arsenal[WeaponType::Rifle]->UpdateMagString();
+		Arsenal[WeaponType::Rifle]->UpdateAmmoString();
+		UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
+		break;
+	}
+	case(WeaponType::Sniper):
+	{
+		//FPSMesh->SetSkeletalMesh(SniperMesh);
+		//FPSMesh->AddRelativeLocation(FVector(45.0f, 24.0f, -42.0f));
+		//FPSMesh->AddRelativeRotation(FRotator(0.0f, -90.0, 0.0f));
+		UpdateWeaponString(Arsenal[WeaponType::Sniper]->GetWeaponName());
+		Arsenal[WeaponType::Sniper]->UpdateMagString();
+		Arsenal[WeaponType::Sniper]->UpdateAmmoString();
+		UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
+		break;
+	}
+	case(WeaponType::RocketL):
+	{
+		//FPSMesh->SetSkeletalMesh(RocketLMesh);
+		//FPSMesh->AddRelativeLocation(FVector(180.0f, 29.0f, -128.0f));
+		//FPSMesh->AddRelativeRotation(FRotator(-85.0f, -73.0, 238.0f));
+		UpdateWeaponString(Arsenal[WeaponType::RocketL]->GetWeaponName());
+		Arsenal[WeaponType::RocketL]->UpdateMagString();
+		Arsenal[WeaponType::RocketL]->UpdateAmmoString();
+		UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
+		break;
+	}
+	case(WeaponType::FThrower):
+	{
+		//FPSMesh->SetSkeletalMesh(FThrowerMesh);
+		//FPSMesh->AddRelativeLocation(FVector(21.0f, 22.0f, -37.0f));
+		//FPSMesh->AddRelativeRotation(FRotator(-3.0f, -0.5, 0.0f));
+		UpdateWeaponString(Arsenal[WeaponType::FThrower]->GetWeaponName());
+		Arsenal[WeaponType::FThrower]->UpdateMagString();
+		Arsenal[WeaponType::FThrower]->UpdateAmmoString();
+		UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
+		break;
+	}
+	}
+
+
 }
 
 void ASCMPlayerCharacter::OnDeath_Implementation()
