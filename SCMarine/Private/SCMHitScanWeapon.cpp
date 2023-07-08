@@ -91,7 +91,7 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			//FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(DecalRotationVec) * -1.0f;
 			//USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
 
-//			float LifeSpan = 30.0f;
+//			float LifeSpan = 10.0f;
 	//		UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(BloodDecal, FVector(9.0f, 9.0f, 9.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan);
 	//		BulletDecal->SetFadeScreenSize(0.0f);
 		}
@@ -103,7 +103,7 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(DecalRotationVec)*-1.0f;
 			USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
 
-			float LifeSpan = 30.0f;
+			float LifeSpan = 10.0f;
 			UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(ImpactDecal, FVector(8.0f,8.0f,8.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan );
 			BulletDecal->SetFadeScreenSize(0.0f);
 		}

@@ -10,22 +10,6 @@
 #include "Public/SCMWeapon.h"
 #include "SCMPlayerCharacter.generated.h"
 
-/*
-UENUM(BlueprintType)
-enum WeaponType
-
-{
-	Melee UMETA(DisplayName = "Melee"),		// not implemented unreal enum requires a 0 element
-	Special UMETA(DisplayName = "Special"),
-	Shotgun UMETA(DisplayName = "Shotgun"),
-	Rifle UMETA(DisplayName = "Rifle"),
-	Sniper UMETA(DisplayName = "Sniper"),
-	RocketL UMETA(DisplayName = "RocketLauncher"),
-	FThrower UMETA(DisplayName = "Flamethrower"),
-
-};
-*/
-
 class ASCMWeapon;
 
 UCLASS()

@@ -7,9 +7,7 @@
 AEnemyZergling::AEnemyZergling()
 	:Super()
 {
-	float MaxHealth = (100.0f);
-	// Init Health Component
-	//HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+	float MaxHealth = (50.0f);
 	HealthComponent->SetMaxHealth(MaxHealth);
 
 }

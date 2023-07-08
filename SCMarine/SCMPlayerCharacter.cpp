@@ -264,12 +264,10 @@ void ASCMPlayerCharacter::ReloadActiveWeapon()
 
 void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 {
-	// If gun is firing or reloading, can't switch!
-
-	//ASCMWeapon* CurGun = Arsenal[ActiveWeapon];
 	if (ActiveWeapon == NewWeapon) { return; };
 	if (UnlockedGuns[NewWeapon] == false) { return; }		// Player doesn't have gun
 	
+	// AbleToSwitch basically represents if the gunObject is busy firing reloading etc...
 	bool result = Arsenal[ActiveWeapon]->GetAbleToSwitch();
 	if (result)
 	{
@@ -283,74 +281,6 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 	ActiveWeapon = NewWeapon;
 	StartSwitching();
 
-	//FTransform ResetTransform(FQuat::Identity, FVector::ZeroVector, FVector::OneVector);
-	//FPSMesh->SetRelativeTransform(ResetTransform);
-	/*
-		switch (NewWeapon)
-		{
-			case(WeaponType::Special):
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Switched To Special"));
-				break;
-			}
-
-			case(WeaponType::Shotgun):
-			{
-				//FPSMesh->SetSkeletalMesh(ShotgunMesh);
-				//FPSMesh->AddRelativeLocation(FVector(46.0f, -20.0f, -98.0f));
-				//FPSMesh->AddRelativeRotation(FRotator(4.0f, -86.0f, -50.0f));
-				UpdateWeaponString(Arsenal[WeaponType::Shotgun]->GetWeaponName());
-				Arsenal[WeaponType::Shotgun]->UpdateMagString();
-				Arsenal[WeaponType::Shotgun]->UpdateAmmoString();
-				UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
-				break;
-			}
-			case(WeaponType::Rifle):
-			{
-				//FPSMesh->SetSkeletalMesh(RifleMesh);
-				//FPSMesh->AddRelativeLocation(FVector(2.0f, 48.0f, -58.0f));
-				//FPSMesh->AddRelativeRotation(FRotator(0.0f, -88.0f, -1.0f));
-				UpdateWeaponString(Arsenal[WeaponType::Rifle]->GetWeaponName());
-				Arsenal[WeaponType::Rifle]->UpdateMagString();
-				Arsenal[WeaponType::Rifle]->UpdateAmmoString();
-				UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
-				break;
-			}
-			case(WeaponType::Sniper):
-			{
-				//FPSMesh->SetSkeletalMesh(SniperMesh);
-				//FPSMesh->AddRelativeLocation(FVector(45.0f, 24.0f, -42.0f));
-				//FPSMesh->AddRelativeRotation(FRotator(0.0f, -90.0, 0.0f));
-				UpdateWeaponString(Arsenal[WeaponType::Sniper]->GetWeaponName());
-				Arsenal[WeaponType::Sniper]->UpdateMagString();
-				Arsenal[WeaponType::Sniper]->UpdateAmmoString();
-				UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
-				break;
-			}
-			case(WeaponType::RocketL):
-			{
-				//FPSMesh->SetSkeletalMesh(RocketLMesh);
-				//FPSMesh->AddRelativeLocation(FVector(180.0f, 29.0f, -128.0f));
-				//FPSMesh->AddRelativeRotation(FRotator(-85.0f, -73.0, 238.0f));
-				UpdateWeaponString(Arsenal[WeaponType::RocketL]->GetWeaponName());
-				Arsenal[WeaponType::RocketL]->UpdateMagString();
-				Arsenal[WeaponType::RocketL]->UpdateAmmoString();
-				UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
-				break;
-			}
-			case(WeaponType::FThrower):
-			{
-				//FPSMesh->SetSkeletalMesh(FThrowerMesh);
-				//FPSMesh->AddRelativeLocation(FVector(21.0f, 22.0f, -37.0f));
-				//FPSMesh->AddRelativeRotation(FRotator(-3.0f, -0.5, 0.0f));
-				UpdateWeaponString(Arsenal[WeaponType::FThrower]->GetWeaponName());
-				Arsenal[WeaponType::FThrower]->UpdateMagString();
-				Arsenal[WeaponType::FThrower]->UpdateAmmoString();
-				UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
-				break;
-			}
-		}
-		*/
 }
 
 void ASCMPlayerCharacter::UpdateWeaponString(FText Name)
@@ -379,67 +309,67 @@ void ASCMPlayerCharacter::StopSwitching()
 
 	switch (ActiveWeapon)
 	{
-	case(WeaponType::Special):
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Switched To Special"));
-		break;
-	}
+		case(WeaponType::Special):
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Switched To Special"));
+			break;
+		}
 
-	case(WeaponType::Shotgun):
-	{
-		//FPSMesh->SetSkeletalMesh(ShotgunMesh);
-		//FPSMesh->AddRelativeLocation(FVector(46.0f, -20.0f, -98.0f));
-		//FPSMesh->AddRelativeRotation(FRotator(4.0f, -86.0f, -50.0f));
-		UpdateWeaponString(Arsenal[WeaponType::Shotgun]->GetWeaponName());
-		Arsenal[WeaponType::Shotgun]->UpdateMagString();
-		Arsenal[WeaponType::Shotgun]->UpdateAmmoString();
-		UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
-		break;
-	}
-	case(WeaponType::Rifle):
-	{
-		//FPSMesh->SetSkeletalMesh(RifleMesh);
-		//FPSMesh->AddRelativeLocation(FVector(2.0f, 48.0f, -58.0f));
-		//FPSMesh->AddRelativeRotation(FRotator(0.0f, -88.0f, -1.0f));
-		UpdateWeaponString(Arsenal[WeaponType::Rifle]->GetWeaponName());
-		Arsenal[WeaponType::Rifle]->UpdateMagString();
-		Arsenal[WeaponType::Rifle]->UpdateAmmoString();
-		UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
-		break;
-	}
-	case(WeaponType::Sniper):
-	{
-		//FPSMesh->SetSkeletalMesh(SniperMesh);
-		//FPSMesh->AddRelativeLocation(FVector(45.0f, 24.0f, -42.0f));
-		//FPSMesh->AddRelativeRotation(FRotator(0.0f, -90.0, 0.0f));
-		UpdateWeaponString(Arsenal[WeaponType::Sniper]->GetWeaponName());
-		Arsenal[WeaponType::Sniper]->UpdateMagString();
-		Arsenal[WeaponType::Sniper]->UpdateAmmoString();
-		UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
-		break;
-	}
-	case(WeaponType::RocketL):
-	{
-		//FPSMesh->SetSkeletalMesh(RocketLMesh);
-		//FPSMesh->AddRelativeLocation(FVector(180.0f, 29.0f, -128.0f));
-		//FPSMesh->AddRelativeRotation(FRotator(-85.0f, -73.0, 238.0f));
-		UpdateWeaponString(Arsenal[WeaponType::RocketL]->GetWeaponName());
-		Arsenal[WeaponType::RocketL]->UpdateMagString();
-		Arsenal[WeaponType::RocketL]->UpdateAmmoString();
-		UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
-		break;
-	}
-	case(WeaponType::FThrower):
-	{
-		//FPSMesh->SetSkeletalMesh(FThrowerMesh);
-		//FPSMesh->AddRelativeLocation(FVector(21.0f, 22.0f, -37.0f));
-		//FPSMesh->AddRelativeRotation(FRotator(-3.0f, -0.5, 0.0f));
-		UpdateWeaponString(Arsenal[WeaponType::FThrower]->GetWeaponName());
-		Arsenal[WeaponType::FThrower]->UpdateMagString();
-		Arsenal[WeaponType::FThrower]->UpdateAmmoString();
-		UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
-		break;
-	}
+		case(WeaponType::Shotgun):
+		{
+			//FPSMesh->SetSkeletalMesh(ShotgunMesh);
+			//FPSMesh->AddRelativeLocation(FVector(46.0f, -20.0f, -98.0f));
+			//FPSMesh->AddRelativeRotation(FRotator(4.0f, -86.0f, -50.0f));
+			UpdateWeaponString(Arsenal[WeaponType::Shotgun]->GetWeaponName());
+			Arsenal[WeaponType::Shotgun]->UpdateMagString();
+			Arsenal[WeaponType::Shotgun]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
+			break;
+		}
+		case(WeaponType::Rifle):
+		{
+			//FPSMesh->SetSkeletalMesh(RifleMesh);
+			//FPSMesh->AddRelativeLocation(FVector(2.0f, 48.0f, -58.0f));
+			//FPSMesh->AddRelativeRotation(FRotator(0.0f, -88.0f, -1.0f));
+			UpdateWeaponString(Arsenal[WeaponType::Rifle]->GetWeaponName());
+			Arsenal[WeaponType::Rifle]->UpdateMagString();
+			Arsenal[WeaponType::Rifle]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
+			break;
+		}
+		case(WeaponType::Sniper):
+		{
+			//FPSMesh->SetSkeletalMesh(SniperMesh);
+			//FPSMesh->AddRelativeLocation(FVector(45.0f, 24.0f, -42.0f));
+			//FPSMesh->AddRelativeRotation(FRotator(0.0f, -90.0, 0.0f));
+			UpdateWeaponString(Arsenal[WeaponType::Sniper]->GetWeaponName());
+			Arsenal[WeaponType::Sniper]->UpdateMagString();
+			Arsenal[WeaponType::Sniper]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
+			break;
+		}
+		case(WeaponType::RocketL):
+		{
+			//FPSMesh->SetSkeletalMesh(RocketLMesh);
+			//FPSMesh->AddRelativeLocation(FVector(180.0f, 29.0f, -128.0f));
+			//FPSMesh->AddRelativeRotation(FRotator(-85.0f, -73.0, 238.0f));
+			UpdateWeaponString(Arsenal[WeaponType::RocketL]->GetWeaponName());
+			Arsenal[WeaponType::RocketL]->UpdateMagString();
+			Arsenal[WeaponType::RocketL]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
+			break;
+		}
+		case(WeaponType::FThrower):
+		{
+			//FPSMesh->SetSkeletalMesh(FThrowerMesh);
+			//FPSMesh->AddRelativeLocation(FVector(21.0f, 22.0f, -37.0f));
+			//FPSMesh->AddRelativeRotation(FRotator(-3.0f, -0.5, 0.0f));
+			UpdateWeaponString(Arsenal[WeaponType::FThrower]->GetWeaponName());
+			Arsenal[WeaponType::FThrower]->UpdateMagString();
+			Arsenal[WeaponType::FThrower]->UpdateAmmoString();
+			UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
+			break;
+		}
 	}
 
 
