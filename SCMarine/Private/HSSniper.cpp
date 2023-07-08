@@ -12,7 +12,7 @@ AHSSniper::AHSSniper()
 	FireRate = 1.5;
 	ReloadRate = 3.7f;
 	MaxAmmo = 50.0f;
-	CurrentAmmo = 10.0f;
+	CurrentAmmo = 0.0f;
 	MaxMag = 5;
 	CurrentMag = 5;
 	Name = FText::FromString("HEV 'COMMANDO' RIFLE");

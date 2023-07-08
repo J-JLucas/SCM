@@ -68,6 +68,7 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 
 	// Init Weapon objects
 	Arsenal.Init(nullptr, 8);
+	UnlockedGuns.Init(false, 8);
 
 	wMelee = nullptr;
 
@@ -124,8 +125,10 @@ void ASCMPlayerCharacter::BeginPlay()
 	//FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 
 	// Default Weapon
+	UnlockedGuns[WeaponType::Rifle] = true;
 	ActiveWeapon = WeaponType::Rifle;
 	SwitchWeapon(WeaponType::Rifle);
+	OnSwitchGunEvent();
 	
 	// Initialize PController
 	PController = GetWorld()->GetFirstPlayerController();
@@ -251,6 +254,7 @@ void ASCMPlayerCharacter::Fire()
 void ASCMPlayerCharacter::ReloadActiveWeapon()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Reload Input Recieved"));
+	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
 	Arsenal[ActiveWeapon]->ReloadWeapon(PossessedActor);
 }
 
@@ -259,7 +263,8 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 	// If gun is firing or reloading, can't switch!
 
 	//ASCMWeapon* CurGun = Arsenal[ActiveWeapon];
-
+	if (ActiveWeapon == NewWeapon) { return; };
+	if (UnlockedGuns[NewWeapon] == false) { return; }		// Player doesn't have gun
 	
 	bool result = Arsenal[ActiveWeapon]->GetAbleToSwitch();
 	if (result)
@@ -409,91 +414,83 @@ bool ASCMPlayerCharacter::HealPlayer(float Value)
 	}
 }
 
-bool ASCMPlayerCharacter::PickupAmmo(int32 AmmoType, int Amount)
+bool ASCMPlayerCharacter::PickupAmmo(WeaponType AmmoType, int Amount)
 {
+	bool Success;
 	switch (AmmoType)
 	{
 
 		case(WeaponType::Shotgun):
 		{
-
+			Success = Arsenal[WeaponType::Shotgun]->AddAmmo(Amount);
 			break;
 		}
 		case(WeaponType::Rifle):
 		{
-		
+			Success = Arsenal[WeaponType::Rifle]->AddAmmo(Amount);
 			break;
 		}
 		case(WeaponType::Sniper):
 		{
-		
+			Success = Arsenal[WeaponType::Sniper]->AddAmmo(Amount);
 			break;
 		}
 		case(WeaponType::RocketL):
 		{
-		
+			Success = Arsenal[WeaponType::RocketL]->AddAmmo(Amount);
 			break;
 		}
 		case(WeaponType::FThrower):
 		{
-		
+			Success = Arsenal[WeaponType::FThrower]->AddAmmo(Amount);
 			break;
 		}
 	}
-
-	if (true) 
-	{
-		return true; 
-	}
-	
-	
-	
-	else
-	{
-		return false;	// ammo already at max
-	}
+	Arsenal[ActiveWeapon]->UpdateAmmoString();
+	return Success;
 }
 
-void ASCMPlayerCharacter::PickupWeapon(int32 WeaponType)
+bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 {
+	bool Success;
+	int AmmoAmount = Amount;
+
 	switch (WeaponType)
 	{
 
 		case(WeaponType::Shotgun):
 		{
-			Arsenal[WeaponType::Shotgun]->UpdateMagString();
-			Arsenal[WeaponType::Shotgun]->UpdateAmmoString();
-			UE_LOG(LogTemp, Warning, TEXT("Switched To Shotgun"));
+			Success = Arsenal[WeaponType::Shotgun]->AddAmmo(AmmoAmount);
 			break;
 		}
 		case(WeaponType::Rifle):
 		{
-			Arsenal[WeaponType::Rifle]->UpdateMagString();
-			Arsenal[WeaponType::Rifle]->UpdateAmmoString();
-			UE_LOG(LogTemp, Warning, TEXT("Switched To GaussRifle"));
+			Success = Arsenal[WeaponType::Rifle]->AddAmmo(AmmoAmount);
 			break;
 		}
 		case(WeaponType::Sniper):
 		{
-			Arsenal[WeaponType::Sniper]->UpdateMagString();
-			Arsenal[WeaponType::Sniper]->UpdateAmmoString();
-			UE_LOG(LogTemp, Warning, TEXT("Switched To SniperRifle"));
+			if (UnlockedGuns[WeaponType] == false) { AmmoAmount = 0; }
+			Success = Arsenal[WeaponType::Sniper]->AddAmmo(AmmoAmount);
 			break;
 		}
 		case(WeaponType::RocketL):
 		{
-			Arsenal[WeaponType::RocketL]->UpdateMagString();
-			Arsenal[WeaponType::RocketL]->UpdateAmmoString();
-			UE_LOG(LogTemp, Warning, TEXT("Switched To RocketLauncher"));
+			if (UnlockedGuns[WeaponType] == false) { AmmoAmount = 0; }
+			Success = Arsenal[WeaponType::RocketL]->AddAmmo(AmmoAmount);
 			break;
 		}
 		case(WeaponType::FThrower):
 		{
-			Arsenal[WeaponType::FThrower]->UpdateMagString();
-			Arsenal[WeaponType::FThrower]->UpdateAmmoString();
-			UE_LOG(LogTemp, Warning, TEXT("Switched To FlameThrower"));
+			if (UnlockedGuns[WeaponType] == false) { AmmoAmount = 0; }
+			Success = Arsenal[WeaponType::FThrower]->AddAmmo(AmmoAmount);
 			break;
 		}
 	}
+
+	UnlockedGuns[WeaponType] = true;
+	Arsenal[ActiveWeapon]->UpdateAmmoString();
+	return Success;
+
 }
 

@@ -154,6 +154,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Weapons")
 	TArray<ASCMWeapon*> Arsenal;
 
+	UPROPERTY(EditAnywhere, Category = "Weapons")
+	TArray<bool> UnlockedGuns;
+
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TEnumAsByte<WeaponType> ActiveWeapon;
 
@@ -193,6 +196,6 @@ public:
 	class AActor* PossessedActor;
 
 	bool HealPlayer(float Value);
-	bool PickupAmmo(int32 AmmoType, int Amount);
-	void PickupWeapon(int32 WeaponType);
+	bool PickupAmmo(WeaponType AmmoType, int Amount);
+	bool PickupWeapon(WeaponType WeaponType, int Amount);
 };

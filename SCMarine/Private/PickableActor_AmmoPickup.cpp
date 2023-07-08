@@ -2,6 +2,7 @@
 
 
 #include "PickableActor_AmmoPickup.h"
+#include "SCMarine/SCMPlayerCharacter.h"
 
 void APickableActor_AmmoPickup::BeginPlay()
 {
@@ -10,5 +11,10 @@ void APickableActor_AmmoPickup::BeginPlay()
 
 void APickableActor_AmmoPickup::PlayerPickedUp(ASCMPlayerCharacter* PlayerChar)
 {
-	Super::PlayerPickedUp(PlayerChar);
+	bool Success = PlayerChar->PickupAmmo(AmmoType, AmmoAmount);
+	if (Success)
+	{
+		Super::PlayerPickedUp(PlayerChar);
+	}
 }
+

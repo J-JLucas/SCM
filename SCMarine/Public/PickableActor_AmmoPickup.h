@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PickableActor_Base.h"
+#include "SCMWeapon.h"
 #include "PickableActor_AmmoPickup.generated.h"
 
 /**
@@ -21,9 +22,9 @@ protected:
 public:
 
 	UPROPERTY(EditAnywhere, Category = AmmoCollectable)
-	int32 AmmoType{ 3 };
+	TEnumAsByte<WeaponType> AmmoType;
 
 	UPROPERTY(EditAnywhere, Category = AmmoCollectable)
-	float AmmoAmount{20};
+	int AmmoAmount{20};
 
 };

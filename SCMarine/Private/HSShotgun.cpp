@@ -19,7 +19,7 @@ AHSShotgun::AHSShotgun()
 	FireRate = 0.35f;
 	ReloadRate = 2.8f;
 	MaxAmmo = 100.0f;
-	CurrentAmmo = 18.0f;
+	CurrentAmmo = 0.0f;
 	MaxMag = 9;
 	CurrentMag = 9;
 	Name = FText::FromString("'HELLFIRE' SHOTGUN");

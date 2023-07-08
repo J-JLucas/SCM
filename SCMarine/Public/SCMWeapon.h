@@ -102,8 +102,9 @@ public:
 	FORCEINLINE float GetMaxMag() const { return MaxMag; }
 	FORCEINLINE float GetCurrentMag() const { return CurrentMag; }
 	FORCEINLINE FText GetWeaponName() const { return Name; }
+
+	FORCEINLINE bool GetIsReloading() const { return bIsReloading; }
 	
-	//bool GetCanSwitchWeapon();
 	void UpdateMagString();
 	void UpdateAmmoString();
 };

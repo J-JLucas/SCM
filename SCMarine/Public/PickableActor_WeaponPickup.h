@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PickableActor_Base.h"
+#include "SCMWeapon.h"
 #include "PickableActor_WeaponPickup.generated.h"
 
 /**
@@ -21,5 +22,8 @@ protected:
 public:
 
 	UPROPERTY(EditAnywhere, Category = WeaponCollectable)
-	int32 WeaponType {3};
+	TEnumAsByte<WeaponType> GunType;
+
+	UPROPERTY(EditAnywhere, Category = WeaponCollectable)
+	int AmmoAmount{ 10 };
 };
