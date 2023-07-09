@@ -7,8 +7,7 @@ APRocketLauncher::APRocketLauncher()
 	:Super()
 {
 	// Find the blueprint class reference for ASCMProjectile
-	//static ConstructorHelpers::FObjectFinder<UClass> ProjectileBlueprint(TEXT("/Game/Blueprints/Guns/BP_RocketPrj.BP_RocketPrj_C"));
-	static ConstructorHelpers::FObjectFinder<UClass> ProjectileBlueprint(TEXT("/Game/Blueprints/Guns/BP_BloodProjectile.BP_BloodProjectile_C"));
+	static ConstructorHelpers::FObjectFinder<UClass> ProjectileBlueprint(TEXT("/Game/Blueprints/Guns/BP_RocketPrj.BP_RocketPrj_C"));
 	if (ProjectileBlueprint.Object)
 	{
 		SCMProjectileClass = ProjectileBlueprint.Object;

@@ -51,5 +51,5 @@ public:
 	FORCEINLINE bool GetIsDead() const { return bIsDead; }
 
 	FORCEINLINE float GetHealthPercent() const { return (Health / MaxHealth); }
-		
+
 };

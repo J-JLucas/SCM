@@ -64,4 +64,10 @@ public:
 	void OnTakeDamage_Implementation();
 
 
+	// Removed due to horrible performance,
+	// Decals are bad, need to learn about 
+	// RVT (runtime virtual texture) or render target capture to "paint" directly to the texture of a model 
+	//UFUNCTION(BlueprintImplementableEvent, Category = GFX)
+	//void SpawnBloodEffectEvent(FVector HitLocation, FVector HitNormal);
+
 };

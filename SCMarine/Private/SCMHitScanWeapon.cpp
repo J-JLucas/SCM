@@ -83,17 +83,11 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
-
-
-			// spawn blood decal decal
-			//FVector DecalRotationVec = (Hit.ImpactNormal);
-			//DecalRotationVec.Normalize();
-			//FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(DecalRotationVec) * -1.0f;
-			//USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
-
-//			float LifeSpan = 10.0f;
-	//		UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(BloodDecal, FVector(9.0f, 9.0f, 9.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan);
-	//		BulletDecal->SetFadeScreenSize(0.0f);
+			
+			// Removed due to horrible performance,
+			// Decals are bad, need to learn about 
+			// RVT (runtime virtual texture) or render target capture to "paint" directly to the texture of a model 
+			//Enemy->SpawnBloodEffectEvent(Hit.ImpactPoint, Hit.ImpactNormal);
 		}
 		else
 		{
