@@ -12,7 +12,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/SkeletalMesh.h"
 #include "Public/SCMWeapon.h"
-#include "Public/HSPistol.h"
 #include "Public/HSShotgun.h"
 #include "Public/HSRifle.h"
 #include "Public/HSSniper.h"
