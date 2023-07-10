@@ -56,7 +56,6 @@ void APickableActor_Base::BeginOverlap(UPrimitiveComponent* OverlappedComp,
 	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(OtherActor);
 	if (PlayerChar)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("PlayerOverlap w/ Crate"));
 		PlayerPickedUp(PlayerChar);
 	}
 }
