@@ -41,7 +41,10 @@ protected:
 	// Melee Attack Collision Boxes
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackCollision")
 	class UCapsuleComponent* AttackCollisionRight = nullptr;
-
+	
+	// Flipped when enemy spots player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vision")
+	bool bPlayerSpotted = false;
 
 public:	
 	// Called every frame

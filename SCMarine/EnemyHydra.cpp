@@ -40,7 +40,7 @@ void AEnemyHydra::HydraRangedAttack()
 	// Spawn new SlimeProjectile
 	ASCMProjectile* Projectile = GetWorld()->SpawnActorDeferred<ASCMProjectile>(SCMProjectileClass, SpawnTransform);
 
-	Projectile->GetProjectileMovementComponent()->InitialSpeed = 2500.f;
+	Projectile->GetProjectileMovementComponent()->InitialSpeed = 3000.f;
 	Projectile->FinishSpawning(SpawnTransform);
 
 }

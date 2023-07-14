@@ -62,6 +62,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_SwitchFT;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* IA_Flashlight;
+
 public:
 	// Sets default values for this character's properties
 	ASCMPlayerCharacter();
@@ -77,6 +80,14 @@ protected:
 
 	/** Called for look input */
 	void Look(const FInputActionValue& Value);	
+
+	// flashlight
+	UPROPERTY(EditAnywhere, Category = Flashlight)
+	class USpotLightComponent* Flashlight;
+	UPROPERTY(EditAnywhere, Category = Flashlight)
+	class USoundBase* FlashlightClickSound;
+	bool FlashlightOn = false;
+	void ActivateFlashlight();
 
 	// Fire gun
 	void Fire();

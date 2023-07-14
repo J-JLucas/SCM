@@ -18,6 +18,7 @@
 #include "Public/PRocketLauncher.h"
 #include "Public/PFlameThrower.h"
 #include "SCMarine/SCMarinePlayerController.h"
+#include "Components/SpotLightComponent.h"
 #include "TimerManager.h"
 
 
@@ -78,6 +79,17 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	wSniperPlayer = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
 	wRocketLPlayer = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
 	wFThrowerPlayer = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
+
+	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Flashlight"));
+	Flashlight->SetupAttachment(FPSCameraComponent);
+	Flashlight->SetRelativeLocation(FVector(16.0f, 0.0f, -9.0f));
+	Flashlight->SetIntensity(0.0f);
+	Flashlight->SetAttenuationRadius(6000.0f);
+	Flashlight->SetOuterConeAngle(20.f);
+	Flashlight->SetUseTemperature(true);
+	Flashlight->SetTemperature(3500.0f);
+	Flashlight->SetUseInverseSquaredFalloff(false);
+	Flashlight->SetLightFalloffExponent(15.0f);
 		
 }
 
@@ -101,6 +113,7 @@ void ASCMPlayerCharacter::BeginPlay()
 			Subsystem->AddMappingContext(IC_PlayerChar, 1);
 		}
 	}
+
 	// Initialize Weapons ... need to manually BeginPlay() because
 	// they aren't instantiated in the world?
 	// Load meshes and insert into Arsenal TArray
@@ -165,6 +178,9 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		//Jump
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::Jump);
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ASCMPlayerCharacter::StopJumping);
+
+		//Flashlight
+		EnhancedInputComponent->BindAction(IA_Flashlight, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::ActivateFlashlight);
 	
 		//Switch Weapons
 		//EnhancedInputComponent->BindAction(IA_SwitchSpecial, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::SwitchWeapon, WeaponType::Special);
@@ -187,6 +203,24 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void ASCMPlayerCharacter::ActivateFlashlight()
+{
+	if (FlashlightOn)
+		{
+		//turn off flashlight
+		Flashlight->SetIntensity(0.0f);
+		FlashlightOn = false;
+		UGameplayStatics::PlaySoundAtLocation(this, FlashlightClickSound, GetActorLocation(), 1.0f, 1.0f);
+		}
+	else
+	{
+		//turn on flashlight
+		Flashlight->SetIntensity(25.0f);
+		FlashlightOn = true;
+		UGameplayStatics::PlaySoundAtLocation(this, FlashlightClickSound, GetActorLocation(), 1.0f, 1.0f);
 	}
 }
 
