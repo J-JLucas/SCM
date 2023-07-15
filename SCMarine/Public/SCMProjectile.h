@@ -50,6 +50,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Particles)
 	class UParticleSystem* FlyingParticles;
 
+	UPROPERTY(EditAnywhere, Category = Impulse)
+	float ImpulseStrength = 0.0f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

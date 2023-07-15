@@ -9,6 +9,7 @@
 #include "Components/DecalComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Components/PrimitiveComponent.h"
 
 void ASCMHitScanWeapon::SetImpactDecal(FString Path)
 {
@@ -82,6 +83,7 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			FVector HitFromDirection = (Start - End).GetSafeNormal();
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
+			//Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 			
 			// Removed due to horrible performance,

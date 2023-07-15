@@ -14,14 +14,14 @@ AEnemyInfestedMarine::AEnemyInfestedMarine()
 
 }
 
-void AEnemyInfestedMarine::IMRangedAttack()
+void AEnemyInfestedMarine::IMRangedAttack(FRotator TargetAngle)
 {
 	float SpawnDistance = 200.f;
 	float Range = 5000.0f;
 	float ShotCount = 3.0f;
 	FVector ForwardVector = GetActorForwardVector();
 	FVector SpawnLocation = GetActorLocation() + (ForwardVector * SpawnDistance);	//line trace starts 200 points forward
-	FRotator SpawnRotation = GetActorRotation();
+	FRotator SpawnRotation = TargetAngle;
 	UWorld* World = GetWorld();
 	FHitResult Hit;
 	
@@ -33,10 +33,10 @@ void AEnemyInfestedMarine::IMRangedAttack()
 	for (int32 i = 0; i < ShotCount; i++) {
 
 		FRotator RandomRotation = FRotator(FMath::RandRange(-MaxPitchDeviation, MaxPitchDeviation), FMath::RandRange(-MaxYawDeviation, MaxYawDeviation), 0.0f);
-		RandomRotation += SpawnRotation;
+		SpawnRotation += RandomRotation;
 
 		FVector Start = SpawnLocation;
-		FVector End = Start + (RandomRotation.Vector() * Range);
+		FVector End = Start + (SpawnRotation.Vector() * Range);
 
 		FCollisionQueryParams TraceParams;
 		TraceParams.AddIgnoredActor(this);		// don't shoot self LOL
@@ -56,7 +56,7 @@ void AEnemyInfestedMarine::IMRangedAttack()
 				FVector HitFromDirection = (Start - End).GetSafeNormal();
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Player");
 				UGameplayStatics::ApplyPointDamage(Player, Damage, HitFromDirection, Hit, GetController(), this, nullptr);
-
+				Player->LaunchCharacter(-HitFromDirection * ImpulseStrength, true, true);
 			}
 		}
 	}

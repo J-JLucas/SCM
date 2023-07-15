@@ -29,5 +29,5 @@ public:
 	AEnemyHydra();
 
 	UFUNCTION(BlueprintCallable, Category = Attack)
-	void HydraRangedAttack();
+	void HydraRangedAttack(FRotator TargetAngle);
 };

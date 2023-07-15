@@ -5,6 +5,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "SCMarine/SCMPlayerCharacter.h"
 
+ASCMProjectileHydra::ASCMProjectileHydra()
+	:Super()
+{
+	ImpulseStrength = 1000.0f;
+}
+
 void ASCMProjectileHydra::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (ImpactSound)
@@ -17,8 +23,14 @@ void ASCMProjectileHydra::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 
 	if (Player)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit a Player");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit a Player");
+		FVector ImpulseDirection = GetActorLocation() - OtherActor->GetActorLocation();
+		ImpulseDirection.Normalize();
+
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, GetInstigatorController(), this, nullptr);
+		Player->LaunchCharacter(-ImpulseDirection * ImpulseStrength, true, true);
+
+
 		if (DamageSound)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, DamageSound, GetActorLocation(), 1.0f, FMath::RandRange(0.9f, 1.1f), 0.0f);

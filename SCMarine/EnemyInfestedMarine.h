@@ -19,6 +19,9 @@ public:
 	
 	AEnemyInfestedMarine();
 
+	UPROPERTY(EditAnywhere, Category = Impulse)
+	float ImpulseStrength = 500.0f;
+
 	UFUNCTION(BlueprintCallable, Category = Attack)
-	void IMRangedAttack();
+	void IMRangedAttack(FRotator TargetAngle);
 };

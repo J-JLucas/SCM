@@ -24,7 +24,7 @@ AEnemyHydra::AEnemyHydra()
 
 }
 
-void AEnemyHydra::HydraRangedAttack()
+void AEnemyHydra::HydraRangedAttack(FRotator TargetAngle)
 {
 
 	FVector ForwardVector = GetActorForwardVector();
@@ -33,14 +33,15 @@ void AEnemyHydra::HydraRangedAttack()
 	SpawnLocation.Z += 80.0f;
 
 	// Calculate the tilt angle in degrees
-	float TiltAngle = -5.0f; // Adjust this value to control the amount of tilt
-	FRotator SpawnRotation = GetActorRotation() + FRotator(TiltAngle, 0.0f, 0.0f);
-	FTransform SpawnTransform(SpawnRotation, SpawnLocation);
+	//float TiltAngle = -5.0f; // Adjust this value to control the amount of tilt
+	//float TiltAngle = 0.0f; // Adjust this value to control the amount of tilt
+	//FRotator SpawnRotation = GetActorRotation() + FRotator(TiltAngle, 0.0f, 0.0f);
+	FTransform SpawnTransform(TargetAngle, SpawnLocation);
 
 	// Spawn new SlimeProjectile
 	ASCMProjectile* Projectile = GetWorld()->SpawnActorDeferred<ASCMProjectile>(SCMProjectileClass, SpawnTransform);
 
-	Projectile->GetProjectileMovementComponent()->InitialSpeed = 3000.f;
+	Projectile->GetProjectileMovementComponent()->InitialSpeed = 4500.f;
 	Projectile->FinishSpawning(SpawnTransform);
 
 }

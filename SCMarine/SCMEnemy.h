@@ -22,6 +22,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Pawnsense
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	class UPawnSensingComponent* PawnSenseComp;
+
 	// Health 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
 	class UHealthComponent* HealthComponent;
