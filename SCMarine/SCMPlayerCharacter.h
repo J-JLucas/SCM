@@ -97,7 +97,6 @@ protected:
 
 	// Switch active weapon
 	void SwitchWeapon(WeaponType NewWeapon);
-
 	void UpdateWeaponString(FText Name);
 
 	// Player Health
@@ -107,7 +106,7 @@ protected:
 	virtual void StartSwitching();
 	virtual void StopSwitching();
 	bool bIsSwitching = false;
-	float SwitchDelay = 0.5f;
+	float SwitchDelay = 0.3f;
 
 
 public:	

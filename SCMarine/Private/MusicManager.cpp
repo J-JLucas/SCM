@@ -11,6 +11,7 @@ AMusicManager::AMusicManager()
 	PrimaryActorTick.bCanEverTick = false;
 
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Music Component"));
+	
 }
 
 // Called when the game starts or when spawned

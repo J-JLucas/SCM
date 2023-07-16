@@ -7,6 +7,16 @@
 #include "SCMarine/SCMarinePlayerController.h"
 
 
+
+/*
+UGameMenu::UGameMenu(const FObjectInitializer& ObjectInitializer)
+	:Super(ObjectInitializer)
+{
+	
+}
+*/
+
+
 void UGameMenu::OnPauseClicked()
 // Pause Gameplay
 {
@@ -52,6 +62,9 @@ void UGameMenu::OnReturnClicked()
 	ASCMarinePlayerController* PlayerController = Cast<ASCMarinePlayerController>(GetOwningPlayer());
 	if (PlayerController)
 	{
+		//PlayerController->SetInputMode(FInputModeGameOnly());
+		//PlayerController->GetPawn()->EnableInput(PlayerController);
+		//PlayerController->bShowMouseCursor = false;
 		PlayerController->HideGameMenu();
 	}
 }
@@ -59,7 +72,7 @@ void UGameMenu::OnReturnClicked()
 void UGameMenu::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	
+
 
 	// Bind all the functions to the button clicks
 	if (PauseButton)

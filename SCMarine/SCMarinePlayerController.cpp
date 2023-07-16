@@ -8,6 +8,7 @@
 #include "InputCoreTypes.h"
 #include "HealthComponent.h"
 #include "Public/HUDWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 void ASCMarinePlayerController::BeginPlay()
 {
@@ -44,6 +45,7 @@ void ASCMarinePlayerController::SetupInputComponent()
     if (EnhancedInputComponent)
     {
         EnhancedInputComponent->BindAction(IA_GameMenu, ETriggerEvent::Triggered, this, &ASCMarinePlayerController::ShowGameMenu);
+
         if (InputComponent == nullptr)
         {
             UE_LOG(LogTemp, Warning, TEXT("Bind Action Null"));
@@ -56,8 +58,15 @@ void ASCMarinePlayerController::ShowGameMenu()
     UE_LOG(LogTemp, Warning, TEXT("Menu input received!"));
     if (BP_GameMenu)
     {
-        SetInputMode(FInputModeUIOnly());
-        bShowMouseCursor = true;
+
+        if (GameMenu) 
+        { 
+
+            HideGameMenu();
+            UE_LOG(LogTemp, Error, TEXT("Game Menu Already Exists, exit menu."));
+            return;
+
+        }
 
         if (!GameMenu)
         {
@@ -65,6 +74,9 @@ void ASCMarinePlayerController::ShowGameMenu()
             if (GameMenu)
             {
                 GameMenu->AddToViewport();
+                GetPawn()->DisableInput(this);
+                SetInputMode(FInputModeGameAndUI());
+                bShowMouseCursor = true;
                 UE_LOG(LogTemp, Warning, TEXT("Game Menu created and added to viewport."));
             }
             else
@@ -77,12 +89,14 @@ void ASCMarinePlayerController::ShowGameMenu()
 
 void ASCMarinePlayerController::HideGameMenu()
 {
+    UE_LOG(LogTemp, Error, TEXT("Hiding Game Menu."));
 	GameMenu->RemoveFromParent();	// "unDraw"
 	GameMenu->Destruct();			// kill
+    GetPawn()->EnableInput(this);
+    SetInputMode(FInputModeGameOnly());
+    bShowMouseCursor = false;
 	GameMenu = nullptr;
 
-	SetInputMode(FInputModeGameOnly());
-	bShowMouseCursor = false;
 }
 
 void ASCMarinePlayerController::UpdateHealthPercent(float HealthPercent)
@@ -115,4 +129,29 @@ void ASCMarinePlayerController::UpdateAmmoCount(float Count)
     {
         HUDWidget->UpdateAmmoTotal(Count);
     }
+}
+
+void ASCMarinePlayerController::ArmRestartLevel()
+// Player is dead, bind leftclick to restart level on death
+{
+    UEnhancedInputComponent* EnhancedInputComponent = FindComponentByClass<UEnhancedInputComponent>();
+    if (EnhancedInputComponent)
+    {
+        EnhancedInputComponent->BindAction(IA_RestartLevel, ETriggerEvent::Triggered, this, &ASCMarinePlayerController::RestartLevel);
+
+        if (InputComponent == nullptr)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("Bind Action Null"));
+        }
+        else
+        {
+            UE_LOG(LogTemp, Warning, TEXT("Restart Armed"));
+        }
+    }
+
+}
+
+void ASCMarinePlayerController::RestartLevel()
+{
+    UGameplayStatics::OpenLevel(this, FName(*UGameplayStatics::GetCurrentLevelName(this)));
 }

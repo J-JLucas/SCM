@@ -14,22 +14,25 @@ class SCMARINE_API UGameMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	//UGameMenu(const FObjectInitializer& ObjectInitializer);
+
 protected:
 
 	UFUNCTION()
-	void OnPauseClicked();
+		void OnPauseClicked();
 
 	UFUNCTION()
-	void OnControlsClicked();
+		void OnControlsClicked();
 
 	UFUNCTION()
-	void OnRestartClicked();
+		void OnRestartClicked();
 
 	UFUNCTION()
-	void OnExitClicked();
+		void OnExitClicked();
 
-	UFUNCTION()
-	void OnReturnClicked();
+	UFUNCTION(BlueprintCallable)
+		void OnReturnClicked();
 
 public:
 	

@@ -39,7 +39,6 @@ void AVictoryBox::Tick(float DeltaTime)
 
 void AVictoryBox::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Player Overlapped With VictoryBox"));
 	if (Cast<ASCMPlayerCharacter>(OtherActor))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Quittin Time!"));

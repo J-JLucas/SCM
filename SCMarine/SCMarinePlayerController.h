@@ -34,11 +34,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* IA_GameMenu;
 
+	/** OnDeath Restart Level */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* IA_RestartLevel;
+
 public:
 
 	UPROPERTY(EditDefaultsOnly);
 	TSubclassOf<class UGameMenu> BP_GameMenu;
-
 
 	void ShowGameMenu();
 	void HideGameMenu();
@@ -50,5 +53,9 @@ public:
 	void UpdateActiveWeaponName(FText name);
 	void UpdateMagCount(float Count);
 	void UpdateAmmoCount(float Count);
+
+	UFUNCTION(BlueprintCallable)
+	void ArmRestartLevel();
+	void RestartLevel();
 
 };
