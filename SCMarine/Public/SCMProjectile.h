@@ -41,11 +41,11 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Sound)
 	class USoundBase* DamageSound;
 
-	//UPROPERTY(EditAnywhere, Category = Sound)
-	//	class USoundAttenuation* BounceSoundAttenuation;
-
 	UPROPERTY(EditAnywhere, Category = Particles)
 	class UParticleSystem* HitParticles;
+
+	UPROPERTY(EditDefaultsOnly, Category = Particles)
+	class UNiagaraSystem* HitSystem;
 
 	UPROPERTY(EditAnywhere, Category = Particles)
 	class UParticleSystem* FlyingParticles;

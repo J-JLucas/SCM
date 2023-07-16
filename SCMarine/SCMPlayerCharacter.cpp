@@ -208,6 +208,7 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 
 void ASCMPlayerCharacter::ActivateFlashlight()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Flashlight input received!"));
 	if (FlashlightOn)
 		{
 		//turn off flashlight

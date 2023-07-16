@@ -180,12 +180,13 @@ void ASCMWeapon::UpdateAmmoString()
 	return;
 }
 
-
+/*
 void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 {
 	if (Gunshot)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, FMath::RandRange(0.9f, 1.0f));
+		UE_LOG(LogTemp, Warning, TEXT("Played Gunshot"));
 	}
 	else
 	{
@@ -193,6 +194,7 @@ void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
 	}
 	return;
 }
+*/
 
 /*
 bool ASCMWeapon::GetAbleToSwitch()

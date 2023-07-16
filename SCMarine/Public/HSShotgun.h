@@ -21,7 +21,8 @@ public:
 	virtual void BeginPlay() override;
 
 	// Path to gunshot sfx, must call SetGunshotSFX(GunshotPath) in constructor
-	FString GunshotPath = R"('/Game/Models/Guns/3_HellfireShotgun/SFX/Hellfire_ShotgunFIRE_02.Hellfire_ShotgunFIRE_02')";
+	//FString GunshotPath = R"('/Game/Models/Guns/3_HellfireShotgun/SFX/SGFireNickMix.SGFireNickMix')";
+	FString GunshotPath = R"('/Game/Models/Guns/3_HellfireShotgun/SFX/SGFireNickMix.SGFireNickMix')";
 	FString ImpactDecalPath = R"('/Game/Decals/bullet_hole_1_Mat.bullet_hole_1_Mat')";
 	FString BloodEffectPath = R"('/Game/Decals/NS_BloodEffect.NS_BloodEffect')";
 

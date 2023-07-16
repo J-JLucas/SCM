@@ -113,7 +113,7 @@ void ASCMHitScanWeapon::PrimaryFire(APlayerController* PController, AActor* Poss
 		Super::PrimaryFire(PController, PossessedActor);
 		StartFiring();
 		PlayFireAnimation(PossessedActor);
-		PlayGunshotSFX(PossessedActor);
+		//PlayGunshotSFX(PossessedActor);
 		TraceForward(PController, PossessedActor);
 	}
 }

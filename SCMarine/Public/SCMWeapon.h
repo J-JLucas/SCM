@@ -86,7 +86,7 @@ public:
 	FORCEINLINE bool GetAbleToSwitch() { return bCanSwitchWeapons; }
 	void SetAbleToSwitch(bool Status);
 
-	void PlayGunshotSFX(AActor* PossessedActor);
+	//void PlayGunshotSFX(AActor* PossessedActor);
 	void SetGunshotSFX(FString Path);
 	void PlayFireAnimation(AActor* PossessedActor);
 

@@ -13,7 +13,7 @@ void ASCMProjectileWeapon::PrimaryFire(APlayerController* PController, AActor* P
 	{
 		Super::PrimaryFire(PController, PossessedActor);
 		StartFiring();
-		PlayGunshotSFX(PossessedActor);
+		//PlayGunshotSFX(PossessedActor);
 		PlayFireAnimation(PossessedActor);
 		if (!SCMProjectileClass)
 		{

@@ -6,7 +6,7 @@
 AHSRifle::AHSRifle()
 	:Super()
 {
-	SetGunshotSFX(GunshotPath);
+	//SetGunshotSFX(GunshotPath);
 	SetImpactDecal(ImpactDecalPath);
 	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.08f;

@@ -13,7 +13,7 @@
 
 AHSShotgun::AHSShotgun()
 {
-	SetGunshotSFX(GunshotPath);
+//	SetGunshotSFX(GunshotPath);
 	SetImpactDecal(ImpactDecalPath);
 	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.35f;
@@ -51,7 +51,7 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 		CurrentMag--;
 		UpdateMagString();
 		PlayFireAnimation(PossessedActor);
-		PlayGunshotSFX(PossessedActor);
+		//PlayGunshotSFX(PossessedActor);
 
 		// fire ShotCount Pellets (algie from ChatGPT based off of quake sourcecode)
 		for (int32 i = 0; i < ShotCount; i++)

@@ -4,6 +4,8 @@
 #include "SCMProjectileHydra.h"
 #include "Kismet/GameplayStatics.h"
 #include "SCMarine/SCMPlayerCharacter.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 ASCMProjectileHydra::ASCMProjectileHydra()
 	:Super()
@@ -37,11 +39,12 @@ void ASCMProjectileHydra::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 		}
 	}
 
-	if (HitParticles && Player)
+	if (HitSystem)
 	{
 		//FVector Location = FVector::ZeroVector;;
 		FRotator Rotation = FRotator::ZeroRotator;;
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorLocation(), Rotation, true);
+		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorLocation(), Rotation, true);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), HitSystem, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 	}
 
 	Destroy();
