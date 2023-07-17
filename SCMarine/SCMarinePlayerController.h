@@ -22,6 +22,9 @@ private:
 	UPROPERTY()
 	class UHUDWidget* HUDWidget;
 
+	UPROPERTY()
+	class UVictoryHUD* VictoryHUD;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -45,9 +48,14 @@ public:
 
 	void ShowGameMenu();
 	void HideGameMenu();
+	UFUNCTION(BlueprintCallable)
+	void HidePlayerHud();
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UHUDWidget> BP_PlayerHUD;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UVictoryHUD> BP_VictoryHUD;
 
 	void UpdateHealthPercent(float HealthPercent);
 	void UpdateActiveWeaponName(FText name);
@@ -57,5 +65,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ArmRestartLevel();
 	void RestartLevel();
+
+	UFUNCTION(BlueprintCallable)
+	void ShowVictoryScreen();
 
 };

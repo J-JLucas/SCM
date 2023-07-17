@@ -8,6 +8,7 @@
 #include "InputCoreTypes.h"
 #include "HealthComponent.h"
 #include "Public/HUDWidget.h"
+#include "Public/VictoryHUD.h"
 #include "Kismet/GameplayStatics.h"
 
 void ASCMarinePlayerController::BeginPlay()
@@ -99,6 +100,15 @@ void ASCMarinePlayerController::HideGameMenu()
 
 }
 
+void ASCMarinePlayerController::HidePlayerHud()
+{
+    if (HUDWidget)
+    {
+        HUDWidget->RemoveFromParent();	// "unDraw"
+        HUDWidget->Destruct();			// kill
+    }
+}
+
 void ASCMarinePlayerController::UpdateHealthPercent(float HealthPercent)
 {
     if (HUDWidget)
@@ -154,4 +164,13 @@ void ASCMarinePlayerController::ArmRestartLevel()
 void ASCMarinePlayerController::RestartLevel()
 {
     UGameplayStatics::OpenLevel(this, FName(*UGameplayStatics::GetCurrentLevelName(this)));
+}
+
+void ASCMarinePlayerController::ShowVictoryScreen()
+{
+    if (BP_VictoryHUD)
+    {
+        VictoryHUD = CreateWidget<UVictoryHUD>(this, BP_VictoryHUD);
+        VictoryHUD->AddToViewport();
+    }
 }

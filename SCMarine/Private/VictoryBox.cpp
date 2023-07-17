@@ -42,7 +42,7 @@ void AVictoryBox::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	if (Cast<ASCMPlayerCharacter>(OtherActor))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Quittin Time!"));
-		UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
+		//UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
 }
 

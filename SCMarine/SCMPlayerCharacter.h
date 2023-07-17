@@ -117,7 +117,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// FPS camera
-	UPROPERTY(VisibleAnywhere)
+	//UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	UCameraComponent* FPSCameraComponent;
 
 	// FPS mesh (arms); visible only to owning player
@@ -129,6 +130,7 @@ public:
 	class UHealthComponent* HealthComponent;
 
 	virtual void OnDeath_Implementation() override;
+
 	virtual void OnTakeDamage_Implementation() override;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Animation)
