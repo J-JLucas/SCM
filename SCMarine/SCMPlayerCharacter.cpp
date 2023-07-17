@@ -75,11 +75,11 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 
 	wMelee = nullptr;
 
-	wShotgunPlayer = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
-	wRiflePlayer = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
-	wSniperPlayer = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
-	wRocketLPlayer = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
-	wFThrowerPlayer = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
+	ShotgunPlayer = CreateDefaultSubobject<AHSShotgun>(TEXT("PlayerShotgun"));
+	RiflePlayer = CreateDefaultSubobject<AHSRifle>(TEXT("PlayerRifle"));
+	SniperPlayer = CreateDefaultSubobject<AHSSniper>(TEXT("PlayerSniper"));
+	RocketLPlayer = CreateDefaultSubobject<APRocketLauncher>(TEXT("PlayerRocketLauncher"));
+	FThrowerPlayer = CreateDefaultSubobject<APFlameThrower>(TEXT("PlayerFlameThrower"));
 
 	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Flashlight"));
 	Flashlight->SetupAttachment(FPSCameraComponent);
@@ -119,24 +119,24 @@ void ASCMPlayerCharacter::BeginPlay()
 	// they aren't instantiated in the world?
 	// Load meshes and insert into Arsenal TArray
 	
-	wShotgunPlayer->BeginPlay();
-	Arsenal.Insert(wShotgunPlayer, WeaponType::Shotgun);
+	ShotgunPlayer->BeginPlay();
+	Arsenal.Insert(ShotgunPlayer, WeaponType::Shotgun);
 	//ShotgunMesh = LoadObject<USkeletalMesh>(nullptr, *ShotgunMeshPath);
 
-	wRiflePlayer->BeginPlay();
-	Arsenal.Insert(wRiflePlayer, WeaponType::Rifle);
+	RiflePlayer->BeginPlay();
+	Arsenal.Insert(RiflePlayer, WeaponType::Rifle);
 	//RifleMesh = LoadObject<USkeletalMesh>(nullptr, *RifleMeshPath);
 
-	wSniperPlayer->BeginPlay();
-	Arsenal.Insert(wSniperPlayer, WeaponType::Sniper);
+	SniperPlayer->BeginPlay();
+	Arsenal.Insert(SniperPlayer, WeaponType::Sniper);
 	//SniperMesh = LoadObject<USkeletalMesh>(nullptr, *SniperMeshPath);
 	
-	wRocketLPlayer->BeginPlay();
-	Arsenal.Insert(wRocketLPlayer, WeaponType::RocketL);
+	RocketLPlayer->BeginPlay();
+	Arsenal.Insert(RocketLPlayer, WeaponType::RocketL);
 	//RocketLMesh = LoadObject<USkeletalMesh>(nullptr, *RocketLMeshPath);
 
-	wFThrowerPlayer->BeginPlay();
-	Arsenal.Insert(wFThrowerPlayer, WeaponType::FThrower);
+	FThrowerPlayer->BeginPlay();
+	Arsenal.Insert(FThrowerPlayer, WeaponType::FThrower);
 	//FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 
 	// Default Weapon

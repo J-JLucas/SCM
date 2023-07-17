@@ -159,27 +159,27 @@ public:
 	class AHSRifle* wMelee;
 	
 	UPROPERTY(VisibleAnywhere)
-	class AHSShotgun* wShotgunPlayer;
+	class AHSShotgun* ShotgunPlayer;
 	USkeletalMesh* ShotgunMesh;
 	FString ShotgunMeshPath = R"('/Game/Models/Guns/3_Shotgun/Shotgun_SkMesh.Shotgun_SkMesh')";
 
 	UPROPERTY(Instanced, BlueprintReadOnly, Category = "Guns")
-	class AHSRifle* wRiflePlayer;
+	class AHSRifle* RiflePlayer;
 	USkeletalMesh* RifleMesh;
 	FString RifleMeshPath = R"('/Game/Models/Guns/4_GaussRifle/GaussRifleFinal.GaussRifleFinal')";
 	
 	UPROPERTY(VisibleAnywhere)
-	class AHSSniper* wSniperPlayer;
+	class AHSSniper* SniperPlayer;
 	USkeletalMesh* SniperMesh;
 	FString SniperMeshPath = R"('/Game/Models/Guns/5_SniperRifle/SniperRifle.SniperRifle')";
 
 	UPROPERTY(VisibleAnywhere)
-	class APRocketLauncher* wRocketLPlayer;
+	class APRocketLauncher* RocketLPlayer;
 	USkeletalMesh* RocketLMesh;
 	FString RocketLMeshPath = R"('/Game/Models/Guns/6_RocketLauncher/Marauder_Gun.Marauder_Gun')";
 
 	UPROPERTY(VisibleAnywhere)
-	class APFlameThrower* wFThrowerPlayer;
+	class APFlameThrower* FThrowerPlayer;
 	USkeletalMesh* FThrowerMesh;
 	FString FThrowerMeshPath = R"('/Game/Models/Guns/7_FlameThrower/Flamethrower_Export_LP.Flamethrower_Export_LP')";
 
