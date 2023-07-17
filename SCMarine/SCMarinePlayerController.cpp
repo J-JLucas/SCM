@@ -74,9 +74,17 @@ void ASCMarinePlayerController::ShowGameMenu()
             GameMenu = CreateWidget<UGameMenu>(this, BP_GameMenu);
             if (GameMenu)
             {
-                GameMenu->AddToViewport();
-                GetPawn()->DisableInput(this);
-                SetInputMode(FInputModeGameAndUI());
+                APawn* PlayerPawn = GetPawn();
+                if (PlayerPawn)
+                {
+                    //SetInputMode is related to pawn! game freezes if no valid pawn even though 
+                    //function call doesn't explicitly ask for one!!!
+                    UE_LOG(LogTemp, Error, TEXT("Valid Pawn, disabling Input"));
+                    PlayerPawn->DisableInput(this);
+                    SetInputMode(FInputModeGameAndUI());
+                }
+
+                GameMenu->AddToViewport(); // draw
                 bShowMouseCursor = true;
                 UE_LOG(LogTemp, Warning, TEXT("Game Menu created and added to viewport."));
             }
@@ -93,8 +101,17 @@ void ASCMarinePlayerController::HideGameMenu()
     UE_LOG(LogTemp, Error, TEXT("Hiding Game Menu."));
 	GameMenu->RemoveFromParent();	// "unDraw"
 	GameMenu->Destruct();			// kill
-    GetPawn()->EnableInput(this);
-    SetInputMode(FInputModeGameOnly());
+    
+    APawn* PlayerPawn = GetPawn();
+    if (PlayerPawn)
+    {
+        //SetInputMode is related to pawn! game freezes if no valid pawn even though 
+        //function call doesn't explicitly ask for one!!!
+        UE_LOG(LogTemp, Error, TEXT("Valid Pawn, Enabling Input"));
+        PlayerPawn->EnableInput(this);
+        SetInputMode(FInputModeGameOnly());
+    }
+    
     bShowMouseCursor = false;
 	GameMenu = nullptr;
 

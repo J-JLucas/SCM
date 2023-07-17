@@ -82,7 +82,7 @@ protected:
 	void Look(const FInputActionValue& Value);	
 
 	// flashlight
-	UPROPERTY(EditAnywhere, Category = Flashlight)
+	UPROPERTY(BlueprintReadWrite, Category = Flashlight)
 	class USpotLightComponent* Flashlight;
 	UPROPERTY(EditAnywhere, Category = Flashlight)
 	class USoundBase* FlashlightClickSound;

@@ -415,7 +415,7 @@ void ASCMPlayerCharacter::OnDeath_Implementation()
 	DisableInput(PController);
 	FPSMeshRefresh->SetOwnerNoSee(true);
 	SetCanBeDamaged(false);
-	Flashlight->SetIntensity(0.0f);
+	//Flashlight->SetIntensity(0.0f);
 
 
 	//Destroy();
