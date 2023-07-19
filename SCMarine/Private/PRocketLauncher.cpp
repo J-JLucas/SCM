@@ -15,7 +15,7 @@ APRocketLauncher::APRocketLauncher()
 	
 	SetGunshotSFX(GunshotPath);
 	FireRate = 0.9;
-	ReloadRate = 3.5f;
+	ReloadRate = 3.0f;
 	MaxAmmo = 50.0f;
 	CurrentAmmo = 0.0f;
 	MaxMag = 5;

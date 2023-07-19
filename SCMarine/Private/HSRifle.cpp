@@ -10,7 +10,7 @@ AHSRifle::AHSRifle()
 	SetImpactDecal(ImpactDecalPath);
 	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.08f;
-	ReloadRate = 2.4f;
+	ReloadRate = 1.5f;
 	MaxAmmo = 600.0f;
 	CurrentAmmo = 0.0f;
 	MaxMag = 50;
@@ -22,5 +22,5 @@ AHSRifle::AHSRifle()
 void AHSRifle::BeginPlay()
 {
 	Super::BeginPlay();
-	SetDamageAmount(8.0f);
+	SetDamageAmount(9.0f);
 }

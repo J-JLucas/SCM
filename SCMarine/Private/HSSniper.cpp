@@ -10,7 +10,7 @@ AHSSniper::AHSSniper()
 	SetImpactDecal(ImpactDecalPath);
 	SetBloodEffect(BloodEffectPath);
 	FireRate = 1.1f;
-	ReloadRate = 3.7f;
+	ReloadRate = 3.0f;
 	MaxAmmo = 50.0f;
 	CurrentAmmo = 0.0f;
 	MaxMag = 5;

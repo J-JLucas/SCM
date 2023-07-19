@@ -193,4 +193,15 @@ public:
 	bool HealPlayer(float Value);
 	bool PickupAmmo(WeaponType AmmoType, int Amount);
 	bool PickupWeapon(WeaponType WeaponType, int Amount);
+
+
+	UPROPERTY(BlueprintReadWrite, Category = "Controls")
+	float MouseSense{1.0f};
+
+	//UFUNCTION(BlueprintCallable)
+	//FORCEINLINE float GetMouseSense() { return MouseSense; }
+
+	//UFUNCTION(BlueprintCallable)
+	//FORCEINLINE void SetMouseSense(float NewValue) { MouseSense = NewValue; }
+
 };

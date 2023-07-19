@@ -74,6 +74,7 @@ void ASCMarinePlayerController::ShowGameMenu()
             GameMenu = CreateWidget<UGameMenu>(this, BP_GameMenu);
             if (GameMenu)
             {
+
                 APawn* PlayerPawn = GetPawn();
                 if (PlayerPawn)
                 {
@@ -84,6 +85,7 @@ void ASCMarinePlayerController::ShowGameMenu()
                     SetInputMode(FInputModeGameAndUI());
                 }
 
+                SetPause(true);
                 GameMenu->AddToViewport(); // draw
                 bShowMouseCursor = true;
                 UE_LOG(LogTemp, Warning, TEXT("Game Menu created and added to viewport."));
@@ -99,6 +101,7 @@ void ASCMarinePlayerController::ShowGameMenu()
 void ASCMarinePlayerController::HideGameMenu()
 {
     UE_LOG(LogTemp, Error, TEXT("Hiding Game Menu."));
+    SetPause(false);
 	GameMenu->RemoveFromParent();	// "unDraw"
 	GameMenu->Destruct();			// kill
     
@@ -119,6 +122,7 @@ void ASCMarinePlayerController::HideGameMenu()
 
 void ASCMarinePlayerController::HidePlayerHud()
 {
+
     if (HUDWidget)
     {
         HUDWidget->RemoveFromParent();	// "unDraw"
