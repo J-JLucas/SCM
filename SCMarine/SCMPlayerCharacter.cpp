@@ -504,9 +504,9 @@ bool ASCMPlayerCharacter::PickupAmmo(WeaponType AmmoType, int Amount)
 
 bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 {
-	bool Success;
-	int AmmoAmount = Amount;
-
+	//bool Success;
+	//int AmmoAmount = Amount;
+	/*
 	switch (WeaponType)
 	{
 
@@ -540,9 +540,17 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 		}
 	}
 
-	UnlockedGuns[WeaponType] = true;
-	Arsenal[ActiveWeapon]->UpdateAmmoString();
-	return Success;
+	*/
+	if (UnlockedGuns[WeaponType] == false)
+	{
+		UnlockedGuns[WeaponType] = true;
+		return false;	// weapon was not unlocked previously 
+	}
+	else
+		return true;	// weapon already unlocked
+	
+	//Arsenal[ActiveWeapon]->UpdateAmmoString();
+	//return Success;
 
 }
 

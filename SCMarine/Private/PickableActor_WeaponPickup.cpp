@@ -11,9 +11,14 @@ void APickableActor_WeaponPickup::BeginPlay()
 
 void APickableActor_WeaponPickup::PlayerPickedUp(ASCMPlayerCharacter* PlayerChar)
 {
-	bool Success = PlayerChar->PickupWeapon(GunType, AmmoAmount);
+	//bool Success = PlayerChar->PickupWeapon(GunType, AmmoAmount);
+	bool HasGun = PlayerChar->PickupWeapon(GunType, AmmoAmount);
 
-	if(Success)
+	bool Success = PlayerChar->PickupAmmo(GunType, AmmoAmount);
+
+	if(!HasGun || Success)
+	// Destory pickup if player didn't previously own gun
+	// or if player is not maxed on ammo
 	{
 		Super::PlayerPickedUp(PlayerChar);
 	}
