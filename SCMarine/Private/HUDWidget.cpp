@@ -40,3 +40,9 @@ void UHUDWidget::UpdateWeaponText(FText Name)
 	WeaponText->SetText(Name);
 	return;
 }
+
+void UHUDWidget::PrintMessageToPlayer(FText Message)
+{
+	CenterMessageText->SetText(Message);
+
+}

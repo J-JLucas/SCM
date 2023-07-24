@@ -10,6 +10,8 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Components/PrimitiveComponent.h"
+#include "Perception/AISense_Damage.h"
+#include "AIController.h"
 
 void ASCMHitScanWeapon::SetImpactDecal(FString Path)
 {
@@ -84,8 +86,19 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
 			//Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
+			
+			UAISense_Damage::ReportDamageEvent(this, Enemy, PlayerController, Damage, Hit.ImpactPoint, Hit.ImpactPoint);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 			
+			//AAIController* AIController = Enemy->GetController<AAIController>();
+			//if (AIController)
+			//{
+				// You can set the stimulus strength based on the damage amount if needed
+
+				
+				
+
+			//}
 			// Removed due to horrible performance,
 			// Decals are bad, need to learn about 
 			// RVT (runtime virtual texture) or render target capture to "paint" directly to the texture of a model 

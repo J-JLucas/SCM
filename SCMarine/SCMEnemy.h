@@ -23,8 +23,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Pawnsense
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	class UPawnSensingComponent* PawnSenseComp;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	//class UPawnSensingComponent* PawnSenseComp;
 
 	// Health 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
@@ -46,9 +46,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackCollision")
 	class UCapsuleComponent* AttackCollisionRight = nullptr;
 	
+	// Flipped when enemy detects player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AISense")
+	bool bPlayerDetected = false;
+
 	// Flipped when enemy spots player
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vision")
-	bool bPlayerSpotted = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AISense")
+	bool bPlayerVisable = false;
 
 public:	
 	// Called every frame
@@ -70,6 +74,17 @@ public:
 
 	void OnTakeDamage_Implementation();
 
+	UPROPERTY(EditAnywhere)
+	float MaxSpeed{100.0f};
+
+	UPROPERTY(EditAnywhere)
+	float IdleSpeed{ 100.0f };
+
+	UFUNCTION(BlueprintCallable)
+	void SwitchToAttackSpeed();
+	
+	UFUNCTION(BlueprintCallable)
+	void SwitchToWalkSpeed();
 
 	// Removed due to horrible performance,
 	// Decals are bad, need to learn about 

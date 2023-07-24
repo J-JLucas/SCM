@@ -32,9 +32,13 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* WeaponText;
 
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* CenterMessageText;
+
 	void UpdateHealthPercent(float HealthPercent);
 	void UpdateMagazine(float numBullets);
 	void UpdateAmmoTotal(float numBullets);
 	void UpdateWeaponText(FText Name);
+	void PrintMessageToPlayer(FText Message);
 
 };

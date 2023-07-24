@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SceneComponent.h"
 #include "Perception/PawnSensingComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ASCMEnemy::ASCMEnemy()
@@ -26,7 +27,7 @@ ASCMEnemy::ASCMEnemy()
 	//EnemyMeshComponent->SetSkeletalMesh(EnemyMesh);
 
 	// Init AI senses
-	PawnSenseComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComponent"));
+	//PawnSenseComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComponent"));
 	//PawnSenseComp->SetPeripheralVisionAngle(50.0f);
 	//PawnSenseComp->SetSensingInterval(0.25f);
 
@@ -89,6 +90,18 @@ void ASCMEnemy::MeleeAttack()
 void ASCMEnemy::OnTakeDamage_Implementation()
 {
 	// Do nothing
+}
+
+void ASCMEnemy::SwitchToAttackSpeed()
+{
+	GetCharacterMovement()->MaxWalkSpeed = MaxSpeed;
+	return;
+}
+
+void ASCMEnemy::SwitchToWalkSpeed()
+{
+	GetCharacterMovement()->MaxWalkSpeed = IdleSpeed;
+	return;
 }
 
 
