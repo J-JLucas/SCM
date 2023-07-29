@@ -198,6 +198,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Controls")
 	float MouseSense{1.0f};
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bOnLadder;
+
 	//UFUNCTION(BlueprintCallable)
 	//FORCEINLINE float GetMouseSense() { return MouseSense; }
 

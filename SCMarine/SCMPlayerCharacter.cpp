@@ -232,7 +232,15 @@ void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if (!Controller) { return; }
+
+	if (bOnLadder) 
+		{
+		AddMovementInput(GetActorUpVector(), MovementVector.Y);
+		AddMovementInput(GetActorRightVector(), MovementVector.X);
+		}
+
+	else
 	{
 		// add movement 
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
