@@ -22,5 +22,5 @@ AHSRifle::AHSRifle()
 void AHSRifle::BeginPlay()
 {
 	Super::BeginPlay();
-	SetDamageAmount(9.0f);
+	SetDamageAmount(11.0f);
 }

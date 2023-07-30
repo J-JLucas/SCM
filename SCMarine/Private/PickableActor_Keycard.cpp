@@ -11,17 +11,9 @@ void APickableActor_Keycard::BeginPlay()
 
 void APickableActor_Keycard::PlayerPickedUp(ASCMPlayerCharacter* PlayerChar)
 {
-	if (KeyType == 0)
-	{
-		PlayerChar->GiveBlueKey();
-		Super::PlayerPickedUp(PlayerChar);
-		return;
-	}
+		PlayerChar->GiveKey(Key);
 
-	if (KeyType == 1)
-	{
-		PlayerChar->GiveYellowKey();
 		Super::PlayerPickedUp(PlayerChar);
+		
 		return;
-	}
 }

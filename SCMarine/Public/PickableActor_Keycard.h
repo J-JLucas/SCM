@@ -6,9 +6,16 @@
 #include "PickableActor_Base.h"
 #include "PickableActor_Keycard.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum KeyType
+{
+	NoKey UMETA(DisplayName = "NoKey"),		// not implemented unreal enum requires a 0 element
+	BlueKey UMETA(DisplayName = "BlueKey"),
+	PurpleKey UMETA(DisplayName = "PurpleKey"),
+	YellowKey UMETA(DisplayName = "YellowKey"),
+
+};
+
 UCLASS()
 class SCMARINE_API APickableActor_Keycard : public APickableActor_Base
 {
@@ -23,6 +30,6 @@ public:
 
 
 	UPROPERTY(EditAnywhere, Category = KeyCollectable)
-	int32 KeyType;
+	TEnumAsByte<KeyType> Key;
 
 };

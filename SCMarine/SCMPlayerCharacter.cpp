@@ -20,6 +20,7 @@
 #include "SCMarine/SCMarinePlayerController.h"
 #include "Components/SpotLightComponent.h"
 #include "TimerManager.h"
+#include "Public/LockableDoor.h"
 
 
 
@@ -71,6 +72,7 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 
 	// Init Weapon objects
 	Arsenal.Init(nullptr, 8);
+	KeyArray.Init(false, 4);
 	UnlockedGuns.Init(false, 8);
 
 	wMelee = nullptr;
@@ -561,4 +563,3 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 	//return Success;
 
 }
-

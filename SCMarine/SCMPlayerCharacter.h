@@ -201,19 +201,11 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bOnLadder{false};
 
+	// Keys
 	UPROPERTY(BlueprintReadOnly)
-	bool bHasBlueKey{false};
+	TArray<bool> KeyArray;
 
-	UPROPERTY(BlueprintReadOnly)
-	bool bHasYellowKey{false};
-
-	FORCEINLINE void GiveBlueKey() { bHasBlueKey = true; }
-	FORCEINLINE void GiveYellowKey() { bHasYellowKey = true; }
-
-	//UFUNCTION(BlueprintCallable)
-	//FORCEINLINE float GetMouseSense() { return MouseSense; }
-
-	//UFUNCTION(BlueprintCallable)
-	//FORCEINLINE void SetMouseSense(float NewValue) { MouseSense = NewValue; }
+	FORCEINLINE void GiveKey(enum KeyType Key) { KeyArray.Insert(true, Key); }
+	FORCEINLINE bool CheckHasKey(enum KeyType Key) { return KeyArray[Key]; }
 
 };
