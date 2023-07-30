@@ -199,7 +199,16 @@ public:
 	float MouseSense{1.0f};
 
 	UPROPERTY(BlueprintReadWrite)
-	bool bOnLadder;
+	bool bOnLadder{false};
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bHasBlueKey{false};
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bHasYellowKey{false};
+
+	FORCEINLINE void GiveBlueKey() { bHasBlueKey = true; }
+	FORCEINLINE void GiveYellowKey() { bHasYellowKey = true; }
 
 	//UFUNCTION(BlueprintCallable)
 	//FORCEINLINE float GetMouseSense() { return MouseSense; }
