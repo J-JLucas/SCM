@@ -11,6 +11,7 @@ AHSRifle::AHSRifle()
 	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.08f;
 	ReloadRate = 1.5f;
+	ImpulseStrength = 50.0f;
 	MaxAmmo = 600.0f;
 	CurrentAmmo = 0.0f;
 	MaxMag = 50;

@@ -28,7 +28,7 @@ public:
 	class UNiagaraSystem* BloodEffect;
 
 	UPROPERTY(EditAnywhere, Category = Impulse)
-	float ImpulseStrength = 100.0f;
+	float ImpulseStrength = 400.0f;
 
 	void SetImpactDecal(FString Path);
 

@@ -95,11 +95,12 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			}
 			else
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Bodyshot");
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Bodyshot:");
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ComponentName);
 			}
 
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
-			//Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
+			Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
 			
 			UAISense_Damage::ReportDamageEvent(this, Enemy, PlayerController, Damage, Hit.ImpactPoint, Hit.ImpactPoint);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());

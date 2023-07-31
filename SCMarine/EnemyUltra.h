@@ -18,6 +18,4 @@ public:
 	
 	AEnemyUltra();
 
-	//virtual void SustainDamage(float DamageAmount) override;
-
 };

@@ -74,7 +74,6 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 
 			FCollisionQueryParams TraceParams;
 			TraceParams.AddIgnoredActor(PossessedActor);		// don't shoot self LOL
-			//bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECC_Pawn, TraceParams);
 			bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_GameTraceChannel3, TraceParams);
 
 			DrawDebugLine(World, Start, End, FColor::Purple, false, 5.0f);
@@ -104,6 +103,7 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 
 
 					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
+					Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
 					UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
 				}
