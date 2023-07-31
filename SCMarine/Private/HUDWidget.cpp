@@ -43,6 +43,7 @@ void UHUDWidget::UpdateWeaponText(FText Name)
 
 void UHUDWidget::PrintMessageToPlayer(FText Message)
 {
-	CenterMessageText->SetText(Message);
+	//CenterMessageText->SetText(Message);
+	LeftMessageText->SetText(Message);
 
 }

@@ -74,7 +74,8 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 
 			FCollisionQueryParams TraceParams;
 			TraceParams.AddIgnoredActor(PossessedActor);		// don't shoot self LOL
-			bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECC_Pawn, TraceParams);
+			//bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECC_Pawn, TraceParams);
+			bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_GameTraceChannel3, TraceParams);
 
 			DrawDebugLine(World, Start, End, FColor::Purple, false, 5.0f);
 
@@ -88,6 +89,20 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 					float Damage = GetDamageAmount();
 					FVector HitFromDirection = (Start - End).GetSafeNormal();
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit Enemy");
+
+					// Check for headshot
+					FString ComponentName = Hit.Component->GetName();
+					if (ComponentName == "HeadshotCollision")
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "BOOM HEADSHOT!!!!!");
+						Damage = Damage * 2.0f;
+					}
+					else
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Bodyshot");
+					}
+
+
 					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
 					UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
