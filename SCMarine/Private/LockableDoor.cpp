@@ -26,13 +26,14 @@ ALockableDoor::ALockableDoor()
 	LeftCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("LeftBoxCollision"));
 	LeftCollisionBox->InitBoxExtent(FVector(1.0f, 1.0f, 1.0f));
 	LeftCollisionBox->SetCollisionProfileName(TEXT("BlockAll"));
-	LeftCollisionBox->AttachToComponent(DoorMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("LeftDoorCollision"));
+	//LeftCollisionBox->AttachToComponent(DoorMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("LeftDoorCollision"));
+	LeftCollisionBox->SetupAttachment(DoorMesh, TEXT("LeftDoorCollision"));
 
 	RightCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("RightBoxCollision"));
 	RightCollisionBox->InitBoxExtent(FVector(1.0f, 1.0f, 1.0f));
 	RightCollisionBox->SetCollisionProfileName(TEXT("BlockAll"));
-	RightCollisionBox->AttachToComponent(DoorMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("RightDoorCollision"));
-
+	//RightCollisionBox->AttachToComponent(DoorMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("RightDoorCollision"));
+	RightCollisionBox->SetupAttachment(DoorMesh, TEXT("RightDoorCollision"));
 }
 
 // Called when the game starts or when spawned
