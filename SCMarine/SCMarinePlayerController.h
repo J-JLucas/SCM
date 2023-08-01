@@ -33,6 +33,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* IC_PlayerChar;
 
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//class UInputMappingContext* IC_VictoryScreen;
+
 	/** Menu */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* IA_GameMenu;
@@ -40,6 +43,10 @@ protected:
 	/** OnDeath Restart Level */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* IA_RestartLevel;
+
+	/** OnVictory Go Next Level */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* IA_NextLevel;
 
 public:
 
@@ -68,5 +75,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ShowVictoryScreen();
+	void ArmNextLevel();
+	void GoNextLevel();
 
 };

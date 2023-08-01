@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "SCMarine/SCMPlayerCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "SCMarine/SCMarinePlayerController.h"
 
 // Sets default values
 AVictoryBox::AVictoryBox()
@@ -39,10 +40,16 @@ void AVictoryBox::Tick(float DeltaTime)
 
 void AVictoryBox::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (Cast<ASCMPlayerCharacter>(OtherActor))
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(OtherActor);
+	if (PlayerChar)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Quittin Time!"));
-		//UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Player Overlapped With VictoryBox!"));
+		ASCMarinePlayerController* PController = Cast<ASCMarinePlayerController>(PlayerChar->GetController());
+		if (PController)
+		{
+			PController->ArmNextLevel();
+		}
+
 	}
 }
 
