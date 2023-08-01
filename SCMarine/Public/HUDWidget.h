@@ -16,6 +16,10 @@ class SCMARINE_API UHUDWidget : public UUserWidget
 	
 public:
 
+	// Set Crosshair at center of the screen
+	UPROPERTY(EditDefaultsOnly)
+	UTexture2D* CrosshairTexture;
+
 	// Update HealthBar
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar* HealthBar;
@@ -38,7 +42,6 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* LeftMessageText;
 
-
 	void UpdateHealthPercent(float HealthPercent);
 	void UpdateMagazine(float numBullets);
 	void UpdateAmmoTotal(float numBullets);
@@ -46,5 +49,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void PrintMessageToPlayer(FText Message);
+	
 
 };
