@@ -205,7 +205,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<bool> KeyArray;
 
-	FORCEINLINE void GiveKey(enum KeyType Key) { KeyArray.Insert(true, Key); }
+	void GiveKey(enum KeyType Key);
 	FORCEINLINE bool CheckHasKey(enum KeyType Key) { return KeyArray[Key]; }
 
 };

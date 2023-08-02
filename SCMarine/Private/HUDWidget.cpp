@@ -5,6 +5,7 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextRenderComponent.h"
 #include "Components/TextBlock.h"
+#include "PickableActor_Keycard.h"
 
 void UHUDWidget::UpdateHealthPercent(float HealthPercent)
 {
@@ -46,5 +47,9 @@ void UHUDWidget::UpdateActivity_Implementation(const FString& Message)
 }
 
 void UHUDWidget::UpdateInstructional_Implementation(const FString& Message)
+{
+}
+
+void UHUDWidget::UpdateKeyCardIcon_Implementation(KeyType Key)
 {
 }

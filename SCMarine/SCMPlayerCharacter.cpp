@@ -522,3 +522,14 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 		return true;	// weapon already unlocked
 
 }
+
+void ASCMPlayerCharacter::GiveKey(KeyType Key)
+{
+	KeyArray.Insert(true, Key);
+	ASCMarinePlayerController* PC = Cast <ASCMarinePlayerController>(PController);
+	if (PC)
+	{
+		PC->PrintKeycard(Key);
+	}
+
+}

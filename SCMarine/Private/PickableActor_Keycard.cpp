@@ -12,7 +12,6 @@ void APickableActor_Keycard::BeginPlay()
 void APickableActor_Keycard::PlayerPickedUp(ASCMPlayerCharacter* PlayerChar)
 {
 		PlayerChar->GiveKey(Key);
-
 		Super::PlayerPickedUp(PlayerChar);
 		
 		return;

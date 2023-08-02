@@ -44,4 +44,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateInstructionalMessage(const FString& Message);
 	void UpdateInstructional_Implementation(const FString& Message);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateKeyCardIcon(enum KeyType Key);
+	void UpdateKeyCardIcon_Implementation(enum KeyType Key);
 };

@@ -84,4 +84,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PrintInstructionalMessage(const FString& Message);
 
+	UFUNCTION(BlueprintCallable)
+	void PrintKeycard(enum KeyType Key);
+
+
 };

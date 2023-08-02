@@ -230,3 +230,8 @@ void ASCMarinePlayerController::PrintInstructionalMessage(const FString& Message
 {
     HUDWidget->UpdateInstructionalMessage(Message);
 }
+
+void ASCMarinePlayerController::PrintKeycard(KeyType Key)
+{
+    HUDWidget->UpdateKeyCardIcon(Key);
+}
