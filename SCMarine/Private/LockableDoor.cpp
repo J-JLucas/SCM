@@ -7,6 +7,7 @@
 #include "SCMarine/SCMPlayerCharacter.h"
 #include "PickableActor_Keycard.h"
 #include "TimerManager.h"
+#include "SCMarine/SCMarinePlayerController.h"
 
 // Sets default values
 ALockableDoor::ALockableDoor()
@@ -73,6 +74,11 @@ void ALockableDoor::BeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			}
 			else
 			{
+				ASCMarinePlayerController* PController = Cast<ASCMarinePlayerController>(PlayerChar->GetController());
+				if (PController)
+				{
+					PController->PrintInstructionalMessage("LOCKED\nNEED KEYCARD");
+				}
 				return;
 			}
 		}

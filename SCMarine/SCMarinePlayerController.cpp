@@ -220,3 +220,13 @@ void ASCMarinePlayerController::GoNextLevel()
 {
     UGameplayStatics::OpenLevel(this, FName("E1M3"));
 }
+
+void ASCMarinePlayerController::PrintActivityFeedMessage(const FString& Message)
+{
+    HUDWidget->UpdateActivityMessage(Message);
+}
+
+void ASCMarinePlayerController::PrintInstructionalMessage(const FString& Message)
+{
+    HUDWidget->UpdateInstructionalMessage(Message);
+}

@@ -38,6 +38,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = PickableItem)
 	class USoundBase* PickupSound;
 
+	UPROPERTY(EditAnywhere, Category = Message)
+	FString PickupString;
+
 public:
 
 };

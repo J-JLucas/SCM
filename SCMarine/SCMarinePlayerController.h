@@ -78,4 +78,10 @@ public:
 	void ArmNextLevel();
 	void GoNextLevel();
 
+	UFUNCTION(BlueprintCallable)
+	void PrintActivityFeedMessage(const FString& Message);
+
+	UFUNCTION(BlueprintCallable)
+	void PrintInstructionalMessage(const FString& Message);
+
 };

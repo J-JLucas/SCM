@@ -7,7 +7,7 @@
 #include "GameFramework/RotatingMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SCMarine/SCMPlayerCharacter.h"
-
+#include "SCMarine/SCMarinePlayerController.h"
 
 // Sets default values
 APickableActor_Base::APickableActor_Base()
@@ -36,7 +36,6 @@ void APickableActor_Base::BeginPlay()
 	
 	// arms BeginOverlap to be called when overlap event w/ CollisionComp occurs
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &APickableActor_Base::BeginOverlap);
-
 }
 
 
@@ -45,6 +44,11 @@ void APickableActor_Base::PlayerPickedUp(ASCMPlayerCharacter* PlayerChar)
 {
 	UWorld* World = GetWorld();
 	UGameplayStatics::PlaySoundAtLocation(this, PickupSound, GetActorLocation(), 1.0f);
+	ASCMarinePlayerController* PController = Cast<ASCMarinePlayerController>(PlayerChar->GetController());
+	if (PController)
+	{
+		PController->PrintActivityFeedMessage(PickupString);
+	}
 	Destroy();
 }
 

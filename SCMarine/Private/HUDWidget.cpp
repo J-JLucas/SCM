@@ -41,9 +41,10 @@ void UHUDWidget::UpdateWeaponText(FText Name)
 	return;
 }
 
-void UHUDWidget::PrintMessageToPlayer(FText Message)
+void UHUDWidget::UpdateActivity_Implementation(const FString& Message)
 {
-	//CenterMessageText->SetText(Message);
-	LeftMessageText->SetText(Message);
+}
 
+void UHUDWidget::UpdateInstructional_Implementation(const FString& Message)
+{
 }
