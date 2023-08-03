@@ -55,8 +55,6 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 		}
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::SanitizeFloat(Health));
-
 	if (GetOwner()->Implements<UHealthInterface>())
 	{
 		IHealthInterface::Execute_OnTakeDamage(GetOwner());
@@ -72,6 +70,8 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 			
 		}
 	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::SanitizeFloat(Health));
 
 }
 

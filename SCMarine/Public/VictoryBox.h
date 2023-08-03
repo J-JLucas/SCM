@@ -18,6 +18,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = VictoryBox, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* CollisionBox;
 
+	UPROPERTY(EditAnywhere)
+	FName NextLevelFName;
+
+
 public:
 	// Sets default values for this actor's properties
 	AVictoryBox();
@@ -33,5 +37,8 @@ public:
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	//UFUNCTION(BlueprintCallable)
+	//void GoToNextLevel();
 
 };

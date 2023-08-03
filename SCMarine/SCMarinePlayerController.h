@@ -25,6 +25,8 @@ private:
 	UPROPERTY()
 	class UVictoryHUD* VictoryHUD;
 
+	class AVictoryBox* VicBoxRef;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -75,8 +77,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ShowVictoryScreen();
-	void ArmNextLevel();
-	void GoNextLevel();
+	//void ArmNextLevel();
+	//void GoNextLevel();
 
 	UFUNCTION(BlueprintCallable)
 	void PrintActivityFeedMessage(const FString& Message);

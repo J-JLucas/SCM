@@ -9,7 +9,9 @@
 #include "HealthComponent.h"
 #include "Public/HUDWidget.h"
 #include "Public/VictoryHUD.h"
+#include "Public/VictoryBox.h"
 #include "Kismet/GameplayStatics.h"
+#include "EngineUtils.h"
 
 void ASCMarinePlayerController::BeginPlay()
 {
@@ -34,6 +36,9 @@ void ASCMarinePlayerController::BeginPlay()
         HUDWidget = CreateWidget<UHUDWidget>(this, BP_PlayerHUD);
         HUDWidget->AddToViewport();
     }
+    TActorIterator<AVictoryBox> ActorItr(GetWorld());
+
+    VicBoxRef = *ActorItr;
 
 }
 
@@ -195,7 +200,7 @@ void ASCMarinePlayerController::ShowVictoryScreen()
         VictoryHUD->AddToViewport();
     }
 }
-
+/*
 void ASCMarinePlayerController::ArmNextLevel()
 // Player Completed level, bind input to goto next level
 {
@@ -218,8 +223,9 @@ void ASCMarinePlayerController::ArmNextLevel()
 
 void ASCMarinePlayerController::GoNextLevel()
 {
-    UGameplayStatics::OpenLevel(this, FName("E1M3"));
+    VicBoxRef->GoToNextLevel();
 }
+*/
 
 void ASCMarinePlayerController::PrintActivityFeedMessage(const FString& Message)
 {
