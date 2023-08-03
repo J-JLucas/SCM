@@ -70,7 +70,6 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 
 	FCollisionQueryParams TraceParams;
 	TraceParams.AddIgnoredActor(PossessedActor);		// don't shoot self LOL
-	//bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECC_Pawn, TraceParams);
 	bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_GameTraceChannel3, TraceParams);
 
 	DrawDebugLine(World, Start, End, FColor::Purple, false, 5.0f);
