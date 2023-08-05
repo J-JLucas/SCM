@@ -71,6 +71,8 @@ public:
 	// Load the skeletal mesh asset
 	//USkeletalMesh* EnemyMesh;
 
+	UPROPERTY(BlueprintReadWrite, Category = "AISense")
+	FVector SpawnOrigin;
 
 	void OnTakeDamage_Implementation();
 
