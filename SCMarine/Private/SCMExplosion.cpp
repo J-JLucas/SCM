@@ -56,12 +56,14 @@ void ASCMExplosion::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 		// falloff is significant, added +100.0f beyond the collisionsphere to "reduce" damage falloff
 		float DamageRadius = (SphereComponent->GetScaledSphereRadius() + 100.0f);
 
+		
 		AEnemyUltra* Ultra = Cast<AEnemyUltra>(OtherActor);
 		if (Ultra)	// don't push the ultra around
 		{
 			UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageValue, ExplosionLocation, DamageRadius, nullptr, TArray<AActor*>(), this, false, false);
 			return;
 		}
+		
 
 		ACharacter* Target = Cast<ACharacter>(OtherActor);
 		if (Target)
