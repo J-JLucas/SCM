@@ -20,6 +20,9 @@ ASCMWeapon::ASCMWeapon()
 void ASCMWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+
+
+
 }
 
 // Called every frame
@@ -95,6 +98,7 @@ void ASCMWeapon::PlayFireAnimation(AActor* PossessedActor)
 	{
 		PlayerChar->OnFireEvent();
 	}
+
 }
 
 void ASCMWeapon::StartFiring()

@@ -64,6 +64,9 @@ protected:
 	virtual void StartReloading();
 	virtual void StopReloading();
 
+	//UPROPERTY()
+	//class ASCMPlayerCharacter* PlayerRef;
+
 
 public:	
 	// Called every frame
@@ -96,6 +99,9 @@ public:
 
 	void SetDamageAmount(float Damage);
 	void SetRangeAmount(float RangeValue);
+	FORCEINLINE void SetStimMode() { FireRate *= 0.5f; ReloadRate *= 0.5f; }
+	FORCEINLINE void SetRegularMode() { FireRate *= 2.0f; ReloadRate *= 2.0f;}
+
 	FORCEINLINE float GetDamageAmount() const { return DamageAmount; }
 	FORCEINLINE float GetMaxAmmo() const { return MaxAmmo; }
 	FORCEINLINE float GetCurrentAmmo() const { return CurrentAmmo; }

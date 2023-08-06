@@ -21,6 +21,8 @@
 #include "Components/SpotLightComponent.h"
 #include "TimerManager.h"
 #include "Public/LockableDoor.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 
 
@@ -87,20 +89,13 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	Flashlight->SetupAttachment(FPSCameraComponent);
 	Flashlight->SetRelativeLocation(FVector(16.0f, 0.0f, -9.0f));
 	Flashlight->SetIntensity(0.0f);
-	Flashlight->SetAttenuationRadius(6000.0f);
+	Flashlight->SetAttenuationRadius(7000.0f);
 	Flashlight->SetOuterConeAngle(20.f);
 	Flashlight->SetUseTemperature(true);
 	Flashlight->SetTemperature(3500.0f);
 	Flashlight->SetUseInverseSquaredFalloff(false);
 	Flashlight->SetLightFalloffExponent(15.0f);
 		
-}
-
-void ASCMPlayerCharacter::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-
-	BeginPlay();
 }
 
 // Called when the game starts or when spawned
@@ -521,6 +516,47 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 	else
 		return true;	// weapon already unlocked
 
+}
+
+void ASCMPlayerCharacter::ActivateStim()
+{
+	GetWorldTimerManager().SetTimer(StimTimerHandle, this, &ASCMPlayerCharacter::DisableStim, StimLength, false);
+	
+	if (StimpackSFX)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, StimpackSFX, GetActorLocation(), 1.0f, 1.0f);
+		UE_LOG(LogTemp, Warning, TEXT("Played StimpackSFX"));
+	}
+
+	for (ASCMWeapon* Gun : Arsenal)
+	{
+		if (Gun)
+		{
+			Gun->SetStimMode();
+		}
+	}
+
+	UCharacterMovementComponent* CharMovementComp = GetCharacterMovement();
+	float MaxSpeed = CharMovementComp->MaxWalkSpeed;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::SanitizeFloat(MaxSpeed));
+	CharMovementComp->MaxWalkSpeed = MaxSpeed *= 1.5;
+}
+
+void ASCMPlayerCharacter::DisableStim()
+{
+	GetWorldTimerManager().ClearTimer(StimTimerHandle);
+	
+	for (ASCMWeapon* Gun : Arsenal)
+	{
+		if (Gun) 
+		{
+			Gun->SetRegularMode();
+		}
+	}
+
+	UCharacterMovementComponent* CharMovementComp = GetCharacterMovement();
+	float MaxSpeed = CharMovementComp->MaxWalkSpeed;
+	CharMovementComp->MaxWalkSpeed = MaxSpeed /= 1.5f;
 }
 
 void ASCMPlayerCharacter::GiveKey(KeyType Key)

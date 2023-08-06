@@ -69,8 +69,6 @@ public:
 	// Sets default values for this character's properties
 	ASCMPlayerCharacter();
 
-	void PostInitializeComponents();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -158,6 +156,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class AHSRifle* wMelee;
 	
+	
 	UPROPERTY(VisibleAnywhere)
 	class AHSShotgun* ShotgunPlayer;
 	USkeletalMesh* ShotgunMesh;
@@ -185,6 +184,8 @@ public:
 
 	// PlayerController & Pawn References
 	UPROPERTY(VisibleAnywhere)
+	
+
 	class APlayerController* PController;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -193,7 +194,6 @@ public:
 	bool HealPlayer(float Value);
 	bool PickupAmmo(WeaponType AmmoType, int Amount);
 	bool PickupWeapon(WeaponType WeaponType, int Amount);
-
 
 	UPROPERTY(BlueprintReadWrite, Category = "Controls")
 	float MouseSense{1.0f};
@@ -207,5 +207,18 @@ public:
 
 	void GiveKey(enum KeyType Key);
 	FORCEINLINE bool CheckHasKey(enum KeyType Key) { return KeyArray[Key]; }
+
+
+	// Stimpack Powerup
+	UPROPERTY(EditAnywhere, Category = "Stimpack")
+	class USoundBase* StimpackSFX;
+
+	UPROPERTY(EditAnywhere, Category = "Stimpack")
+	float StimLength{ 30.0f };
+	FTimerHandle StimTimerHandle;
+
+	UFUNCTION(BlueprintCallable)
+	void ActivateStim();
+	void DisableStim();
 
 };
