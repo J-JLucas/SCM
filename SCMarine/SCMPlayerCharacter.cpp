@@ -521,13 +521,6 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 void ASCMPlayerCharacter::ActivateStim()
 {
 
-	
-	if (StimpackSFX)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, StimpackSFX, GetActorLocation(), 1.0f, 1.0f);
-		UE_LOG(LogTemp, Warning, TEXT("Played StimpackSFX"));
-	}
-
 	if (StimActive)
 	{
 		// stim already active just clear timer and reset

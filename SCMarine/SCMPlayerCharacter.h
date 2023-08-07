@@ -208,11 +208,6 @@ public:
 	void GiveKey(enum KeyType Key);
 	FORCEINLINE bool CheckHasKey(enum KeyType Key) { return KeyArray[Key]; }
 
-
-	// Stimpack Powerup
-	UPROPERTY(EditAnywhere, Category = "Stimpack")
-	class USoundBase* StimpackSFX;
-
 	UPROPERTY(EditAnywhere, Category = "Stimpack")
 	float StimLength{ 30.0f };
 	FTimerHandle StimTimerHandle;

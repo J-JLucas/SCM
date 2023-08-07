@@ -99,8 +99,9 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			}
 
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
-			Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
-			
+			//Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
+			//Hit.Component->AddImpulse(HitFromDirection, NAME_None, false);
+
 			UAISense_Damage::ReportDamageEvent(this, Enemy, PlayerController, Damage, Hit.ImpactPoint, Hit.ImpactPoint);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 			
