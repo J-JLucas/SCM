@@ -520,13 +520,24 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 
 void ASCMPlayerCharacter::ActivateStim()
 {
-	GetWorldTimerManager().SetTimer(StimTimerHandle, this, &ASCMPlayerCharacter::DisableStim, StimLength, false);
+
 	
 	if (StimpackSFX)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, StimpackSFX, GetActorLocation(), 1.0f, 1.0f);
 		UE_LOG(LogTemp, Warning, TEXT("Played StimpackSFX"));
 	}
+
+	if (StimActive)
+	{
+		// stim already active just clear timer and reset
+		GetWorldTimerManager().ClearTimer(StimTimerHandle);
+		GetWorldTimerManager().SetTimer(StimTimerHandle, this, &ASCMPlayerCharacter::DisableStim, StimLength, false);
+		return;
+	}
+
+	StimActive = true;
+	GetWorldTimerManager().SetTimer(StimTimerHandle, this, &ASCMPlayerCharacter::DisableStim, StimLength, false);
 
 	for (ASCMWeapon* Gun : Arsenal)
 	{
@@ -545,6 +556,7 @@ void ASCMPlayerCharacter::ActivateStim()
 void ASCMPlayerCharacter::DisableStim()
 {
 	GetWorldTimerManager().ClearTimer(StimTimerHandle);
+	StimActive = false;
 	
 	for (ASCMWeapon* Gun : Arsenal)
 	{

@@ -216,6 +216,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Stimpack")
 	float StimLength{ 30.0f };
 	FTimerHandle StimTimerHandle;
+	bool StimActive{ false };
 
 	UFUNCTION(BlueprintCallable)
 	void ActivateStim();
