@@ -30,6 +30,8 @@ void AHSSniper::BeginPlay()
 {
 	Super::BeginPlay();
 	SetDamageAmount(150.0f);
+	Range = 15000.0f;
+	bPiercing = true;
 }
 
 void AHSSniper::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
