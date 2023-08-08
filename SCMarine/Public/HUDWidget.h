@@ -48,4 +48,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateKeyCardIcon(enum KeyType Key);
 	void UpdateKeyCardIcon_Implementation(enum KeyType Key);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DrawScope();
+	void DrawScope_Implementation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void HideScope();
+	void HideScope_Implementation();
+
 };

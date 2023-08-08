@@ -71,6 +71,9 @@ public:
 	void UpdateMagCount(float Count);
 	void UpdateAmmoCount(float Count);
 
+	void ScopeIn();
+	void ScopeOut();
+
 	UFUNCTION(BlueprintCallable)
 	void ArmRestartLevel();
 	void RestartLevel();

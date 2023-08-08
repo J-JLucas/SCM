@@ -167,6 +167,16 @@ void ASCMarinePlayerController::UpdateAmmoCount(float Count)
     }
 }
 
+void ASCMarinePlayerController::ScopeIn()
+{
+    HUDWidget->DrawScope();
+}
+
+void ASCMarinePlayerController::ScopeOut()
+{
+    HUDWidget->HideScope();
+}
+
 void ASCMarinePlayerController::ArmRestartLevel()
 // Player is dead, bind input to restart level on death
 {
@@ -200,32 +210,7 @@ void ASCMarinePlayerController::ShowVictoryScreen()
         VictoryHUD->AddToViewport();
     }
 }
-/*
-void ASCMarinePlayerController::ArmNextLevel()
-// Player Completed level, bind input to goto next level
-{
-    UEnhancedInputComponent* EnhancedInputComponent = FindComponentByClass<UEnhancedInputComponent>();
-    if (EnhancedInputComponent)
-    {
-        EnhancedInputComponent->BindAction(IA_NextLevel, ETriggerEvent::Triggered, this, &ASCMarinePlayerController::GoNextLevel);
 
-        if (InputComponent == nullptr)
-        {
-            UE_LOG(LogTemp, Warning, TEXT("Bind Action Null"));
-        }
-        else
-        {
-            UE_LOG(LogTemp, Warning, TEXT("GoNext Armed"));
-        }
-    }
-
-}
-
-void ASCMarinePlayerController::GoNextLevel()
-{
-    VicBoxRef->GoToNextLevel();
-}
-*/
 
 void ASCMarinePlayerController::PrintActivityFeedMessage(const FString& Message)
 {

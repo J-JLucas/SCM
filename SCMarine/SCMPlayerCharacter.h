@@ -65,6 +65,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_Flashlight;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* IA_AltFire;
+
 public:
 	// Sets default values for this character's properties
 	ASCMPlayerCharacter();
@@ -89,6 +92,7 @@ protected:
 
 	// Fire gun
 	void Fire();
+	void AltFire();
 
 	// Reload current gun
 	void ReloadActiveWeapon();
@@ -155,8 +159,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	class AHSRifle* wMelee;
-	
-	
+		
 	UPROPERTY(VisibleAnywhere)
 	class AHSShotgun* ShotgunPlayer;
 	USkeletalMesh* ShotgunMesh;
@@ -216,5 +219,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ActivateStim();
 	void DisableStim();
+
+	void CamZoomIn();
+	void CamZoomOut();
 
 };

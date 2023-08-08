@@ -8,6 +8,8 @@
 #include "Components/DecalComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "SCMarine/SCMarinePlayerController.h"
+#include "SCMarine/SCMPlayerCharacter.h"
 
 AHSSniper::AHSSniper()
 	:Super()
@@ -107,5 +109,44 @@ void AHSSniper::PrimaryFire(APlayerController* PController, AActor* PossessedAct
 					}
 				}
 		}
+		if (ScopedIn)
+		{
+			AltFire(PController, PossessedActor);
+		}
+	}
+}
+
+void AHSSniper::AltFire(APlayerController* PController, AActor* PossessedActor)
+{
+	ASCMarinePlayerController* SCMPController = Cast<ASCMarinePlayerController>(PController);
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
+
+	if (SCMPController)
+	{
+		if (ScopedIn)
+		{
+			SCMPController->ScopeOut();
+			ScopedIn = false;
+			PlayerChar->CamZoomOut();
+		}
+		else
+		{
+			SCMPController->ScopeIn();
+			ScopedIn = true;
+			PlayerChar->CamZoomIn();
+		}
+	}
+
+}
+
+void AHSSniper::ReloadWeapon(AActor* PossessedActor)
+{
+	Super::ReloadWeapon(PossessedActor);
+	
+	if ((CurrentAmmo == 0) || (CurrentMag == MaxMag)) { return; }
+	
+	if (ScopedIn)
+	{
+		AltFire(GetWorld()->GetFirstPlayerController(), PossessedActor);
 	}
 }

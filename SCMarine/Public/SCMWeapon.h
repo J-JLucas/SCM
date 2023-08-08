@@ -74,7 +74,7 @@ public:
 
 	virtual void PrimaryFire(APlayerController* PController, AActor* PossessedActor);
 
-	virtual void AltFire();
+	virtual void AltFire(APlayerController* PController, AActor* PossessedActor);
 
 	virtual void ReloadWeapon(AActor* PossessedActor);
 

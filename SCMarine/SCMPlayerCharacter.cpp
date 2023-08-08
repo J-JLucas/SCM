@@ -23,9 +23,6 @@
 #include "Public/LockableDoor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-
-
-
 // Sets default values
 ASCMPlayerCharacter::ASCMPlayerCharacter()
 {
@@ -170,6 +167,9 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		//Fire
 		EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::Fire);
 
+		//AltFire
+		EnhancedInputComponent->BindAction(IA_AltFire, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::AltFire);
+
 		//Reload
 		EnhancedInputComponent->BindAction(IA_Reload, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::ReloadActiveWeapon);
 		
@@ -294,12 +294,23 @@ void ASCMPlayerCharacter::Fire()
 	}
 }
 
+void ASCMPlayerCharacter::AltFire()
+{
+	check(PController != nullptr);
+	check(PossessedActor != nullptr);
+	if (bIsSwitching) { return; }
+	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
+	Arsenal[ActiveWeapon]->AltFire(PController, PossessedActor);
+
+}
+
 void ASCMPlayerCharacter::ReloadActiveWeapon()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Reload Input Recieved"));
 	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
 	if (bIsSwitching) { return; }
 	Arsenal[ActiveWeapon]->ReloadWeapon(PossessedActor);
+
 }
 
 void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
@@ -317,6 +328,18 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Can't switch guns rn"));
 		return;
+	}
+
+	AHSSniper* IsSniper = Cast<AHSSniper>(Arsenal[ActiveWeapon]);
+	
+	if (IsSniper)
+	{
+		// do something
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Sniper Was equipped");
+		if (IsSniper->GetIsScopedIn())
+		{
+			IsSniper->AltFire(PController, PossessedActor);
+		}
 	}
 	ActiveWeapon = NewWeapon;
 	StartSwitching();
@@ -562,6 +585,20 @@ void ASCMPlayerCharacter::DisableStim()
 	UCharacterMovementComponent* CharMovementComp = GetCharacterMovement();
 	float MaxSpeed = CharMovementComp->MaxWalkSpeed;
 	CharMovementComp->MaxWalkSpeed = MaxSpeed /= 1.5f;
+}
+
+void ASCMPlayerCharacter::CamZoomIn()
+{
+	FPSCameraComponent->SetFieldOfView(20.0f);
+	MouseSense /= 4.0f;
+	FPSMeshRefresh->SetOwnerNoSee(true);
+}
+
+void ASCMPlayerCharacter::CamZoomOut()
+{
+	FPSCameraComponent->SetFieldOfView(90.0f);
+	MouseSense *= 4.0f;
+	FPSMeshRefresh->SetOwnerNoSee(false);
 }
 
 void ASCMPlayerCharacter::GiveKey(KeyType Key)

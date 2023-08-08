@@ -21,8 +21,6 @@ void ASCMWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
-
-
 }
 
 // Called every frame
@@ -38,7 +36,7 @@ void ASCMWeapon::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 	UpdateMagString();
 }
 
-void ASCMWeapon::AltFire()
+void ASCMWeapon::AltFire(APlayerController* PController, AActor* PossessedActor)
 {
 	// Reserved for future use
 }

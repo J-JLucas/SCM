@@ -50,6 +50,14 @@ void UHUDWidget::UpdateInstructional_Implementation(const FString& Message)
 {
 }
 
+void UHUDWidget::DrawScope_Implementation()
+{
+}
+
+void UHUDWidget::HideScope_Implementation()
+{
+}
+
 void UHUDWidget::UpdateKeyCardIcon_Implementation(KeyType Key)
 {
 }
