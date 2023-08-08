@@ -128,12 +128,19 @@ void AHSSniper::AltFire(APlayerController* PController, AActor* PossessedActor)
 			SCMPController->ScopeOut();
 			ScopedIn = false;
 			PlayerChar->CamZoomOut();
+			//SniperNightvisionOff(PossessedActor);
+			PlayerChar->TurnOffNightvision();
 		}
 		else
 		{
 			SCMPController->ScopeIn();
 			ScopedIn = true;
 			PlayerChar->CamZoomIn();
+			if (NightvisionOn)
+			{
+				PlayerChar->TurnOnNightvision();
+				//SniperNightvisionOn(PossessedActor);
+			}
 		}
 	}
 
@@ -148,5 +155,25 @@ void AHSSniper::ReloadWeapon(AActor* PossessedActor)
 	if (ScopedIn)
 	{
 		AltFire(GetWorld()->GetFirstPlayerController(), PossessedActor);
+	}
+}
+
+void AHSSniper::SniperNightvisionOn(AActor* PossessedActor)
+{
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
+	if (PlayerChar)
+	{
+		PlayerChar->TurnOnNightvision();
+		NightvisionOn = true;
+	}
+}
+
+void AHSSniper::SniperNightvisionOff(AActor* PossessedActor)
+{
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
+	if (PlayerChar)
+	{
+		PlayerChar->TurnOffNightvision();
+		NightvisionOn = false;
 	}
 }

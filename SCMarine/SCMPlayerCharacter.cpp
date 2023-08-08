@@ -22,6 +22,7 @@
 #include "TimerManager.h"
 #include "Public/LockableDoor.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/PostProcessComponent.h"
 
 // Sets default values
 ASCMPlayerCharacter::ASCMPlayerCharacter()
@@ -93,6 +94,9 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	Flashlight->SetUseInverseSquaredFalloff(false);
 	Flashlight->SetLightFalloffExponent(15.0f);
 		
+	//PostProcessComponent = CreateDefaultSubobject<UPostProcessComponent>(TEXT("PostProcessComponent"));
+	//FPSCameraComponent->SetupAttachment(PostProcessComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -169,6 +173,9 @@ void ASCMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 		//AltFire
 		EnhancedInputComponent->BindAction(IA_AltFire, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::AltFire);
+
+		//Nightvision
+		EnhancedInputComponent->BindAction(IA_Nightvision, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::Nightvision);
 
 		//Reload
 		EnhancedInputComponent->BindAction(IA_Reload, ETriggerEvent::Triggered, this, &ASCMPlayerCharacter::ReloadActiveWeapon);
@@ -334,7 +341,6 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 	
 	if (IsSniper)
 	{
-		// do something
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Sniper Was equipped");
 		if (IsSniper->GetIsScopedIn())
 		{
@@ -599,6 +605,39 @@ void ASCMPlayerCharacter::CamZoomOut()
 	FPSCameraComponent->SetFieldOfView(90.0f);
 	MouseSense *= 4.0f;
 	FPSMeshRefresh->SetOwnerNoSee(false);
+}
+
+void ASCMPlayerCharacter::TurnOnNightvision_Implementation()
+{
+}
+
+void ASCMPlayerCharacter::TurnOffNightvision_Implementation()
+{
+}
+
+void ASCMPlayerCharacter::Nightvision()
+{
+	AHSSniper* IsSniper = Cast<AHSSniper>(Arsenal[ActiveWeapon]);
+
+	if (IsSniper)
+	{
+		if (IsSniper->GetIsNightvisionOn())
+		{				
+			IsSniper->SetIsNightvisionOn(false);
+			if (IsSniper->GetIsScopedIn())
+			{
+				TurnOffNightvision();
+			}
+		}
+		else
+		{
+			IsSniper->SetIsNightvisionOn(true);
+			if (IsSniper->GetIsScopedIn())
+			{
+				TurnOnNightvision();
+			}
+		}
+	}
 }
 
 void ASCMPlayerCharacter::GiveKey(KeyType Key)

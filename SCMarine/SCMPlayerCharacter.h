@@ -68,6 +68,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* IA_AltFire;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* IA_Nightvision;
+
 public:
 	// Sets default values for this character's properties
 	ASCMPlayerCharacter();
@@ -222,5 +225,26 @@ public:
 
 	void CamZoomIn();
 	void CamZoomOut();
+
+
+	//class UPostProcessComponent* PostProcessComponent;
+	
+	//UPROPERTY(EditAnywhere, Category = Nightvision)
+	//FPostProcessSettings DefaultPP;
+	
+	//UPROPERTY(EditAnywhere, Category = Nightvision)
+	//FPostProcessSettings NightvisionPP;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void TurnOnNightvision();
+	void TurnOnNightvision_Implementation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void TurnOffNightvision();
+	void TurnOffNightvision_Implementation();
+	void Nightvision();
+	
+	//UPROPERTY(EditAnywhere, Category = Nightvision)
+	//class USoundBase* NightvisionOnSFX;
 
 };
