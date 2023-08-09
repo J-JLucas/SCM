@@ -244,7 +244,7 @@ public:
 	void TurnOffNightvision_Implementation();
 	void Nightvision();
 	
-	//UPROPERTY(EditAnywhere, Category = Nightvision)
-	//class USoundBase* NightvisionOnSFX;
+	UPROPERTY(EditAnywhere, Category = Nightvision)
+	class USoundBase* NightvisionOnSFX;
 
 };

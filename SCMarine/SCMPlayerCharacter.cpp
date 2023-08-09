@@ -621,20 +621,22 @@ void ASCMPlayerCharacter::Nightvision()
 
 	if (IsSniper)
 	{
-		if (IsSniper->GetIsNightvisionOn())
-		{				
-			IsSniper->SetIsNightvisionOn(false);
-			if (IsSniper->GetIsScopedIn())
+		if (IsSniper->GetIsScopedIn())
+		{
+			if (IsSniper->GetIsNightvisionOn())
 			{
+				IsSniper->SetIsNightvisionOn(false);
 				TurnOffNightvision();
 			}
-		}
-		else
-		{
-			IsSniper->SetIsNightvisionOn(true);
-			if (IsSniper->GetIsScopedIn())
+			else
 			{
+				IsSniper->SetIsNightvisionOn(true);
 				TurnOnNightvision();
+				
+				if (NightvisionOnSFX)
+				{
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), NightvisionOnSFX, this->GetActorLocation());
+				}
 			}
 		}
 	}
