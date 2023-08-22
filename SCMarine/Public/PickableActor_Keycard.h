@@ -9,7 +9,7 @@
 UENUM(BlueprintType)
 enum KeyType
 {
-	NoKey UMETA(DisplayName = "NoKey"),		// not implemented unreal enum requires a 0 element
+	NoKey UMETA(DisplayName = "NoKey"),	
 	BlueKey UMETA(DisplayName = "BlueKey"),
 	PurpleKey UMETA(DisplayName = "PurpleKey"),
 	YellowKey UMETA(DisplayName = "YellowKey"),
