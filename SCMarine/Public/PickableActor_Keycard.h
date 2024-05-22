@@ -28,7 +28,6 @@ protected:
 
 public:
 
-
 	UPROPERTY(EditAnywhere, Category = KeyCollectable)
 	TEnumAsByte<KeyType> Key;
 

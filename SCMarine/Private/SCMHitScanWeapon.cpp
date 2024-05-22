@@ -25,6 +25,10 @@ void ASCMHitScanWeapon::SetImpactDecal(FString Path)
 		UE_LOG(LogTemp, Warning, TEXT("loaded ImpactDecal successfully"));
 	}
 
+
+
+
+
 }
 
 void ASCMHitScanWeapon::SetBloodDecal(FString Path)

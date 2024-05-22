@@ -22,6 +22,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// FPS mesh (arms); visible only to owning player
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Mesh")
+	//USkeletalMeshComponent* CharacterMesh;
+
 	// Pawnsense
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	//class UPawnSensingComponent* PawnSenseComp;
@@ -30,22 +34,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
 	class UHealthComponent* HealthComponent;
 	
-	float DefaultHealth = 100.0f;
+	float DefaultHealth{ 100.0f };
 
 	virtual void OnDeath_Implementation() override;
+	virtual void OnTakeDamage_Implementation() override;
 		
-	// Death Animation
-	UPROPERTY()
-	UAnimSequence* DeathAnimation;
-	
-	// Melee Attack Collision Boxes
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackCollision")
-	class UCapsuleComponent* AttackCollisionLeft = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	bool bCanDealDamage{ false };
 
-	// Melee Attack Collision Boxes
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackCollision")
-	class UCapsuleComponent* AttackCollisionRight = nullptr;
-	
 	// Flipped when enemy detects player
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AISense")
 	bool bPlayerDetected = false;
@@ -61,20 +57,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintCallable, Category = Attack)
-	virtual void MeleeAttack();
-
-	// Skeletal Mesh Component
-	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	//	USkeletalMeshComponent* EnemyMeshComponent;
-
-	// Load the skeletal mesh asset
-	//USkeletalMesh* EnemyMesh;
-
 	UPROPERTY(BlueprintReadWrite, Category = "AISense")
 	FVector SpawnOrigin;
-
-	void OnTakeDamage_Implementation();
 
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed{100.0f};
@@ -87,11 +71,5 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void SwitchToWalkSpeed();
-
-	// Removed due to horrible performance,
-	// Decals are bad, need to learn about 
-	// RVT (runtime virtual texture) or render target capture to "paint" directly to the texture of a model 
-	//UFUNCTION(BlueprintImplementableEvent, Category = GFX)
-	//void SpawnBloodEffectEvent(FVector HitLocation, FVector HitNormal);
 
 };

@@ -8,8 +8,20 @@ public class SCMarine : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "UMG", "Slate", "SlateCore", "Niagara", "AIModule" });
-
+		PublicDependencyModuleNames.AddRange(new string[] {
+			"Core",
+			"CoreUObject",
+			"Engine",
+			"InputCore",
+			"EnhancedInput",
+			"UMG",
+			"Slate",
+			"SlateCore",
+			"Niagara",
+			"AIModule",
+			"GameplayTasks",
+			"NavigationSystem" 
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

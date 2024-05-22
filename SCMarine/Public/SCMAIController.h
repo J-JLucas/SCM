@@ -3,19 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SCMEnemyMelee.h"
-#include "EnemyUltra.generated.h"
+#include "AIController.h"
+#include "SCMAIController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SCMARINE_API AEnemyUltra : public ASCMEnemyMelee
+class SCMARINE_API ASCMAIController : public AAIController
 {
 	GENERATED_BODY()
 	
-public:
-	
-	AEnemyUltra();
-
 };

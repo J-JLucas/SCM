@@ -3,21 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SCMEnemy.h"
+#include "SCMEnemyMelee.h"
 #include "EnemyZergling.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SCMARINE_API AEnemyZergling : public ASCMEnemy
+class SCMARINE_API AEnemyZergling : public ASCMEnemyMelee
 {
 	GENERATED_BODY()
 	
 public:
 
 	AEnemyZergling();
-
-	//virtual void SustainDamage(float DamageAmount) override;
 
 };
