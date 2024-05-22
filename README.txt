@@ -1,4 +1,4 @@
-Hi! Thanks for trying my game.
+Hi! Thanks for checking out my game, click the link under "releases" to go to the download page.
 
 Most systems should be able to run the game out of the box.
 In the rare case you need to update some C++ libraries the Unreal Engine
