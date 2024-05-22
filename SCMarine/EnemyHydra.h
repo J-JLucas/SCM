@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SCMEnemy.h"
+#include "SCMEnemyRanged.h"
 #include "EnemyHydra.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SCMARINE_API AEnemyHydra : public ASCMEnemy
+class SCMARINE_API AEnemyHydra : public ASCMEnemyRanged
 {
 	GENERATED_BODY()
 

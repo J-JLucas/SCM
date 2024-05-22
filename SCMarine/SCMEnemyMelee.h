@@ -17,6 +17,9 @@ class SCMARINE_API ASCMEnemyMelee : public ASCMEnemy
 public:
 	ASCMEnemyMelee();
 
+private:
+	UAnimMontage* ChooseAttackMontage();
+
 protected:
 
 	// Melee Attack Collision Boxes
@@ -27,6 +30,10 @@ protected:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackCollision")
 	//class UCapsuleComponent* AttackCollisionRight = nullptr;
 
+	// Array of animation montages
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	TArray<UAnimMontage*> AttackMontages;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Sound")
 	class USoundBase* MeleeAttackSound;
 
@@ -34,9 +41,15 @@ protected:
 	float MeleeAttackDamage{10};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
-	float MeleeForce{ -250.0f };
+	float MeleeForce{ -250.0f };  // This is how my bp was set up, don't remember why negative lol
 
-	UFUNCTION(BlueprintCallable, Category = Attack)
-	virtual void MeleeAttack(AActor* Target, UPrimitiveComponent* MeleeHitbox);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	float ForceHeight{ 50.0f };
+
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	virtual void MeleeAttack();
+
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	virtual void DealMeleeDamage(AActor* Target, UPrimitiveComponent* MeleeHitbox);
 
 };

@@ -4,6 +4,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
+#include "SCMPlayerCharacter.h"
 
 ASCMEnemyMelee::ASCMEnemyMelee()
 {
@@ -17,9 +18,36 @@ ASCMEnemyMelee::ASCMEnemyMelee()
 
 }
 
-
-void ASCMEnemyMelee::MeleeAttack(AActor* Target, UPrimitiveComponent* MeleeHitbox)
+// Start the melee attack procedure
+void ASCMEnemyMelee::MeleeAttack()
 {
+	bCanDealDamage = true;
+	
+	// Select a random attack montage to play.
+	UAnimMontage* SelectedMontage = ChooseAttackMontage();
+	if (SelectedMontage)
+	{
+		PlayAnimMontage(SelectedMontage);
+	}
+}
+
+// Chooses a random attack animation to play
+// Populate the array in the bp inside the editor
+UAnimMontage* ASCMEnemyMelee::ChooseAttackMontage()
+{
+	if (AttackMontages.Num() == 0) { return nullptr; }
+
+	int32 MontageIndex = FMath::RandRange(0, AttackMontages.Num() - 1);
+	return AttackMontages.IsValidIndex(MontageIndex) ? AttackMontages[MontageIndex] : nullptr;
+}
+
+
+// Deal Damage if allowed
+void ASCMEnemyMelee::DealMeleeDamage(AActor* Target, UPrimitiveComponent* MeleeHitbox)
+{
+	// No friendly fire... yet... 
+	ASCMPlayerCharacter* SCMPlayerCharacter = Cast<ASCMPlayerCharacter>(Target);
+	if (!SCMPlayerCharacter) { return; }
 	if (!bCanDealDamage) { return; }
 
 	UGameplayStatics::PlaySoundAtLocation(this, MeleeAttackSound, GetActorLocation(), 1.0f);
@@ -28,14 +56,14 @@ void ASCMEnemyMelee::MeleeAttack(AActor* Target, UPrimitiveComponent* MeleeHitbo
 
 	if (MeleeHitbox)
 	{
+		// knock the character back
 		FVector LaunchDirection = MeleeHitbox->GetForwardVector();
-		LaunchDirection = LaunchDirection * -250.0f; // This is how my bp was set up, don't remember why lol
-
+		LaunchDirection = LaunchDirection * MeleeForce; 
+		LaunchDirection.Z += ForceHeight;
 		ACharacter* Character = Cast<ACharacter>(Target);
 		if (Character)
 		{
 			Character->LaunchCharacter(LaunchDirection, false, false);
 		}
 	}
-
 }
