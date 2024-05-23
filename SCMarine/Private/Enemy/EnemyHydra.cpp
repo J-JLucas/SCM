@@ -24,24 +24,46 @@ AEnemyHydra::AEnemyHydra()
 
 }
 
-void AEnemyHydra::HydraRangedAttack(FRotator TargetAngle)
+FRotator AEnemyHydra::FindLookAtRotation(const FVector& Start, const FVector& Target)
 {
+	return FRotationMatrix::MakeFromX(Target - Start).Rotator();
+}
 
+FVector AEnemyHydra::GetPlayerLocation() const
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		APawn* PlayerChar = PlayerController->GetPawn();
+		if (PlayerChar)
+		{
+			return PlayerChar->GetActorLocation();
+		}
+	}
+	return FVector();
+}
+
+void AEnemyHydra::HydraRangedAttack()
+{
 	FVector ForwardVector = GetActorForwardVector();
 	float SpawnDistance = 300.f;
 	FVector SpawnLocation = GetActorLocation() + (ForwardVector * SpawnDistance);
 	SpawnLocation.Z += 80.0f;
-
-	// Calculate the tilt angle in degrees
-	//float TiltAngle = -5.0f; // Adjust this value to control the amount of tilt
-	//float TiltAngle = 0.0f; // Adjust this value to control the amount of tilt
-	//FRotator SpawnRotation = GetActorRotation() + FRotator(TiltAngle, 0.0f, 0.0f);
+	FRotator TargetAngle = FindLookAtRotation(GetActorLocation() + FVector(0.0f,0.0f, 40.0f), GetPlayerLocation());
+	
 	FTransform SpawnTransform(TargetAngle, SpawnLocation);
-
-	// Spawn new SlimeProjectile
 	ASCMProjectile* Projectile = GetWorld()->SpawnActorDeferred<ASCMProjectile>(SCMProjectileClass, SpawnTransform);
 
-	Projectile->GetProjectileMovementComponent()->InitialSpeed = 4500.f;
-	Projectile->FinishSpawning(SpawnTransform);
+	if (Projectile)
+	{
+		// Select a random attack montage to play.
+		UAnimMontage* SelectedMontage = ChooseAttackMontage(RangedAttackMontages);
+		if (SelectedMontage)
+		{
+			PlayAnimMontage(SelectedMontage);
+		}
+		Projectile->GetProjectileMovementComponent()->InitialSpeed = 4500.f;
+		Projectile->FinishSpawning(SpawnTransform);
+	}
 
 }

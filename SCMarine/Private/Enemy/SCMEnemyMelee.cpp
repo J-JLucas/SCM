@@ -24,7 +24,7 @@ void ASCMEnemyMelee::MeleeAttack()
 	bCanDealDamage = true;
 	
 	// Select a random attack montage to play.
-	UAnimMontage* SelectedMontage = ChooseAttackMontage();
+	UAnimMontage* SelectedMontage = ChooseAttackMontage(MeleeAttackMontages);
 	if (SelectedMontage)
 	{
 		PlayAnimMontage(SelectedMontage);
@@ -33,7 +33,7 @@ void ASCMEnemyMelee::MeleeAttack()
 
 // Chooses a random attack animation to play
 // Populate the array in the bp inside the editor
-UAnimMontage* ASCMEnemyMelee::ChooseAttackMontage()
+UAnimMontage* ASCMEnemyMelee::ChooseAttackMontage(TArray<UAnimMontage*> AttackMontages)
 {
 	if (AttackMontages.Num() == 0) { return nullptr; }
 

@@ -17,9 +17,6 @@ class SCMARINE_API ASCMEnemyMelee : public ASCMEnemy
 public:
 	ASCMEnemyMelee();
 
-private:
-	UAnimMontage* ChooseAttackMontage();
-
 protected:
 
 	// Melee Attack Collision Boxes
@@ -32,7 +29,7 @@ protected:
 
 	// Array of animation montages
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
-	TArray<UAnimMontage*> AttackMontages;
+	TArray<UAnimMontage*> MeleeAttackMontages;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Sound")
 	class USoundBase* MeleeAttackSound;
@@ -51,5 +48,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Attack")
 	virtual void DealMeleeDamage(AActor* Target, UPrimitiveComponent* MeleeHitbox);
+
+	UAnimMontage* ChooseAttackMontage(TArray<UAnimMontage*> AttackMontages);
 
 };

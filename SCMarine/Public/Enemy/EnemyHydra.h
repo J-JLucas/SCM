@@ -28,6 +28,10 @@ public:
 
 	AEnemyHydra();
 
+	FRotator FindLookAtRotation(const FVector& Start, const FVector& Target);
+
+	FVector GetPlayerLocation() const;
+
 	UFUNCTION(BlueprintCallable, Category = Attack)
-	void HydraRangedAttack(FRotator TargetAngle);
+	void HydraRangedAttack();
 };

@@ -13,5 +13,9 @@ UCLASS()
 class SCMARINE_API ASCMEnemyRanged : public ASCMEnemyMelee
 {
 	GENERATED_BODY()
-	
+
+protected:
+	// Array of animation montages
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	TArray<UAnimMontage*> RangedAttackMontages;
 };
