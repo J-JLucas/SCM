@@ -5,24 +5,21 @@
 #include "SCMarinePlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GameFramework/Actor.h"
 #include "Components/CapsuleComponent.h"
 #include "HealthComponent.h"
 #include "Enemy/SCMEnemy.h"
 #include "Kismet/GameplayStatics.h"
-#include "Engine/SkeletalMesh.h"
 #include "Weapons/SCMWeapon.h"
 #include "Weapons/HSShotgun.h"
 #include "Weapons/HSRifle.h"
 #include "Weapons/HSSniper.h"
 #include "Weapons/PRocketLauncher.h"
 #include "Weapons/PFlameThrower.h"
-#include "SCMarinePlayerController.h"
 #include "Components/SpotLightComponent.h"
-#include "TimerManager.h"
 #include "Level/LockableDoor.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Components/PostProcessComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Sight.h"
 
 // Sets default values
 ASCMPlayerCharacter::ASCMPlayerCharacter()
@@ -89,6 +86,7 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	Flashlight->SetUseInverseSquaredFalloff(false);
 	Flashlight->SetLightFalloffExponent(15.0f);
 		
+	SetupStimulusSource();
 	//PostProcessComponent = CreateDefaultSubobject<UPostProcessComponent>(TEXT("PostProcessComponent"));
 	//FPSCameraComponent->SetupAttachment(PostProcessComponent);
 
@@ -200,6 +198,22 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput((LookAxisVector.X)*MouseSense);
 		AddControllerPitchInput((LookAxisVector.Y)*MouseSense);
+	}
+}
+
+void ASCMPlayerCharacter::SetupStimulusSource()
+{
+	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
+	if (StimulusSource)
+	{
+		StimulusSource->bAutoRegister = true;
+		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+		StimulusSource->RegisterWithPerceptionSystem();
+		UE_LOG(LogTemp, Warning, TEXT("StimulusSource Setup Successfully!"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to Setup StimulusSource"));
 	}
 }
 
@@ -624,6 +638,7 @@ void ASCMPlayerCharacter::Nightvision()
 	}
 }
 
+
 void ASCMPlayerCharacter::GiveKey(KeyType Key)
 {
 	KeyArray.Insert(true, Key);
@@ -631,5 +646,4 @@ void ASCMPlayerCharacter::GiveKey(KeyType Key)
 	{
 		PlayerController->PrintKeycard(Key);
 	}
-
 }

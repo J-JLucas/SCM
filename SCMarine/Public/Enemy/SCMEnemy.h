@@ -22,13 +22,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// FPS mesh (arms); visible only to owning player
 	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Mesh")
 	//USkeletalMeshComponent* CharacterMesh;
-
-	// Pawnsense
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	//class UPawnSensingComponent* PawnSenseComp;
 
 	// Health 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HealthComponent")
@@ -39,16 +34,19 @@ protected:
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;
 		
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	UPROPERTY(BlueprintReadWrite, Category = "Damage")
 	bool bCanDealDamage{ false };
 
 	// Flipped when enemy detects player
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AISense")
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
 	bool bPlayerDetected = false;
 
 	// Flipped when enemy spots player
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AISense")
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
 	bool bPlayerVisable = false;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	class UBehaviorTree* BehaviorTree;
 
 public:	
 	// Called every frame
@@ -57,19 +55,27 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(BlueprintReadWrite, Category = "AISense")
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
 	FVector SpawnOrigin;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float MaxSpeed{100.0f};
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float IdleSpeed{ 100.0f };
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Sound")
+	class USoundBase* AlertSound;
+
+	void PlayAlertBark();
 
 	UFUNCTION(BlueprintCallable)
 	void SwitchToAttackSpeed();
 	
 	UFUNCTION(BlueprintCallable)
 	void SwitchToWalkSpeed();
+
+
+	FORCEINLINE UBehaviorTree* GetBehaviorTree() { return BehaviorTree; }
 
 };

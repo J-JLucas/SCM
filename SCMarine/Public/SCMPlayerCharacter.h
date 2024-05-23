@@ -85,11 +85,16 @@ protected:
 	/** Called for look input */
 	void Look(const FInputActionValue& Value);	
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	class UAIPerceptionStimuliSourceComponent* StimulusSource;
+	void SetupStimulusSource();
+
 	// flashlight
 	UPROPERTY(BlueprintReadWrite, Category = Flashlight)
 	class USpotLightComponent* Flashlight;
-	UPROPERTY(EditAnywhere, Category = Flashlight)
+	UPROPERTY(EditDefaultsOnly, Category = Flashlight)
 	class USoundBase* FlashlightClickSound;
+	
 	bool FlashlightOn = false;
 	void ActivateFlashlight();
 

@@ -3,8 +3,8 @@
 
 #include "Enemy/SCMEnemy.h"
 #include "HealthComponent.h"
-//#include "Perception/PawnSensingComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASCMEnemy::ASCMEnemy()
@@ -17,11 +17,6 @@ ASCMEnemy::ASCMEnemy()
 	//CharacterMesh->SetupAttachment(GetRootComponent());
 	//CharacterMesh->bCastDynamicShadow = false;
 
-	// Init AI senses
-	//PawnSenseComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComponent"));
-	//PawnSenseComp->SetPeripheralVisionAngle(50.0f);
-	//PawnSenseComp->SetSensingInterval(0.25f);
-
 	// Init Health Component
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	HealthComponent->SetMaxHealth(DefaultHealth);
@@ -32,7 +27,6 @@ ASCMEnemy::ASCMEnemy()
 void ASCMEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void ASCMEnemy::OnDeath_Implementation()
@@ -79,6 +73,11 @@ void ASCMEnemy::SwitchToWalkSpeed()
 {
 	GetCharacterMovement()->MaxWalkSpeed = IdleSpeed;
 	return;
+}
+
+void ASCMEnemy::PlayAlertBark()
+{
+	UGameplayStatics::PlaySoundAtLocation(this, AlertSound, GetActorLocation());
 }
 
 
