@@ -65,11 +65,6 @@ ASCMPlayerCharacter::ASCMPlayerCharacter()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	HealthComponent->SetMaxHealth(MaxHealth);
 
-	// Safe initialization, if you create objects here it's too slow and they don't work
-	// gotta do it in BeginPlay()
-	PController = nullptr;
-	PossessedActor = nullptr;
-
 	// Init Weapon objects
 	Arsenal.Init(nullptr, 8);
 	KeyArray.Init(false, 4);
@@ -105,7 +100,8 @@ void ASCMPlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	//Add Input Mapping Context
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	PlayerController = Cast<ASCMarinePlayerController>(GetController());
+	if (PlayerController)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
@@ -143,10 +139,6 @@ void ASCMPlayerCharacter::BeginPlay()
 	SwitchWeapon(WeaponType::Rifle);
 	OnSwitchGunEvent();
 	
-	// Initialize PController
-	PController = GetWorld()->GetFirstPlayerController();
-	PossessedActor = this;
-
 }
 
 // Called every frame
@@ -256,9 +248,6 @@ void ASCMPlayerCharacter::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fire input received!"));
 
-	// Check if PController and PossessedActor are valid
-	check(PController != nullptr);
-	check(PossessedActor != nullptr);
 	if (bIsSwitching) { return; }
 
 	switch (ActiveWeapon)
@@ -303,8 +292,6 @@ void ASCMPlayerCharacter::Fire()
 
 void ASCMPlayerCharacter::AltFire()
 {
-	check(PController != nullptr);
-	check(PossessedActor != nullptr);
 	if (bIsSwitching) { return; }
 	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
 	Arsenal[ActiveWeapon]->AltFire();
@@ -354,9 +341,6 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 
 void ASCMPlayerCharacter::UpdateWeaponString(FText Name)
 {
-	ASCMarinePlayerController* PlayerController =
-		Cast<ASCMarinePlayerController>(GetController());
-
 	if (PlayerController)
 	{
 		PlayerController->UpdateActiveWeaponName(Name);
@@ -446,18 +430,18 @@ void ASCMPlayerCharacter::StopSwitching()
 
 void ASCMPlayerCharacter::OnDeath_Implementation()
 {
-	DisableInput(PController);
+	if (PlayerController)
+	{
+		DisableInput(PlayerController);
+	}
 	FPSMeshRefresh->SetOwnerNoSee(true);
 	SetCanBeDamaged(false);
 
-	//Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "PlayerCharacter Destroyed");
 }
 
 void ASCMPlayerCharacter::OnTakeDamage_Implementation()
 {
-	ASCMarinePlayerController* PlayerController =
-		Cast<ASCMarinePlayerController>(GetController());
 
 	if (PlayerController)
 	{
@@ -482,10 +466,8 @@ bool ASCMPlayerCharacter::HealPlayer(float Value)
 {
 	bool Success = HealthComponent->AddHealth(Value);
 
-	if (Success) {
-		ASCMarinePlayerController* PlayerController =
-			Cast<ASCMarinePlayerController>(GetController());
-
+	if (Success) 
+	{
 		if (PlayerController)
 		{
 			PlayerController->UpdateHealthPercent(HealthComponent->GetHealthPercent());
@@ -645,10 +627,9 @@ void ASCMPlayerCharacter::Nightvision()
 void ASCMPlayerCharacter::GiveKey(KeyType Key)
 {
 	KeyArray.Insert(true, Key);
-	ASCMarinePlayerController* PC = Cast <ASCMarinePlayerController>(PController);
-	if (PC)
+	if (PlayerController)
 	{
-		PC->PrintKeycard(Key);
+		PlayerController->PrintKeycard(Key);
 	}
 
 }

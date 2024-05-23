@@ -192,11 +192,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	
 
-	class APlayerController* PController;
+	class ASCMarinePlayerController* PlayerController;
 	
-	UPROPERTY(VisibleAnywhere)
-	class AActor* PossessedActor;
-
 	bool HealPlayer(float Value);
 	bool PickupAmmo(WeaponType AmmoType, int Amount);
 	bool PickupWeapon(WeaponType WeaponType, int Amount);
