@@ -7,14 +7,13 @@
 
 
 
-void ASCMProjectileWeapon::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
+void ASCMProjectileWeapon::PrimaryFire()
 {
 	if ((!bIsFiring) && (CurrentMag > 0) && (!bIsReloading))
 	{
-		Super::PrimaryFire(PController, PossessedActor);
+		Super::PrimaryFire();
 		StartFiring();
-		//PlayGunshotSFX(PossessedActor);
-		PlayFireAnimation(PossessedActor);
+		PlayFireAnimation();
 		if (!SCMProjectileClass)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "No Projectile Class");
@@ -24,7 +23,7 @@ void ASCMProjectileWeapon::PrimaryFire(APlayerController* PController, AActor* P
 		// Get the camera transform.
 		FVector CameraLocation;
 		FRotator CameraRotation;
-		PController->GetPlayerViewPoint(CameraLocation, CameraRotation);
+		PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
 		// Set MuzzleOffset to spawn projectiles slightly in front of the camera.
 		MuzzleOffset.Set(200.0f, 0.0f, 0.0f);

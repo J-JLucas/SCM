@@ -270,31 +270,31 @@ void ASCMPlayerCharacter::Fire()
 		}
 		case(WeaponType::Shotgun):
 		{
-			Arsenal[WeaponType::Shotgun]->PrimaryFire(PController, PossessedActor);
+			Arsenal[WeaponType::Shotgun]->PrimaryFire();
 			UE_LOG(LogTemp, Warning, TEXT("Fired Shotgun"));
 			break;
 		}
 		case(WeaponType::Rifle):
 		{
-			Arsenal[WeaponType::Rifle]->PrimaryFire(PController, PossessedActor);
+			Arsenal[WeaponType::Rifle]->PrimaryFire();
 			UE_LOG(LogTemp, Warning, TEXT("Fired GaussRifle"));
 			break;
 		}
 		case(WeaponType::Sniper):
 		{
-			Arsenal[WeaponType::Sniper]->PrimaryFire(PController, PossessedActor);
+			Arsenal[WeaponType::Sniper]->PrimaryFire();
 			UE_LOG(LogTemp, Warning, TEXT("Fired SniperRifle"));
 			break;
 		}
 		case(WeaponType::RocketL):
 		{
-			Arsenal[WeaponType::RocketL]->PrimaryFire(PController, PossessedActor);
+			Arsenal[WeaponType::RocketL]->PrimaryFire();
 			UE_LOG(LogTemp, Warning, TEXT("Fired RocketLauncher"));
 			break;
 		}
 		case(WeaponType::FThrower):
 		{	
-			Arsenal[WeaponType::FThrower]->PrimaryFire(PController, PossessedActor);
+			Arsenal[WeaponType::FThrower]->PrimaryFire();
 			UE_LOG(LogTemp, Warning, TEXT("Fired FlameThrower"));
 			break;
 		}
@@ -307,7 +307,7 @@ void ASCMPlayerCharacter::AltFire()
 	check(PossessedActor != nullptr);
 	if (bIsSwitching) { return; }
 	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
-	Arsenal[ActiveWeapon]->AltFire(PController, PossessedActor);
+	Arsenal[ActiveWeapon]->AltFire();
 
 }
 
@@ -316,7 +316,7 @@ void ASCMPlayerCharacter::ReloadActiveWeapon()
 	UE_LOG(LogTemp, Warning, TEXT("Reload Input Recieved"));
 	if (Arsenal[ActiveWeapon]->GetIsReloading() == true) { return; }
 	if (bIsSwitching) { return; }
-	Arsenal[ActiveWeapon]->ReloadWeapon(PossessedActor);
+	Arsenal[ActiveWeapon]->ReloadWeapon();
 
 }
 
@@ -344,7 +344,7 @@ void ASCMPlayerCharacter::SwitchWeapon(WeaponType NewWeapon)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Sniper Was equipped");
 		if (IsSniper->GetIsScopedIn())
 		{
-			IsSniper->AltFire(PController, PossessedActor);
+			IsSniper->AltFire();
 		}
 	}
 	ActiveWeapon = NewWeapon;

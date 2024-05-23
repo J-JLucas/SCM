@@ -8,8 +8,8 @@
 #include "Components/DecalComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-#include "SCMarinePlayerController.h"
-#include "SCMPlayerCharacter.h"
+//#include "SCMarinePlayerController.h"
+//#include "SCMPlayerCharacter.h"
 
 AHSSniper::AHSSniper()
 	:Super()
@@ -34,7 +34,7 @@ void AHSSniper::BeginPlay()
 	bPiercing = true;
 }
 
-void AHSSniper::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
+void AHSSniper::PrimaryFire()
 {
 
 	if ((!bIsFiring) && (CurrentMag > 0) && (!bIsReloading))
@@ -43,22 +43,20 @@ void AHSSniper::PrimaryFire(APlayerController* PController, AActor* PossessedAct
 		FRotator CameraRotation;
 		TArray<FHitResult> Hits;
 		TSet<AActor*> HitActors;
-		UWorld* World = PossessedActor->GetWorld();
+		UWorld* World = PlayerChar->GetWorld();
 
-		APlayerController* PlayerController = Cast<APlayerController>
-			(UGameplayStatics::GetPlayerController(GetWorld(), 0));;
 		PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
 		StartFiring();
 		CurrentMag--;
 		UpdateMagString();
-		PlayFireAnimation(PossessedActor);
+		PlayFireAnimation();
 
 		FVector Start = CameraLocation;
 		FVector End = Start + (CameraRotation.Vector() * Range);
 
 		FCollisionQueryParams TraceParams;
-		TraceParams.AddIgnoredActor(PossessedActor);		// don't shoot self LOL
+		TraceParams.AddIgnoredActor(PlayerChar);		// don't shoot self LOL
 		bool bHit = World->LineTraceMultiByChannel(Hits, Start, End, ECollisionChannel::ECC_GameTraceChannel2, TraceParams);
 		DrawDebugLine(World, Start, End, FColor::Purple, false, 5.0f);
 
@@ -90,7 +88,7 @@ void AHSSniper::PrimaryFire(APlayerController* PController, AActor* PossessedAct
 						}
 
 
-						UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
+						UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PlayerChar, nullptr);
 						Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
 						UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
@@ -113,56 +111,50 @@ void AHSSniper::PrimaryFire(APlayerController* PController, AActor* PossessedAct
 		}
 		if (ScopedIn)
 		{
-			AltFire(PController, PossessedActor);
+			AltFire();
 		}
 	}
 }
 
-void AHSSniper::AltFire(APlayerController* PController, AActor* PossessedActor)
+void AHSSniper::AltFire()
 {
-	ASCMarinePlayerController* SCMPController = Cast<ASCMarinePlayerController>(PController);
-	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
-
-	if (SCMPController)
+	if (PlayerController)
 	{
 		if (ScopedIn)
 		{
-			SCMPController->ScopeOut();
+			PlayerController->ScopeOut();
 			ScopedIn = false;
 			PlayerChar->CamZoomOut();
-			//SniperNightvisionOff(PossessedActor);
 			PlayerChar->TurnOffNightvision();
 		}
 		else
 		{
-			SCMPController->ScopeIn();
+			PlayerController->ScopeIn();
 			ScopedIn = true;
 			PlayerChar->CamZoomIn();
 			if (NightvisionOn)
 			{
 				PlayerChar->TurnOnNightvision();
-				//SniperNightvisionOn(PossessedActor);
 			}
 		}
 	}
 
 }
 
-void AHSSniper::ReloadWeapon(AActor* PossessedActor)
+void AHSSniper::ReloadWeapon()
 {
-	Super::ReloadWeapon(PossessedActor);
+	Super::ReloadWeapon();
 	
 	if ((CurrentAmmo == 0) || (CurrentMag == MaxMag)) { return; }
 	
 	if (ScopedIn)
 	{
-		AltFire(GetWorld()->GetFirstPlayerController(), PossessedActor);
+		AltFire();
 	}
 }
 
-void AHSSniper::SniperNightvisionOn(AActor* PossessedActor)
+void AHSSniper::SniperNightvisionOn()
 {
-	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
 	if (PlayerChar)
 	{
 		PlayerChar->TurnOnNightvision();
@@ -170,9 +162,8 @@ void AHSSniper::SniperNightvisionOn(AActor* PossessedActor)
 	}
 }
 
-void AHSSniper::SniperNightvisionOff(AActor* PossessedActor)
+void AHSSniper::SniperNightvisionOff()
 {
-	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
 	if (PlayerChar)
 	{
 		PlayerChar->TurnOffNightvision();

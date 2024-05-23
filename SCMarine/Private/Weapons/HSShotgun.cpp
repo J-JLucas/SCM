@@ -8,12 +8,12 @@
 #include "Components/DecalComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-
-
+//#include "SCMarinePlayerController.h"
+//#include "SCMPlayerCharacter.h"
 
 AHSShotgun::AHSShotgun()
+	:Super()
 {
-//	SetGunshotSFX(GunshotPath);
 	SetImpactDecal(ImpactDecalPath);
 	SetBloodEffect(BloodEffectPath);
 	FireRate = 0.35f;
@@ -31,7 +31,7 @@ void AHSShotgun::BeginPlay()
 	SetDamageAmount(6.0f);
 }
 
-void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
+void AHSShotgun::PrimaryFire()
 {
 
 	if ((!bIsFiring) && (CurrentMag > 0) && (!bIsReloading))
@@ -40,17 +40,15 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 		FVector CameraLocation;
 		FRotator CameraRotation;
 		FHitResult Hit;
-		UWorld* World = PossessedActor->GetWorld();
+		UWorld* World = PlayerChar->GetWorld();
 		int32 ShotCount = 10;
 
-		APlayerController* PlayerController = Cast<APlayerController>
-			(UGameplayStatics::GetPlayerController(GetWorld(), 0));;
 		PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
 		StartFiring();
 		CurrentMag--;
 		UpdateMagString();
-		PlayFireAnimation(PossessedActor);
+		PlayFireAnimation();
 
 		// fire ShotCount Pellets (algie from ChatGPT based off of quake sourcecode)
 		for (int32 i = 0; i < ShotCount; i++)
@@ -73,7 +71,7 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 			FVector End = Start + (SpreadDirection * Range);
 
 			FCollisionQueryParams TraceParams;
-			TraceParams.AddIgnoredActor(PossessedActor);		// don't shoot self LOL
+			TraceParams.AddIgnoredActor(PlayerChar);		// don't shoot self LOL
 			bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_GameTraceChannel3, TraceParams);
 
 			DrawDebugLine(World, Start, End, FColor::Purple, false, 5.0f);
@@ -102,7 +100,7 @@ void AHSShotgun::PrimaryFire(APlayerController* PController, AActor* PossessedAc
 					}
 
 
-					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
+					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PlayerChar, nullptr);
 					Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
 					UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 

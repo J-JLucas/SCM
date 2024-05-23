@@ -33,6 +33,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	class ASCMPlayerCharacter* PlayerChar;
+	class ASCMarinePlayerController* PlayerController;
+
+	void SetOwnerReferences();
+
 	// GunProperties
 	UPROPERTY()
 	float DamageAmount = 25.0f;
@@ -44,7 +49,6 @@ protected:
 	bool bPiercing = false;
 	bool bIsFiring = false;
 	bool bIsReloading = false;
-	//bool bCanDoSwitchy;
 
 	// AmmoProperties
 	int MaxAmmo = 600;
@@ -64,19 +68,15 @@ protected:
 	virtual void StartReloading();
 	virtual void StopReloading();
 
-	//UPROPERTY()
-	//class ASCMPlayerCharacter* PlayerRef;
-
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void PrimaryFire(APlayerController* PController, AActor* PossessedActor);
+	virtual void PrimaryFire();
 
-	virtual void AltFire(APlayerController* PController, AActor* PossessedActor);
+	virtual void AltFire();
 
-	virtual void ReloadWeapon(AActor* PossessedActor);
+	virtual void ReloadWeapon();
 
 	bool AddAmmo(int Amount);
 
@@ -89,13 +89,8 @@ public:
 	FORCEINLINE bool GetAbleToSwitch() { return bCanSwitchWeapons; }
 	void SetAbleToSwitch(bool Status);
 
-	//void PlayGunshotSFX(AActor* PossessedActor);
 	void SetGunshotSFX(FString Path);
-	void PlayFireAnimation(AActor* PossessedActor);
-
-	// Reload Sound
-	//UPROPERTY(EditAnywhere, Category = "Sound")
-	//	class USoundBase* Reload;
+	void PlayFireAnimation();
 
 	void SetDamageAmount(float Damage);
 	void SetRangeAmount(float RangeValue);

@@ -3,7 +3,6 @@
 
 #include "Weapons/SCMHitScanWeapon.h"
 #include "Enemy/SCMEnemy.h"
-#include "SCMPlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/DecalComponent.h"
@@ -12,6 +11,13 @@
 #include "Components/PrimitiveComponent.h"
 #include "Perception/AISense_Damage.h"
 #include "AIController.h"
+//#include "SCMarinePlayerController.h"
+//#include "SCMPlayerCharacter.h"
+
+ASCMHitScanWeapon::ASCMHitScanWeapon()
+	:Super()
+{
+}
 
 void ASCMHitScanWeapon::SetImpactDecal(FString Path)
 {
@@ -57,23 +63,21 @@ void ASCMHitScanWeapon::SetBloodEffect(FString Path)
 	}
 }
 
-void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* PossessedActor)
+void ASCMHitScanWeapon::TraceForward()
 {
 	
 	FVector CameraLocation;
 	FRotator CameraRotation;
 	FHitResult Hit;
-	UWorld* World = PossessedActor->GetWorld();
+	UWorld* World = PlayerChar->GetWorld();
 
-	APlayerController* PlayerController = Cast<APlayerController>
-		(UGameplayStatics::GetPlayerController(GetWorld(), 0));;
 	PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
 	FVector Start = CameraLocation;
 	FVector End = Start + (CameraRotation.Vector() * Range);
 
 	FCollisionQueryParams TraceParams;
-	TraceParams.AddIgnoredActor(PossessedActor);		// don't shoot self LOL
+	TraceParams.AddIgnoredActor(PlayerChar);		// don't shoot self LOL
 	bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_GameTraceChannel3, TraceParams);
 
 	DrawDebugLine(World, Start, End, FColor::Purple, false, 5.0f);
@@ -102,7 +106,7 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ComponentName);
 			}
 
-			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PossessedActor, nullptr);
+			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PlayerChar, nullptr);
 			//Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
 			//Hit.Component->AddImpulse(HitFromDirection, NAME_None, false);
 
@@ -114,14 +118,6 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 			//{
 				// You can set the stimulus strength based on the damage amount if needed
 
-				
-				
-
-			//}
-			// Removed due to horrible performance,
-			// Decals are bad, need to learn about 
-			// RVT (runtime virtual texture) or render target capture to "paint" directly to the texture of a model 
-			//Enemy->SpawnBloodEffectEvent(Hit.ImpactPoint, Hit.ImpactNormal);
 		}
 		else
 		{
@@ -138,15 +134,14 @@ void ASCMHitScanWeapon::TraceForward(APlayerController* PController, AActor* Pos
 	}
 }
 
-void ASCMHitScanWeapon::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
+void ASCMHitScanWeapon::PrimaryFire()
 {
 	if ((!bIsFiring) && (CurrentMag > 0) && (!bIsReloading))
 	{
-		Super::PrimaryFire(PController, PossessedActor);
+		Super::PrimaryFire();
 		StartFiring();
-		PlayFireAnimation(PossessedActor);
-		//PlayGunshotSFX(PossessedActor);
-		TraceForward(PController, PossessedActor);
+		PlayFireAnimation();
+		TraceForward();
 	}
 }
 

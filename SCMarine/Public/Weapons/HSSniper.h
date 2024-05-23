@@ -22,11 +22,11 @@ public:
 
 	virtual void BeginPlay() override;
 
-	void PrimaryFire(APlayerController* PController, AActor* PossessedActor);
-	void AltFire(APlayerController* PController, AActor* PossessedActor);
-	void ReloadWeapon(AActor* PossessedActor);
-	void SniperNightvisionOn(AActor* PossessedActor);
-	void SniperNightvisionOff(AActor* PossessedActor);
+	void PrimaryFire();
+	void AltFire();
+	void ReloadWeapon();
+	void SniperNightvisionOn();
+	void SniperNightvisionOff();
 
 	bool ScopedIn { false };
 	bool NightvisionOn { false };

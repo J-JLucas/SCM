@@ -20,7 +20,27 @@ ASCMWeapon::ASCMWeapon()
 void ASCMWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	SetOwnerReferences();
+}
 
+void ASCMWeapon::SetOwnerReferences()
+{
+	PlayerController = Cast<ASCMarinePlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+
+	if (PlayerController)
+	{
+		auto* const Pawn =  PlayerController->GetPawn();
+		PlayerChar = Cast<ASCMPlayerCharacter>(Pawn);
+		if (!PlayerChar)
+		{
+			UE_LOG(LogTemp, Error, TEXT("No Valid Player Pawn found."));
+		}
+		SetOwner(PlayerChar);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Valid Player Controller found."));
+	}
 }
 
 // Called every frame
@@ -30,29 +50,28 @@ void ASCMWeapon::Tick(float DeltaTime)
 
 }
 
-void ASCMWeapon::PrimaryFire(APlayerController* PController, AActor* PossessedActor)
+void ASCMWeapon::PrimaryFire()
 {
 	CurrentMag--;
 	UpdateMagString();
 }
 
-void ASCMWeapon::AltFire(APlayerController* PController, AActor* PossessedActor)
+void ASCMWeapon::AltFire()
 {
 	// Reserved for future use
 }
 
-void ASCMWeapon::ReloadWeapon(AActor* PossessedActor)
+void ASCMWeapon::ReloadWeapon()
 {
 
 	if ((CurrentAmmo == 0) || (CurrentMag == MaxMag)) { return; }
 	StartReloading();
 	// 3d models are part of player, triggers event in playercharacter and PC w/ play the animation
-	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
 	if (PlayerChar)
 	{
 		PlayerChar->OnReloadEvent();
 	}
-	else (GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Cast Failed"));
+	else (GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "No Valid PlayerChar"));
 	return;
 }
 
@@ -88,10 +107,9 @@ void ASCMWeapon::SetGunshotSFX(FString Path)
 	}
 }
 
-void ASCMWeapon::PlayFireAnimation(AActor* PossessedActor)
+void ASCMWeapon::PlayFireAnimation()
 {
 	// 3d models are part of player, triggers event in playercharacter and PC w/ play the animation
-	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(PossessedActor);
 	if (PlayerChar)
 	{
 		PlayerChar->OnFireEvent();
@@ -161,9 +179,6 @@ void ASCMWeapon::SetRangeAmount(float RangeValue)
 
 void ASCMWeapon::UpdateMagString()
 {
-	ASCMarinePlayerController* PlayerController =
-		Cast<ASCMarinePlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-
 	if (PlayerController)
 	{
 		PlayerController->UpdateMagCount(CurrentMag);
@@ -172,9 +187,6 @@ void ASCMWeapon::UpdateMagString()
 }
 void ASCMWeapon::UpdateAmmoString()
 {
-	ASCMarinePlayerController* PlayerController =
-		Cast<ASCMarinePlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-
 	if (PlayerController)
 	{
 		PlayerController->UpdateAmmoCount(CurrentAmmo);
@@ -182,28 +194,6 @@ void ASCMWeapon::UpdateAmmoString()
 	return;
 }
 
-/*
-void ASCMWeapon::PlayGunshotSFX(AActor* PossessedActor)
-{
-	if (Gunshot)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, Gunshot, GetActorLocation(), 1.0f, FMath::RandRange(0.9f, 1.0f));
-		UE_LOG(LogTemp, Warning, TEXT("Played Gunshot"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Failed to play Gunshot"));
-	}
-	return;
-}
-*/
-
-/*
-bool ASCMWeapon::GetAbleToSwitch()
-{
-	return bCanSwitchWeapons;
-}
-*/
 
 void ASCMWeapon::SetAbleToSwitch(bool Status)
 {

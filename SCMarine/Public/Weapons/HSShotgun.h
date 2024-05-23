@@ -26,6 +26,6 @@ public:
 	FString ImpactDecalPath = R"('/Game/Decals/bullet_hole_1_Mat.bullet_hole_1_Mat')";
 	FString BloodEffectPath = R"('/Game/Decals/NS_BloodEffect.NS_BloodEffect')";
 
-	virtual void PrimaryFire(APlayerController* PController, AActor* PossessedActor) override;
+	virtual void PrimaryFire() override;
 
 };

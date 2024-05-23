@@ -30,6 +30,6 @@ protected:
 
 public:
 		
-	void PrimaryFire(APlayerController* PController, AActor* PossessedActor) override;
+	void PrimaryFire() override;
 
 };
