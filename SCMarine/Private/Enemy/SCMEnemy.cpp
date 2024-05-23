@@ -3,8 +3,10 @@
 
 #include "Enemy/SCMEnemy.h"
 #include "HealthComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "AI/SCMAIController.h"
 
 // Sets default values
 ASCMEnemy::ASCMEnemy()
@@ -31,14 +33,36 @@ void ASCMEnemy::BeginPlay()
 
 void ASCMEnemy::OnDeath_Implementation()
 {
-	//SetCanBeDamaged(false);
+	SetCanBeDamaged(false);
 	bCanDealDamage = false;
-	//GetCharacterMovement()->StopMovementImmediately();
-	//GetMesh()->GetAnimInstance()->
+
+	//Disable "body"
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+	GetCapsuleComponent()->SetCanEverAffectNavigation(false);
+
+	// Disable any event animations eg attack
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance)
+	{
+		if (AnimInstance->IsAnyMontagePlaying()) 
+		{
+			AnimInstance->Montage_Stop(0.0f, AnimInstance->GetCurrentActiveMontage());
+		}
+	}
 
 	if (Controller)
 	{
-		Controller->UnPossess();
+		ASCMAIController* AIController = Cast<ASCMAIController>(Controller);
+		if (AIController)
+		{
+			AIController->DeactivatePerception();
+			AIController->UnPossess();
+		}
+		else
+		{
+			//Controller->UnPossess();
+		}
 	}
 	SetLifeSpan(10.0f);
 

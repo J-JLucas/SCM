@@ -26,26 +26,6 @@ void ASCMAIController::BeginPlay()
 }
 
 
-void ASCMAIController::OnPossess(APawn* InPawn)
-{
-	Super::OnPossess(InPawn);
-
-	if (ASCMEnemy* const AIPawn = Cast<ASCMEnemy>(InPawn))
-	{
-		if (UBehaviorTree* const BehaviorTree = AIPawn->GetBehaviorTree())
-		{
-			UBlackboardComponent* b;
-			/*~ Wise man once said, take this extra step to avoid crashes */
-			// tries to get the blackboard asset
-			// if one exists, it puts it in the 'b' struct
-			// if it DOESN"T exist, creates one and places it in 'b'
-			UseBlackboard(BehaviorTree->BlackboardAsset, b);
-			Blackboard = b;
-			RunBehaviorTree(BehaviorTree);
-		}
-	}
-}
-
 void ASCMAIController::SetupPerceptionSystem()
 {
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
@@ -72,39 +52,72 @@ void ASCMAIController::SetupPerceptionSystem()
 	if (HearingConfig)
 	{
 		HearingConfig->HearingRange = 3000.0f;
+		HearingConfig->SetMaxAge(3.0f);
 		HearingConfig->bUseLoSHearing = false;  // Depends on your game needs
 		HearingConfig->LoSHearingRange = 1500.0f;
-		HearingConfig->DetectionByAffiliation.bDetectEnemies = true;
 		HearingConfig->DetectionByAffiliation.bDetectEnemies = true;
 		HearingConfig->DetectionByAffiliation.bDetectFriendlies = true;
 		HearingConfig->DetectionByAffiliation.bDetectNeutrals = true;
 		GetPerceptionComponent()->ConfigureSense(*HearingConfig);
 	}
+
 }
 
+
+void ASCMAIController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	if (ASCMEnemy* const AIPawn = Cast<ASCMEnemy>(InPawn))
+	{
+		if (UBehaviorTree* const BehaviorTree = AIPawn->GetBehaviorTree())
+		{
+			UBlackboardComponent* b;
+			/*~ Wise man once said, take this extra step to avoid crashes */
+			// tries to get the blackboard asset
+			// if one exists, it puts it in the 'b' struct
+			// if it DOESN"T exist, creates one and places it in 'b'
+			UseBlackboard(BehaviorTree->BlackboardAsset, b);
+			Blackboard = b;
+			RunBehaviorTree(BehaviorTree);
+		}
+	}
+}
+
+void ASCMAIController::OnUnPossess()
+{
+	Super::OnUnPossess();
+	Destroy();
+}
+
+// Handles Perception Events
+// Determines sense type and calls 
+// corresponding handler
 void ASCMAIController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Stimulus Detected!"));
 
+	if (!Stimulus.IsValid() || !((Stimulus.Type).IsValid()) )
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Abort Sense Update, invalid stimulus"));
+	}
+
 	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(Actor);
 	if (PlayerChar)
 	{
-		if (Stimulus.Type == SightConfig->GetSenseID())
+		if (SightConfig && Stimulus.Type == SightConfig->GetSenseID())
 		{
 			// Handle sight
 			HandleSightUpdate(PlayerChar, Stimulus);
 		}
-		else if (Stimulus.Type == HearingConfig->GetSenseID())
+		else if (HearingConfig && Stimulus.Type == HearingConfig->GetSenseID())
 		{
 			// Handle hearing
 			HandleHearingUpdate(PlayerChar, Stimulus);
 		}
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Detected actor is not a player character."));
-	}
 }
+
 
 void ASCMAIController::HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, FAIStimulus const Stimulus)
 {
@@ -131,7 +144,18 @@ void ASCMAIController::HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, FAISti
 	}
 }
 
+
 void ASCMAIController::HandleHearingUpdate(ASCMPlayerCharacter* PlayerChar, FAIStimulus const Stimulus)
 {
 	GetBlackboardComponent()->SetValueAsVector("Target Location", Stimulus.StimulusLocation);
+}
+
+
+// Disable perception when a enemy pawn dies
+void ASCMAIController::DeactivatePerception()
+{
+	//GetPerceptionComponent()->Deactivate();
+	GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
+	GetPerceptionComponent()->DestroyComponent();
+	UnPossess();
 }

@@ -26,6 +26,7 @@ protected:
 	bool bPlaySpottedAlert{true};
 
 	virtual void OnPossess(APawn* InPawn) override;
+	virtual void OnUnPossess() override;
 	void SetupPerceptionSystem();
 	
 	UFUNCTION()
@@ -34,4 +35,6 @@ protected:
 	void HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, struct FAIStimulus const Stimulus);
 	void HandleHearingUpdate(ASCMPlayerCharacter* PlayerChar, struct FAIStimulus const Stimulus);
 
+public:
+	void DeactivatePerception();
 };

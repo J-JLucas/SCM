@@ -206,8 +206,8 @@ void ASCMPlayerCharacter::SetupStimulusSource()
 	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
 	if (StimulusSource)
 	{
-		StimulusSource->bAutoRegister = true;
-		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+		//StimulusSource->bAutoRegister = true;
+		StimulusSource->RegisterForSense(UAISense_Sight::StaticClass());
 		StimulusSource->RegisterWithPerceptionSystem();
 		UE_LOG(LogTemp, Warning, TEXT("StimulusSource Setup Successfully!"));
 	}
