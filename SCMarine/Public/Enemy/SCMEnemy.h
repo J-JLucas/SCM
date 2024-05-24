@@ -78,7 +78,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SwitchToWalkSpeed();
 
-
 	FORCEINLINE UBehaviorTree* GetBehaviorTree() { return BehaviorTree; }
 
 };

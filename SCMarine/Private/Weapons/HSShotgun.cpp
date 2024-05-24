@@ -101,8 +101,17 @@ void AHSShotgun::PrimaryFire()
 
 					UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PlayerChar, nullptr);
 					Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
-					UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
-
+					UNiagaraComponent* SpawnedEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+						World,
+						BloodEffect,
+						Hit.ImpactPoint,
+						Hit.ImpactNormal.Rotation(),
+						FVector(1.0f),
+						true,           // Whether the system should auto destroy when finished
+						true,           // Should the system be auto-activated
+						ENCPoolMethod::AutoRelease,  // Pooling method: AutoRelease back to pool
+						true            // Whether to perform a pre-cull check
+					);
 				}
 				else
 				{
@@ -113,7 +122,7 @@ void AHSShotgun::PrimaryFire()
 					USceneComponent* AttachComponent = Hit.GetComponent(); // The component to which the decal will be attached
 
 
-					float LifeSpan = 30.0f;
+					float LifeSpan = 10.0f;
 					//UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), ImpactDecal, FVector(6.0f, 6.0f, 6.0f), Hit.Location, DecalRotation, LifeSpan);
 					UDecalComponent* BulletDecal = UGameplayStatics::SpawnDecalAttached(ImpactDecal, FVector(5.0f, 5.0f, 5.0f), AttachComponent, NAME_None, Hit.Location, DecalRotation, EAttachLocation::KeepWorldPosition, LifeSpan);
 					BulletDecal->SetFadeScreenSize(0.0f);

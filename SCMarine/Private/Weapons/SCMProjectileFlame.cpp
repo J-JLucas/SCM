@@ -32,7 +32,8 @@ void ASCMProjectileFlame::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 		FVector Location = FVector::ZeroVector;;
 		FRotator Rotation = FRotator::ZeroRotator;;
 		FVector Scale = FVector(2.0f);
-		UGameplayStatics::SpawnEmitterAttached(HitParticles, OtherComp, NAME_None, Location, Rotation, Scale, EAttachLocation::SnapToTarget, true);
+		//UGameplayStatics::SpawnEmitterAttached(HitParticles, OtherComp, NAME_None, Location, Rotation, Scale, EAttachLocation::SnapToTarget, true);
+
 	}
 	Destroy();
 

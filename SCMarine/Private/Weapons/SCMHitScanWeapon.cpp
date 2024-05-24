@@ -99,23 +99,27 @@ void ASCMHitScanWeapon::TraceForward()
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "BOOM HEADSHOT!!!!!");
 				Damage = Damage * 2.0f;
 			}
-			else
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Bodyshot:");
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ComponentName);
-			}
 
 			UGameplayStatics::ApplyPointDamage(Enemy, Damage,HitFromDirection, Hit, PlayerController, PlayerChar, nullptr);
-			//Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
-			//Hit.Component->AddImpulse(HitFromDirection, NAME_None, false);
 
-			UAISense_Damage::ReportDamageEvent(this, Enemy, PlayerController, Damage, Hit.ImpactPoint, Hit.ImpactPoint);
-			UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+
+			//UAISense_Damage::ReportDamageEvent(this, Enemy, PlayerController, Damage, Hit.ImpactPoint, Hit.ImpactPoint);
 			
-			//AAIController* AIController = Enemy->GetController<AAIController>();
-			//if (AIController)
-			//{
-				// You can set the stimulus strength based on the damage amount if needed
+			
+			//UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+
+			UNiagaraComponent* SpawnedEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+				World,
+				BloodEffect,
+				Hit.ImpactPoint,
+				Hit.ImpactNormal.Rotation(),
+				FVector(1.0f),  
+				true,           // Whether the system should auto destroy when finished
+				true,           // Should the system be auto-activated
+				ENCPoolMethod::AutoRelease,  // Pooling method: AutoRelease back to pool
+				true            // Whether to perform a pre-cull check
+			);
+
 
 		}
 		else

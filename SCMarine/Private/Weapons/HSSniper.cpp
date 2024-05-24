@@ -89,8 +89,17 @@ void AHSSniper::PrimaryFire()
 
 						UGameplayStatics::ApplyPointDamage(Enemy, Damage, HitFromDirection, Hit, PlayerController, PlayerChar, nullptr);
 						Enemy->LaunchCharacter(-HitFromDirection * ImpulseStrength + FVector(0.0f, 0.0f, 0.0f), false, false);
-						UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, BloodEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
-
+						UNiagaraComponent* SpawnedEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+							World,
+							BloodEffect,
+							Hit.ImpactPoint,
+							Hit.ImpactNormal.Rotation(),
+							FVector(1.0f),
+							true,           // Whether the system should auto destroy when finished
+							true,           // Should the system be auto-activated
+							ENCPoolMethod::AutoRelease,  // Pooling method: AutoRelease back to pool
+							true            // Whether to perform a pre-cull check
+						);
 					}
 					else
 					{

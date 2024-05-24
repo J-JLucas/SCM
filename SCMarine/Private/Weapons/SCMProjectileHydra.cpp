@@ -25,7 +25,6 @@ void ASCMProjectileHydra::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 
 	if (Player)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Hit a Player");
 		FVector ImpulseDirection = GetActorLocation() - OtherActor->GetActorLocation();
 		ImpulseDirection.Normalize();
 
@@ -42,7 +41,17 @@ void ASCMProjectileHydra::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 	if (HitSystem)
 	{
 		FRotator Rotation = FRotator::ZeroRotator;;
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), HitSystem, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+		UNiagaraComponent* SpawnedEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+			GetWorld(),
+			HitSystem,
+			Hit.ImpactPoint,
+			Hit.ImpactNormal.Rotation(),
+			FVector(1.0f),
+			true,           // Whether the system should auto destroy when finished
+			true,           // Should the system be auto-activated
+			ENCPoolMethod::AutoRelease,  // Pooling method: AutoRelease back to pool
+			true            // Whether to perform a pre-cull check
+		);
 	}
 
 	Destroy();

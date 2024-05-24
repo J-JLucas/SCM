@@ -17,11 +17,11 @@ class SCMARINE_API AEnemyHydra : public ASCMEnemyRanged
 protected:
 
 	// Spawns Projectile
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TestProjectile)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = TestProjectile)
 	TSubclassOf<class ASCMProjectile> SCMProjectileClass;
 
 	// Projectile Blueprint
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TestProjectile)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = TestProjectile)
 	UBlueprint* ProjClass;
 
 public:

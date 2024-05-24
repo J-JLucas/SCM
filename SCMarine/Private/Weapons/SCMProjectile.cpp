@@ -75,9 +75,8 @@ void ASCMProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 	if (HitParticles)
 	{
-		//FVector Location = FVector::ZeroVector;;
 		FRotator Rotation = FRotator::ZeroRotator;;
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorLocation(), Rotation, true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorLocation(), Rotation, true, EPSCPoolMethod::AutoRelease, true);
 	}
 	else
 	{
