@@ -48,6 +48,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
 	class UBehaviorTree* BehaviorTree;
 
+	FVector GetPlayerLocation() const;
+	FRotator FindLookAtRotation(const FVector& Start, const FVector& Target);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

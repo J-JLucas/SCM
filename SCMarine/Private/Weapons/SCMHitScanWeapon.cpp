@@ -11,8 +11,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Perception/AISense_Damage.h"
 #include "AIController.h"
-//#include "SCMarinePlayerController.h"
-//#include "SCMPlayerCharacter.h"
+
 
 ASCMHitScanWeapon::ASCMHitScanWeapon()
 	:Super()

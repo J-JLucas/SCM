@@ -41,9 +41,7 @@ void ASCMProjectileHydra::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor
 
 	if (HitSystem)
 	{
-		//FVector Location = FVector::ZeroVector;;
 		FRotator Rotation = FRotator::ZeroRotator;;
-		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticles, GetActorLocation(), Rotation, true);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), HitSystem, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 	}
 

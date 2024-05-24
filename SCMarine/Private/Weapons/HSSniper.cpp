@@ -8,8 +8,7 @@
 #include "Components/DecalComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-//#include "SCMarinePlayerController.h"
-//#include "SCMPlayerCharacter.h"
+
 
 AHSSniper::AHSSniper()
 	:Super()

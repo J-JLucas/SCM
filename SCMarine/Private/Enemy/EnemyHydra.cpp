@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Enemy/EnemyHydra.h"
 #include "HealthComponent.h"
 #include "Weapons/SCMProjectile.h"
@@ -21,29 +20,11 @@ AEnemyHydra::AEnemyHydra()
 	{
 		SCMProjectileClass = ProjectileBlueprint.Object;
 	}
-
 }
 
-FRotator AEnemyHydra::FindLookAtRotation(const FVector& Start, const FVector& Target)
-{
-	return FRotationMatrix::MakeFromX(Target - Start).Rotator();
-}
 
-FVector AEnemyHydra::GetPlayerLocation() const
-{
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	if (PlayerController)
-	{
-		APawn* PlayerChar = PlayerController->GetPawn();
-		if (PlayerChar)
-		{
-			return PlayerChar->GetActorLocation();
-		}
-	}
-	return FVector();
-}
-
-void AEnemyHydra::HydraRangedAttack()
+// fires slime projectile at player
+void AEnemyHydra::RangedAttack()
 {
 	FVector ForwardVector = GetActorForwardVector();
 	float SpawnDistance = 300.f;
@@ -56,14 +37,10 @@ void AEnemyHydra::HydraRangedAttack()
 
 	if (Projectile)
 	{
-		// Select a random attack montage to play.
-		UAnimMontage* SelectedMontage = ChooseAttackMontage(RangedAttackMontages);
-		if (SelectedMontage)
-		{
-			PlayAnimMontage(SelectedMontage);
-		}
+		// Play attack montage
+		Super::RangedAttack();
+
 		Projectile->GetProjectileMovementComponent()->InitialSpeed = 4500.f;
 		Projectile->FinishSpawning(SpawnTransform);
 	}
-
 }

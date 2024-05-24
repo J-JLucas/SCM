@@ -4,8 +4,7 @@
 #include "HealthComponent.h"
 #include "HealthInterface.h"
 #include "Kismet/GameplayStatics.h"
-
-
+#include "GameFramework/PlayerState.h"
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -68,11 +67,22 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 		{
 			IHealthInterface::Execute_OnDeath(GetOwner());
 			
+			if (InstigatedBy)
+			{
+				APlayerState* PlayerState = InstigatedBy->GetPlayerState<APlayerState>();
+				if (PlayerState)
+				{
+					PlayerState->SetScore(PlayerState->GetScore() + 1);
+				}
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "No Instigator?");
+			}
 		}
 	}
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::SanitizeFloat(Health));
-
 }
 
 bool UHealthComponent::AddHealth(float Value)

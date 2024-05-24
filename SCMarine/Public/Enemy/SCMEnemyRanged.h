@@ -18,4 +18,9 @@ protected:
 	// Array of animation montages
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	TArray<UAnimMontage*> RangedAttackMontages;
+
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	virtual void RangedAttack();
 };

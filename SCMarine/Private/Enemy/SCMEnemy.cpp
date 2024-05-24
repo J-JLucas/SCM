@@ -33,6 +33,7 @@ void ASCMEnemy::BeginPlay()
 
 void ASCMEnemy::OnDeath_Implementation()
 {
+	SetLifeSpan(10.0f);
 	SetCanBeDamaged(false);
 	bCanDealDamage = false;
 
@@ -64,8 +65,6 @@ void ASCMEnemy::OnDeath_Implementation()
 			//Controller->UnPossess();
 		}
 	}
-	SetLifeSpan(10.0f);
-
 }
 
 // Called every frame
@@ -105,4 +104,22 @@ void ASCMEnemy::PlayAlertBark()
 }
 
 
+FVector ASCMEnemy::GetPlayerLocation() const
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		APawn* PlayerChar = PlayerController->GetPawn();
+		if (PlayerChar)
+		{
+			return PlayerChar->GetActorLocation();
+		}
+	}
+	return FVector();
+}
 
+
+FRotator ASCMEnemy::FindLookAtRotation(const FVector& Start, const FVector& Target)
+{
+	return FRotationMatrix::MakeFromX(Target - Start).Rotator();
+}
