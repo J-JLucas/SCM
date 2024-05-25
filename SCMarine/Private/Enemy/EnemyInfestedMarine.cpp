@@ -56,6 +56,7 @@ void AEnemyInfestedMarine::Explode()
 	RadialForce->ForceStrength = ExplosionStrength;
 	RadialForce->bImpulseVelChange = true;
 	RadialForce->bIgnoreOwningActor = true;
+	RadialForce->AddCollisionChannelToAffect(ECollisionChannel::ECC_GameTraceChannel4);
 	RadialForce->FireImpulse();
 
 	Destroy();

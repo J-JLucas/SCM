@@ -9,6 +9,7 @@
 AEnemyHydra::AEnemyHydra()
 	:Super()
 {
+	MeleeAttackDamage = 25.0f;
 	float MaxHealth = (200.0f);
 	// Init Health Component
 	HealthComponent->SetMaxHealth(MaxHealth);
