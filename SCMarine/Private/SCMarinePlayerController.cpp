@@ -12,6 +12,7 @@
 #include "Level/VictoryBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "SCMPlayerCharacter.h"
 
 void ASCMarinePlayerController::BeginPlay()
 {
@@ -110,19 +111,21 @@ void ASCMarinePlayerController::HideGameMenu()
 	GameMenu->RemoveFromParent();	// "unDraw"
 	GameMenu->Destruct();			// kill
     
-    APawn* PlayerPawn = GetPawn();
+    ASCMPlayerCharacter* PlayerPawn = Cast<ASCMPlayerCharacter>(GetPawn());
     if (PlayerPawn)
     {
         //SetInputMode is related to pawn! game freezes if no valid pawn even though 
         //function call doesn't explicitly ask for one!!!
-        UE_LOG(LogTemp, Error, TEXT("Valid Pawn, Enabling Input"));
-        PlayerPawn->EnableInput(this);
-        SetInputMode(FInputModeGameOnly());
+        if (!PlayerPawn->HealthComponent->GetIsDead())
+        {
+            // w/o above check, player can start looking around and stuff after dying lol
+            UE_LOG(LogTemp, Error, TEXT("Valid Pawn, Enabling Input"));
+            PlayerPawn->EnableInput(this);
+            SetInputMode(FInputModeGameOnly());
+        }
     }
-    
     bShowMouseCursor = false;
 	GameMenu = nullptr;
-
 }
 
 void ASCMarinePlayerController::HidePlayerHud()

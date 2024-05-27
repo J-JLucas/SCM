@@ -21,20 +21,24 @@ public:
 
 protected:
 
-	class UAISenseConfig_Sight* SightConfig;
-	class UAISenseConfig_Hearing* HearingConfig;
+	//class UAISenseConfig_Sight* SightConfig;
+	//class UAISenseConfig_Hearing* HearingConfig;
 	bool bPlaySpottedAlert{true};
 
-	virtual void OnPossess(APawn* InPawn) override;
-	virtual void OnUnPossess() override;
-	void SetupPerceptionSystem();
+	//virtual void OnPossess(APawn* InPawn) override;
+	//virtual void OnUnPossess() override;
+	//void SetupPerceptionSystem();
 	
-	UFUNCTION()
-	void OnTargetDetected(AActor* Actor, struct FAIStimulus const Stimulus);
+	//UFUNCTION()
+	//void OnTargetDetected(AActor* Actor, struct FAIStimulus const Stimulus);
 
-	void HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, struct FAIStimulus const Stimulus);
-	void HandleHearingUpdate(ASCMPlayerCharacter* PlayerChar, struct FAIStimulus const Stimulus);
+	UFUNCTION(BlueprintCallable)
+	void HandleSightUpdate(AActor* SensedActor, struct FAIStimulus const Stimulus);
+	UFUNCTION(BlueprintCallable)
+	void HandleHearingUpdate(AActor* SensedActor, struct FAIStimulus const Stimulus);
+	//UFUNCTION(BlueprintCallable)
+	//void HandleTakeDamage();
 
 public:
-	void DeactivatePerception();
+	//void DeactivatePerception();
 };

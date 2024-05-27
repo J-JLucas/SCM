@@ -44,11 +44,12 @@ protected:
 	float ForceHeight{ 50.0f };
 
 	UFUNCTION(BlueprintCallable, Category = "Attack")
-	virtual void MeleeAttack();
-
-	UFUNCTION(BlueprintCallable, Category = "Attack")
 	virtual void DealMeleeDamage(AActor* Target, UPrimitiveComponent* MeleeHitbox);
 
 	UAnimMontage* ChooseAttackMontage(TArray<UAnimMontage*> AttackMontages);
 
+public:
+
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	virtual void MeleeAttack();
 };

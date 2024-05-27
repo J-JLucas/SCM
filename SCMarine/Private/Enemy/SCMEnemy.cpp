@@ -59,8 +59,8 @@ void ASCMEnemy::OnDeath_Implementation()
 		ASCMAIController* AIController = Cast<ASCMAIController>(Controller);
 		if (AIController)
 		{
-			AIController->DeactivatePerception();
-			AIController->UnPossess();
+			//AIController->DeactivatePerception();
+			//AIController->UnPossess();
 		}
 		else
 		{
@@ -85,7 +85,13 @@ void ASCMEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ASCMEnemy::OnTakeDamage_Implementation()
 {
-	// Do nothing
+	/*
+	ASCMAIController* AIController = Cast<ASCMAIController>(Controller);
+	if (AIController)
+	{
+		AIController->HandleTakeDamage();
+	}
+	*/
 }
 
 void ASCMEnemy::SwitchToAttackSpeed()

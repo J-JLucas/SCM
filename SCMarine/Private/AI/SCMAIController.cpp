@@ -17,7 +17,7 @@
 ASCMAIController::ASCMAIController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>(TEXT("PathFollowingComponent")))
 {
-	SetupPerceptionSystem();
+	//SetupPerceptionSystem();
 }
 
 void ASCMAIController::BeginPlay()
@@ -25,7 +25,7 @@ void ASCMAIController::BeginPlay()
 	Super::BeginPlay();
 }
 
-
+/*
 void ASCMAIController::SetupPerceptionSystem()
 {
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
@@ -73,7 +73,7 @@ void ASCMAIController::OnPossess(APawn* InPawn)
 		if (UBehaviorTree* const BehaviorTree = AIPawn->GetBehaviorTree())
 		{
 			UBlackboardComponent* b;
-			/*~ Wise man once said, take this extra step to avoid crashes */
+			// Wise man once said, take this extra step to avoid crashes 
 			// tries to get the blackboard asset
 			// if one exists, it puts it in the 'b' struct
 			// if it DOESN"T exist, creates one and places it in 'b'
@@ -117,10 +117,15 @@ void ASCMAIController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimulu
 		}
 	}
 }
+*/
 
-
-void ASCMAIController::HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, FAIStimulus const Stimulus)
+void ASCMAIController::HandleSightUpdate(AActor* SensedActor, FAIStimulus const Stimulus)
 {
+	if (!GetBlackboardComponent()) { return; }
+	
+	ASCMPlayerCharacter* PlayerChar = Cast<ASCMPlayerCharacter>(SensedActor);
+	if (!PlayerChar) { return; }
+	
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		// Set the player character as the target on the blackboard
@@ -131,6 +136,7 @@ void ASCMAIController::HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, FAISti
 		if (AIPawn && bPlaySpottedAlert)
 		{
 			AIPawn->PlayAlertBark();
+			bPlaySpottedAlert = false;
 		}
 		UE_LOG(LogTemp, Warning, TEXT("Target spotted!"));
 	}
@@ -145,12 +151,26 @@ void ASCMAIController::HandleSightUpdate(ASCMPlayerCharacter* PlayerChar, FAISti
 }
 
 
-void ASCMAIController::HandleHearingUpdate(ASCMPlayerCharacter* PlayerChar, FAIStimulus const Stimulus)
+void ASCMAIController::HandleHearingUpdate(AActor* SensedActor, FAIStimulus const Stimulus)
 {
+	if (!GetBlackboardComponent()) { return; }
 	GetBlackboardComponent()->SetValueAsVector("Target Location", Stimulus.StimulusLocation);
 }
+/*
+void ASCMAIController::HandleTakeDamage()
+{
+	
+	if (!GetBlackboardComponent()) { return; }
+	auto* TargetActor = GetBlackboardComponent()->GetValueAsObject(FName("Target Actor"));
+	if (!TargetActor)
+	{
+		GetBlackboardComponent()->SetValueAsVector(FName("Target Location"), SensedActor->GetActorLocation());
+	}
 
+}
+*/
 
+/*
 // Disable perception when a enemy pawn dies
 void ASCMAIController::DeactivatePerception()
 {
@@ -159,3 +179,4 @@ void ASCMAIController::DeactivatePerception()
 	GetPerceptionComponent()->DestroyComponent();
 	UnPossess();
 }
+*/
