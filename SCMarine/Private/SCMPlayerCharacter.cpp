@@ -196,8 +196,33 @@ void ASCMPlayerCharacter::Look(const FInputActionValue& Value)
 	if (Controller != nullptr)
 	{
 		// add yaw and pitch input to controller
-		AddControllerYawInput((LookAxisVector.X)*MouseSense);
-		AddControllerPitchInput((LookAxisVector.Y)*MouseSense);
+		AddControllerYawInput((LookAxisVector.X) * MouseSense * MouseModifierX);
+		AddControllerPitchInput((LookAxisVector.Y) * MouseSense * MouseModifierY);
+	}
+}
+
+
+void ASCMPlayerCharacter::SetInvertMouseX(bool Status)
+{
+	if (Status)
+	{
+		MouseModifierX = -1.0f;
+	}
+	else
+	{
+		MouseModifierX = 1.0f;
+	}
+}
+
+void ASCMPlayerCharacter::SetInvertMouseY(bool Status)
+{
+	if (Status)
+	{
+		MouseModifierY = -1.0f;
+	}
+	else
+	{
+		MouseModifierY = 1.0f;
 	}
 }
 
@@ -257,6 +282,7 @@ void ASCMPlayerCharacter::Move(const FInputActionValue& Value)
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
 	}
 }
+
 
 void ASCMPlayerCharacter::Fire()
 {
@@ -542,6 +568,7 @@ bool ASCMPlayerCharacter::PickupWeapon(WeaponType WeaponType, int Amount)
 		return true;	// weapon already unlocked
 
 }
+
 
 void ASCMPlayerCharacter::ActivateStim()
 {

@@ -203,8 +203,26 @@ public:
 	bool PickupAmmo(WeaponType AmmoType, int Amount);
 	bool PickupWeapon(WeaponType WeaponType, int Amount);
 
-	UPROPERTY(BlueprintReadWrite, Category = "Controls")
+	UPROPERTY(BlueprintReadWrite, Category = "Mouse Look")
 	float MouseSense{1.0f};
+	
+	UPROPERTY(BlueprintReadWrite, Category = "Mouse Look")
+	float MouseModifierX{ 1.0f };
+
+	UPROPERTY(BlueprintReadWrite, Category = "Mouse Look")
+	float MouseModifierY{ 1.0f };
+
+	UFUNCTION(BlueprintCallable, Category = "Mouse Look")
+	FORCEINLINE bool GetInvertMouseX() { return MouseModifierX < 0; }
+	
+	UFUNCTION(BlueprintCallable, Category = "Mouse Look")
+	void SetInvertMouseX(bool Status);
+
+	UFUNCTION(BlueprintCallable, Category = "Mouse Look")
+	FORCEINLINE bool GetInvertMouseY() { return MouseModifierY < 0; }
+
+	UFUNCTION(BlueprintCallable, Category = "Mouse Look")
+	void SetInvertMouseY(bool Status);
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bOnLadder{false};
