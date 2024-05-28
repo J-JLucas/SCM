@@ -113,22 +113,27 @@ void ASCMPlayerCharacter::BeginPlay()
 	
 	ShotgunPlayer->BeginPlay();
 	Arsenal.Insert(ShotgunPlayer, WeaponType::Shotgun);
+	//ShotgunPlayer->SetOwner(this);
 	//ShotgunMesh = LoadObject<USkeletalMesh>(nullptr, *ShotgunMeshPath);
 
 	RiflePlayer->BeginPlay();
 	Arsenal.Insert(RiflePlayer, WeaponType::Rifle);
+	//RiflePlayer->SetOwner(this);
 	//RifleMesh = LoadObject<USkeletalMesh>(nullptr, *RifleMeshPath);
 
 	SniperPlayer->BeginPlay();
 	Arsenal.Insert(SniperPlayer, WeaponType::Sniper);
+	//SniperPlayer->SetOwner(this);
 	//SniperMesh = LoadObject<USkeletalMesh>(nullptr, *SniperMeshPath);
 	
 	RocketLPlayer->BeginPlay();
 	Arsenal.Insert(RocketLPlayer, WeaponType::RocketL);
+	//RocketLPlayer->SetOwner(this);
 	//RocketLMesh = LoadObject<USkeletalMesh>(nullptr, *RocketLMeshPath);
 
 	FThrowerPlayer->BeginPlay();
 	Arsenal.Insert(FThrowerPlayer, WeaponType::FThrower);
+	//FThrowerPlayer->SetOwner(this);
 	//FThrowerMesh = LoadObject<USkeletalMesh>(nullptr, *FThrowerMeshPath);
 
 	// Default Weapon

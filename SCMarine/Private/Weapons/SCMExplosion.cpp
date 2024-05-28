@@ -69,7 +69,13 @@ void ASCMExplosion::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 		if (Target)
 		{
 			Target->LaunchCharacter(ExplosionDirection * 1800.0f + FVector(0.0f, 0.0f, 500.0f), true, true);
-			UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageValue, ExplosionLocation, DamageRadius, nullptr, TArray<AActor*>(),this, false, false);
+			
+			// Deal Explosive Radial Damage
+			UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageValue, ExplosionLocation, DamageRadius, nullptr,
+				TArray<AActor*>(), GetInstigator(), GetInstigatorController(),
+				false, ECollisionChannel::ECC_Visibility
+			);
+		
 		}
 	}
 }

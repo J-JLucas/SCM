@@ -42,8 +42,8 @@ void ASCMProjectileWeapon::PrimaryFire()
 		if (World)
 		{
 			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
+			SpawnParams.Owner = Owner;
+			SpawnParams.Instigator = PlayerController->GetPawn();
 
 			// Spawn the projectile at the muzzle.
 			ASCMProjectile* Projectile = World->SpawnActor<ASCMProjectile>(SCMProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
