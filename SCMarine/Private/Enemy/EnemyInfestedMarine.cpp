@@ -66,6 +66,9 @@ void AEnemyInfestedMarine::Explode()
 // Hitscan burst rifle shot
 void AEnemyInfestedMarine::RangedAttack()
 {
+	//if (GetWorldTimerManager().IsTimerActive(RangedAttackTimer)) { return; }
+	//GetWorldTimerManager().SetTimer(RangedAttackTimer, RangedAttackRate, false);
+
 	// Play attack montage
 	Super::RangedAttack();
 

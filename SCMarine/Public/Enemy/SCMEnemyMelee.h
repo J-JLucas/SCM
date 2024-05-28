@@ -34,8 +34,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Sound")
 	class USoundBase* MeleeAttackSound;
 
+	FTimerHandle MeleeAttackTimer;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
-	float MeleeAttackDamage{10};
+	float MeleeAttackRate{1.0f};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	float MeleeAttackDamage{10.0f};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
 	float MeleeForce{ -250.0f };  // This is how my bp was set up, don't remember why negative lol

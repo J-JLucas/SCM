@@ -19,6 +19,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	TArray<UAnimMontage*> RangedAttackMontages;
 
+	//FTimerHandle RangedAttackTimer;
+
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	//float RangedAttackRate{ 1.0f };
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Attack")

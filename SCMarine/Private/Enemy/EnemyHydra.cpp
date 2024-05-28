@@ -27,6 +27,10 @@ AEnemyHydra::AEnemyHydra()
 // fires slime projectile at player
 void AEnemyHydra::RangedAttack()
 {
+	//if (GetWorldTimerManager().IsTimerActive(RangedAttackTimer)) { return; }
+	//GetWorldTimerManager().SetTimer(RangedAttackTimer, RangedAttackRate, false);
+
+
 	FVector ForwardVector = GetActorForwardVector();
 	float SpawnDistance = 300.f;
 	FVector SpawnLocation = GetActorLocation() + (ForwardVector * SpawnDistance);

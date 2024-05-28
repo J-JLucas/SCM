@@ -21,6 +21,9 @@ ASCMEnemyMelee::ASCMEnemyMelee()
 // Start the melee attack procedure
 void ASCMEnemyMelee::MeleeAttack()
 {
+	if (GetWorldTimerManager().IsTimerActive(MeleeAttackTimer)) { return; }
+
+	GetWorldTimerManager().SetTimer(MeleeAttackTimer, MeleeAttackRate, false);
 	bCanDealDamage = true;
 	
 	// Select a random attack montage to play.
